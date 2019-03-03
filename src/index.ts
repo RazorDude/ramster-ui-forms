@@ -9,8 +9,10 @@ import validators from './validators'
 
 @NgModule({
 	imports: [
-		CommonModule
-	]
+		CommonModule,
+		InputsModule
+	],
+	exports: [InputsModule]
 })
 export class RamsterUIFormsModule {}
 

@@ -1,3 +1,6 @@
+# 0.0.16
+- Fixed the imports bug. You can now also import RamsterUIForms module instead of InputsModule in your app main file.
+
 # 0.0.15
 - Added a wrapper div to the checkbox.
 - Finally fixed the datepicker.
