@@ -1,0 +1,4 @@
+mat-form-field
+	mat-select([placeholder]='fieldData.placeholder', [formControl]='fieldData.inputFormControl') 
+		mat-option(*ngFor='let option of fieldData.selectList', [value]="option.value") {{option.text}}
+	include ../base/baseInput.commonElementsTemplate.pug

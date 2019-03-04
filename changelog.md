@@ -1,3 +1,6 @@
+# 0.0.17
+- Added a select input.
+
 # 0.0.16
 - Fixed the imports bug. You can now also import RamsterUIForms module instead of InputsModule in your app main file.
 

@@ -1,8 +1,8 @@
 'use strict'
 
-import {ActivatedRoute, Router} from '@angular/router'
+import {ActivatedRoute} from '@angular/router'
 import {Component} from '@angular/core'
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
+import {FormControl} from '@angular/forms'
 
 import {
 	AutocompleteFieldDataInterface,
@@ -10,11 +10,11 @@ import {
 	DatepickerFieldDataInterface,
 	FileInputFieldDataInterface,
 	InputFieldDataInterface,
+	SelectFieldDataInterface,
 	SlideToggleFieldDataInterface,
-	TextareaFieldDataInterface,
-	validators
+	TextareaFieldDataInterface
 } from '../../../../src'
-import {BasePageComponent, GlobalEventsService, GESRedirectOptionsInterface} from 'ramster-ui-core'
+import {BasePageComponent, GlobalEventsService} from 'ramster-ui-core'
 
 @Component({
 	selector: 'app-page',
@@ -29,6 +29,7 @@ export class HomePageComponent extends BasePageComponent {
 	testDatepickerFieldData: DatepickerFieldDataInterface
 	testFileInputFieldData: FileInputFieldDataInterface
 	testInputFieldData: InputFieldDataInterface
+	testSelectFieldData: SelectFieldDataInterface
 	testSlideToggleFieldData: SlideToggleFieldDataInterface
 	testTextAreaFieldData: TextareaFieldDataInterface
 
@@ -63,6 +64,11 @@ export class HomePageComponent extends BasePageComponent {
 			inputFormControl: new FormControl(''),
 			placeholder: 'Regular Input',
 			type: 'text'
+		}
+		this.testSelectFieldData = {
+			inputFormControl: new FormControl(''),
+			placeholder: 'Select',
+			selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
 		}
 		this.testSlideToggleFieldData = {
 			inputFormControl: new FormControl(''),

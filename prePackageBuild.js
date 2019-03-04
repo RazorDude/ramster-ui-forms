@@ -37,6 +37,9 @@ co(function*() {
 				inputPath: path.join(__dirname, 'src/inputs/input/input.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/input/input.template.html')
 			}, {
+				inputPath: path.join(__dirname, 'src/inputs/select/select.template.pug'),
+				outputPath: path.join(__dirname, 'src/inputs/select/select.template.html')
+			}, {
 				inputPath: path.join(__dirname, 'src/inputs/slideToggle/slideToggle.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/slideToggle/slideToggle.template.html')
 			}, {
