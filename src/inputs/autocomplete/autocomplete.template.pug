@@ -1,4 +1,4 @@
-mat-form-field
+mat-form-field.rui-input-container
 	input(matInput, type='text', [placeholder]='fieldData.placeholder', [formControl]='searchBox', [matAutocomplete]='autocompleteElement', [attr.autocomplete]='noAutofillAttr', (focus)='onFocus()', (blur)='onBlur()')
 	mat-hint(*ngIf=`fieldData.hint !== ''`) {{fieldData.hint}}
 	mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')

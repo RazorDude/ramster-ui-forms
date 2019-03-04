@@ -48,6 +48,9 @@ co(function*() {
 			}
 		],
 		sassFilePaths = [{
+				inputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.scss'),
+				outputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.css')
+			}, {
 				inputPath: path.join(__dirname, 'src/inputs/file/file.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/file/file.styles.css')
 			}

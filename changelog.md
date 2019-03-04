@@ -1,3 +1,6 @@
+# 0.0.18
+- Made the input containers full width and height.
+
 # 0.0.17
 - Added a select input.
 

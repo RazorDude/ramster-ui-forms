@@ -8,7 +8,8 @@ import {SelectFieldDataInterface} from './select.interfaces'
 
 @Component({
 	selector: 'rui-select',
-	templateUrl: './select.template.html'
+	templateUrl: './select.template.html',
+	styleUrls: ['../base/baseInput.styles.css']
 })
 export class SelectComponent extends BaseInputComponent {
 	@Input()
