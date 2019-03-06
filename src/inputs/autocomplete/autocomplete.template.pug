@@ -1,7 +1,44 @@
+doctype html
 mat-form-field.rui-input-container
-	input(matInput, type='text', [placeholder]='fieldData.placeholder', [formControl]='searchBox', [matAutocomplete]='autocompleteElement', [attr.autocomplete]='noAutofillAttr', (focus)='onFocus()', (blur)='onBlur()')
+	input(
+		*ngIf='!fieldData.hasChips',
+		matInput,
+		type='text',
+		[placeholder]='fieldData.placeholder',
+		[formControl]='searchBox',
+		[matAutocomplete]='autocompleteElement',
+		[attr.autocomplete]='noAutofillAttr',
+		(focus)='onFocus()',
+		(blur)='onBlur()'
+	)
+	mat-chip-list(*ngIf='fieldData.hasChips', #chipList)
+		mat-chip(
+			*ngFor='let chip of selectedChips; let i = index',
+			[selectable]='false',
+			[removable]='true',
+			(removed)='removeChip(i)'
+		)
+			| {{chip.text}}
+			mat-icon(matChipRemove) cancel
+		input(
+			matInput,
+			type='text',
+			#chipSearchBox,
+			[placeholder]='fieldData.placeholder',
+			[formControl]='searchBox',
+			[matAutocomplete]='autocompleteElement',
+			[matChipInputFor]='chipList',
+			[matChipInputAddOnBlur]='onBlur',
+			[attr.autocomplete]='noAutofillAttr',
+			(focus)='onFocus()',
+			(blur)='onBlur()'
+		)
 	mat-hint(*ngIf=`fieldData.hint !== ''`) {{fieldData.hint}}
 	mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
 		span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{errorMessages[errorKey]}}
 	mat-autocomplete(#autocompleteElement='matAutocomplete')
-		mat-option(*ngFor='let item of filteredSelectList; let i = index', [value]='item.text', (onSelectionChange)='onSelectionChange($event, item.value, i)') {{item.text}}
+		mat-option(
+			*ngFor='let item of filteredSelectList; let i = index',
+			[value]='item.text',
+			(onSelectionChange)='onSelectionChange($event, item.value, i)'
+		) {{item.text}}

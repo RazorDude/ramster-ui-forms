@@ -1,3 +1,6 @@
+# 0.0.19
+- Added chips support to the autocomplete input. Just set hasChips to true in the fieldData interface.
+
 # 0.0.18
 - Made the input containers full width and height.
 

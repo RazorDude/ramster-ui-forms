@@ -6,6 +6,7 @@ import {BaseRESTService} from 'ramster-ui-core'
 
 export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterface {
 	filteredSelectListMaxLength?: number,
+	hasChips?: boolean,
 	loadSelectListOnInit?: boolean,
 	masterInputFormControl?: AbstractControl
 	masterInputFormControlValueChangesCallback?: Subject<any>,

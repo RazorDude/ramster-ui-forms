@@ -25,6 +25,7 @@ import {BasePageComponent, GlobalEventsService} from 'ramster-ui-core'
 })
 export class HomePageComponent extends BasePageComponent {
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
+	testAutocompleteWithChipsFieldData: AutocompleteFieldDataInterface
 	testCheckboxFieldData: CheckboxFieldDataInterface
 	testDatepickerFieldData: DatepickerFieldDataInterface
 	testFileInputFieldData: FileInputFieldDataInterface
@@ -46,6 +47,12 @@ export class HomePageComponent extends BasePageComponent {
 		this.testAutocompleteFieldData = {
 			inputFormControl: new FormControl(''),
 			placeholder: 'Autocomplete Input',
+			selectList: [{text: 'Value 1', value: 1}, {text: 'Value 2', value: 2}]
+		}
+		this.testAutocompleteWithChipsFieldData = {
+			hasChips: true,
+			inputFormControl: new FormControl([]),
+			placeholder: 'Autocomplete Input With Chips',
 			selectList: [{text: 'Value 1', value: 1}, {text: 'Value 2', value: 2}]
 		}
 		this.testCheckboxFieldData = {

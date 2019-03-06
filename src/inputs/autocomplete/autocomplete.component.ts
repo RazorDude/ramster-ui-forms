@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {FormControl} from '@angular/forms'
 import {Subject} from 'rxjs'
 
@@ -15,12 +15,17 @@ export class AutocompleteComponent extends BaseInputComponent {
 	@Input()
 	fieldData: AutocompleteFieldDataInterface = {} as AutocompleteFieldDataInterface
 
+	@ViewChild('chipSearchBox') chipSearchBox: ElementRef<HTMLInputElement>
+
+	chipJustDeselected: boolean = false
 	currentSelectionIndex: number = -1
+	defaultEmptyInputValue: null | [] = null
 	defaultSelectListRESTServiceArgs = {titleField: 'name', orderBy: 'name', orderDirection: 'asc'}
 	filteredSelectList: SelectListInterface[] = []
 	filteredSelectListMaxLength: number = 4
 	noAutofillAttr: number = (new Date()).getTime()
 	searchBox: FormControl
+	selectedChips: SelectListInterface[] = []
 
 	constructor() {
 		super()
@@ -28,28 +33,55 @@ export class AutocompleteComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {filteredSelectListMaxLength, searchBoxAsyncValidators, searchBoxValidators} = this.fieldData
+		const {filteredSelectListMaxLength, hasChips, searchBoxAsyncValidators, searchBoxValidators} = this.fieldData
+		if (hasChips) {
+			this.defaultEmptyInputValue = []
+		}
 		this.searchBox = new FormControl('', searchBoxValidators, searchBoxAsyncValidators)
 		if (filteredSelectListMaxLength) {
 			this.filteredSelectListMaxLength = filteredSelectListMaxLength
 		}
 		// set up the autocomplete filtering
 		this.searchBox.valueChanges.subscribe((value) => {
+			if (this.chipSearchBox) {
+				this.chipSearchBox.nativeElement.value = value
+			}
 			if (value.length > 1) {
-				let lowerCaseValue = value.toLowerCase()
-				this.filteredSelectList = this.fieldData.selectList.filter((item) => item.text.toLowerCase().indexOf(lowerCaseValue) !== -1)
+				let lowerCaseValue = value.toLowerCase(),
+					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : []
+				this.filteredSelectList = this.fieldData.selectList.filter((item) => {
+					return (selectedOptionValues.indexOf(item.value) === -1) && (item.text.toLowerCase().indexOf(lowerCaseValue) !== -1)
+				})
 				if (this.filteredSelectList.length > this.filteredSelectListMaxLength) {
-					this.filteredSelectList = this.filteredSelectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: 0}])
+					this.filteredSelectList = this.filteredSelectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: '_system_unselectable'}])
 				} else if (this.filteredSelectList.length === 0) {
-					this.filteredSelectList = [{text: 'No matches found. Type something in to filter the list...', value: 0}]
+					this.filteredSelectList = [{text: 'No matches found. Type something in to filter the list...', value: '_system_unselectable'}]
 				}
 				return
 			}
-			this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: 0}])
+			if (this.chipJustDeselected) {
+				this.chipJustDeselected = false
+				return
+			}
+			if (this.fieldData.hasChips) {
+				this.filteredSelectList = this.getFilteredSelectListWithoutSelectChips()
+				return
+			}
+			this.filteredSelectList = this.fieldData.selectList.slice(
+				0,
+				this.filteredSelectListMaxLength
+			)
+			this.filteredSelectList.push({
+				text: this.filteredSelectList.length ? 'Type something in to filter the list...' : 'No more results exist.',
+				value: '_system_unselectable'
+			})
 			return
 		})
 		this.fieldData.inputFormControl.valueChanges.subscribe((value) => {
-			if (value === null) {
+			if (this.fieldData.hasChips) {
+				return
+			}
+			if ((value === null) || (value === '')) {
 				this.currentSelectionIndex = -1
 				this.searchBox.patchValue('')
 				return
@@ -68,7 +100,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 					}
 				}
 				if (!valuePatched) {
-					this.fieldData.inputFormControl.patchValue(null)
+					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
 				}
 			}
 		})
@@ -81,7 +113,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 		) {
 			this.fieldData.masterInputFormControl.valueChanges.subscribe((value) => {
 				this.fieldData.selectList = []
-				this.fieldData.inputFormControl.patchValue(null)
+				this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
 				if ((value === null) || (value === '')) {
 					if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 						this.fieldData.masterInputFormControlValueChangesCallback.next(value)
@@ -113,10 +145,51 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 	}
 
+	getFilteredSelectListWithoutSelectChips(): SelectListInterface[] {
+		const
+			selectedChips = this.selectedChips,
+			selectedChipsLength = selectedChips.length,
+			selectList = this.fieldData.selectList,
+			selectListLength = selectList.length
+		let newList = [],
+			selectedValues = []
+		for (let i = 0; i < selectListLength; i++) {
+			if (newList.length === this.filteredSelectListMaxLength) {
+				break
+			}
+			const option = selectList[i]
+			if (selectedValues.length < selectedChipsLength) {
+				let found = false
+				for (const j in selectedChips) {
+					if (selectedChips[j].value === option.value) {
+						selectedValues.push(option.value)
+						found = true
+						break
+					}
+				}
+				if (found) {
+					continue
+				}
+			}
+			newList.push(option)
+		}
+		return newList.length ? newList : [{text: 'No more results exist.', value: '_system_unselectable'}]
+	}
+
 	onFocus(): void {
 		this.noAutofillAttr = (new Date()).getTime()
 		if (this.searchBox.value === '') {
-			this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: 0}])
+			if (this.fieldData.hasChips && this.selectedChips.length) {
+				this.filteredSelectList = this.getFilteredSelectListWithoutSelectChips()
+				return
+			}
+			if (this.fieldData.selectList.length > this.filteredSelectListMaxLength) {
+				this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([
+					{text: 'Type something in to filter the list...', value: '_system_unselectable'}
+				])
+			} else {
+				this.filteredSelectList = Object.assign([], this.fieldData.selectList)
+			}
 		}
 	}
 
@@ -124,7 +197,12 @@ export class AutocompleteComponent extends BaseInputComponent {
 		const currentText = this.searchBox.value
 		setTimeout(() => {
 			const newText = this.searchBox.value
-			if (currentText === newText) {
+			if (newText.length && (currentText === newText)) {
+				if (this.fieldData.hasChips) {
+					this.chipJustDeselected = true
+					this.searchBox.patchValue('')
+					return
+				}
 				const selectList = this.fieldData.selectList
 				let noMatch = true
 				for (const i in selectList) {
@@ -135,7 +213,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 					}
 				}
 				if (noMatch) {
-					this.fieldData.inputFormControl.patchValue(null)
+					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
 				}
 			}
 		}, 100)
@@ -143,9 +221,40 @@ export class AutocompleteComponent extends BaseInputComponent {
 
 	onSelectionChange(event: any, value: any, index: number): void {
 		const inputFormControl = this.fieldData.inputFormControl
-		if (event.source.selected && (inputFormControl.value !== value)) {
-			this.currentSelectionIndex = index
-			inputFormControl.patchValue(value)
+		if (event.source.selected) {
+			if (this.fieldData.hasChips) {
+				if (value !== '_system_unselectable') {
+					inputFormControl.patchValue(inputFormControl.value.concat(value))
+					this.selectedChips.push(this.filteredSelectList[index])
+				}
+				setTimeout(() => {
+					this.chipJustDeselected = true
+					this.searchBox.patchValue('')
+				}, 100)
+				return
+			}
+			if (inputFormControl.value !== value) {
+				this.currentSelectionIndex = index
+				inputFormControl.patchValue(value)
+			}
 		}
+	}
+
+	removeChip(index: number): void {
+		const chip = this.selectedChips[index]
+		let currentChipValueIndex = null,
+			currentValues = this.fieldData.inputFormControl.value
+		this.selectedChips.splice(index, 1)
+		if (!(currentValues instanceof Array) || !currentValues.length) {
+			return
+		}
+		for (const i in currentValues) {
+			if (currentValues[i] === chip.value) {
+				currentChipValueIndex = i
+				break
+			}
+		}
+		currentValues.splice(currentChipValueIndex, 1)
+		this.fieldData.inputFormControl.patchValue(currentValues)
 	}
 }

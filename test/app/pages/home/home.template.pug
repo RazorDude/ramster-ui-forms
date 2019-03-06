@@ -2,6 +2,9 @@
 	h1 Test
 	div
 		rui-autocomplete([fieldData]='testAutocompleteFieldData')
+		div(fxLayout='row')
+			div(fxFlex='80px')
+				rui-autocomplete([fieldData]='testAutocompleteWithChipsFieldData')
 		rui-checkbox([fieldData]='testCheckboxFieldData')
 		rui-datepicker([fieldData]='testDatepickerFieldData')
 		rui-file-input([fieldData]='testFileInputFieldData')
