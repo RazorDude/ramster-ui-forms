@@ -1,3 +1,9 @@
+# 0.0.21
+- Removed the node version badge from readme.md.
+- Fixed the aria-describedby error in the rui-autocomplete input.
+- Added arrayNotEmpty and objectNotEmpty validators.
+- Added the ability to pass options to mat-datepicker.
+
 # 0.0.20
 - Peer deps update.
 
