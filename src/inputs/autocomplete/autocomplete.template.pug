@@ -1,14 +1,5 @@
 doctype html
 mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
-	mat-chip-list(#chipList)
-		mat-chip(
-			*ngFor='let chip of selectedChips; let i = index',
-			[selectable]='false',
-			[removable]='true',
-			(removed)='removeChip(i)'
-		)
-			| {{chip.text}}
-			mat-icon(matChipRemove) cancel
 	input(
 		matInput,
 		type='text',
@@ -22,6 +13,15 @@ mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
 		(focus)='onFocus()',
 		(blur)='onBlur()'
 	)
+	mat-chip-list(#chipList)
+		mat-chip(
+			*ngFor='let chip of selectedChips; let i = index',
+			[selectable]='false',
+			[removable]='true',
+			(removed)='removeChip(i)'
+		)
+			| {{chip.text}}
+			mat-icon(matChipRemove) cancel
 	mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{fieldData.hint}}
 	mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
 		span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{errorMessages[errorKey]}}

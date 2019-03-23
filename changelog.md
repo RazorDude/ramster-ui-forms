@@ -1,3 +1,6 @@
+# 0.0.22
+- The autocomplete input with hasChips set to true now correctly and automatically populates the list of chips programatically when needed.
+
 # 0.0.21
 - Removed the node version badge from readme.md.
 - Fixed the aria-describedby error in the rui-autocomplete input.

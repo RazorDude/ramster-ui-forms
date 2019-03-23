@@ -97,4 +97,8 @@ export class HomePageComponent extends BasePageComponent {
 
 	onInitialDataLoaded(): void {
 	}
+
+	populateChips(): void {
+		this.testAutocompleteWithChipsFieldData.inputFormControl.patchValue([1])
+	}
 }

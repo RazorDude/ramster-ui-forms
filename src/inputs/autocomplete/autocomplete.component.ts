@@ -17,6 +17,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 	@Input()
 	fieldData: AutocompleteFieldDataInterface = {} as AutocompleteFieldDataInterface
 
+	@ViewChild('chipList') chipListContainer: any
 	@ViewChild('chipSearchBox') chipSearchBox: ElementRef<HTMLInputElement>
 
 	chipJustDeselected: boolean = false
@@ -81,6 +82,24 @@ export class AutocompleteComponent extends BaseInputComponent {
 		})
 		this.fieldData.inputFormControl.valueChanges.subscribe((value) => {
 			if (this.fieldData.hasChips) {
+				if (!(value instanceof Array)) {
+					return
+				}
+				setTimeout(() => {
+					if (this.selectedChips.length !== value.length) {
+						const selectList = this.fieldData.selectList
+						let selectedChips = []
+						value.forEach((item) => {
+							for (const i in selectList) {
+								const option = selectList[i]
+								if (option.value === item) {
+									selectedChips.push(option)
+								}
+							}
+						})
+						this.selectedChips = selectedChips
+					}
+				})
 				return
 			}
 			if ((value === null) || (value === '')) {
