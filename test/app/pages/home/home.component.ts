@@ -33,6 +33,7 @@ export class HomePageComponent extends BasePageComponent {
 	testCheckboxFieldData: CheckboxFieldDataInterface
 	testDatepickerFieldData: DatepickerFieldDataInterface
 	testFileInputFieldData: FileInputFieldDataInterface
+	testFileInput2FieldData: FileInputFieldDataInterface
 	testInputFieldData: InputFieldDataInterface
 	testSelectFieldData: SelectFieldDataInterface
 	testSlideToggleFieldData: SlideToggleFieldDataInterface
@@ -83,6 +84,10 @@ export class HomePageComponent extends BasePageComponent {
 		this.testFileInputFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),
 			placeholder: 'File Input'
+		}
+		this.testFileInput2FieldData = {
+			inputFormControl: new FormControl('', [Validators.required]),
+			placeholder: 'File Input 2'
 		}
 		this.testInputFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),

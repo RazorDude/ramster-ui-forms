@@ -1,3 +1,6 @@
+# 0.0.24
+- Fix for the file input - now using elementRef to activate the label, instead of html5 id on it. Using the id used to cause the file always going to the first input element only if there are multiple rui-inputs in the page.
+
 # 0.0.23
 - Fix for the autocomplete - increased the onBlur follow-up timer from 100 ms to 250 ms to make sure it waits for the onSelectionChange event.
 

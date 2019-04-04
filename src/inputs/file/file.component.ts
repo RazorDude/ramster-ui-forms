@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import * as moment from 'moment'
 
 import {BaseInputComponent} from '../base/baseInput.component'
@@ -19,6 +19,7 @@ export class FileInputComponent extends BaseInputComponent {
 
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: 10 // in megabytes
+	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
 	previewHeight: string = '50px'
 	previewWidth: string = '50px'
@@ -111,5 +112,9 @@ export class FileInputComponent extends BaseInputComponent {
 		this.fileName = fileName
 		inputFormControl.patchValue(file)
 		inputFormControl.markAsDirty()
+	}
+
+	onLabelClick(): void {
+		this.fileInputElement.nativeElement.click()
 	}
 }
