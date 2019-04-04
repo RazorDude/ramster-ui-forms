@@ -28,6 +28,7 @@ import {TestModelRESTService} from '../../models/test/test.restService'
 })
 export class HomePageComponent extends BasePageComponent {
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
+	testAutocompleteSlaveFieldData: AutocompleteFieldDataInterface
 	testAutocompleteWithChipsFieldData: AutocompleteFieldDataInterface
 	testCheckboxFieldData: CheckboxFieldDataInterface
 	testDatepickerFieldData: DatepickerFieldDataInterface
@@ -55,6 +56,15 @@ export class HomePageComponent extends BasePageComponent {
 			searchBoxValidators: [Validators.required],
 			selectList: [],
 			selectListRESTService: this.testModelRESTService
+		}
+		this.testAutocompleteSlaveFieldData = {
+			inputFormControl: new FormControl('', [Validators.required]),
+			masterInputFormControl: this.testAutocompleteFieldData.inputFormControl,
+			placeholder: 'Autocomplete Slave Input',
+			searchBoxValidators: [Validators.required],
+			selectList: [],
+			selectListRESTService: this.testModelRESTService,
+			selectListRESTServiceFilterFieldName: 'id'
 		}
 		this.testAutocompleteWithChipsFieldData = {
 			hasChips: true,

@@ -218,46 +218,48 @@ export class AutocompleteComponent extends BaseInputComponent {
 		const currentText = this.searchBox.value
 		setTimeout(() => {
 			const newText = this.searchBox.value
-			if (newText.length && (currentText === newText)) {
-				if (this.fieldData.hasChips) {
-					this.chipJustDeselected = true
-					this.searchBox.patchValue('')
-					return
-				}
-				const selectList = this.fieldData.selectList
-				let noMatch = true
-				for (const i in selectList) {
-					const item = selectList[i]
-					if (item.text === currentText) {
-						noMatch = false
-						break
-					}
-				}
-				if (noMatch) {
-					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
+			if (!newText.length || (currentText !== newText)) {
+				return
+			}
+			if (this.fieldData.hasChips) {
+				this.chipJustDeselected = true
+				this.searchBox.patchValue('')
+				return
+			}
+			const selectList = this.fieldData.selectList
+			let noMatch = true
+			for (const i in selectList) {
+				const item = selectList[i]
+				if (item.text === currentText) {
+					noMatch = false
+					break
 				}
 			}
-		}, 100)
+			if (noMatch) {
+				this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
+			}
+		}, 250)
 	}
 
 	onSelectionChange(event: any, value: any, index: number): void {
 		const inputFormControl = this.fieldData.inputFormControl
-		if (event.source.selected) {
-			if (this.fieldData.hasChips) {
-				if (value !== '_system_unselectable') {
-					inputFormControl.patchValue(inputFormControl.value.concat(value))
-					this.selectedChips.push(this.filteredSelectList[index])
-				}
-				setTimeout(() => {
-					this.chipJustDeselected = true
-					this.searchBox.patchValue('')
-				}, 100)
-				return
+		if (!event.source.selected) {
+			return
+		}
+		if (this.fieldData.hasChips) {
+			if (value !== '_system_unselectable') {
+				inputFormControl.patchValue(inputFormControl.value.concat(value))
+				this.selectedChips.push(this.filteredSelectList[index])
 			}
-			if (inputFormControl.value !== value) {
-				this.currentSelectionIndex = index
-				inputFormControl.patchValue(value)
-			}
+			setTimeout(() => {
+				this.chipJustDeselected = true
+				this.searchBox.patchValue('')
+			}, 100)
+			return
+		}
+		if (inputFormControl.value !== value) {
+			this.currentSelectionIndex = index
+			inputFormControl.patchValue(value)
 		}
 	}
 

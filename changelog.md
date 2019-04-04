@@ -1,3 +1,6 @@
+# 0.0.23
+- Fix for the autocomplete - increased the onBlur follow-up timer from 100 ms to 250 ms to make sure it waits for the onSelectionChange event.
+
 # 0.0.22
 - The autocomplete input with hasChips set to true now correctly and automatically populates the list of chips programatically when needed.
 
