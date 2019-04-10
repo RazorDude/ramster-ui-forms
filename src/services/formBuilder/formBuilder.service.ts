@@ -1,19 +1,20 @@
-import {
-	AutocompleteFieldDataInterface,
-	CheckboxFieldDataInterface,
-	DatepickerFieldDataInterface,
-	FileInputFieldDataInterface,
-	InputFieldDataInterface,
-	SelectFieldDataInterface,
-	SlideToggleFieldDataInterface,
-	TextareaFieldDataInterface
-} from '../../index'
+import {AutocompleteFieldDataInterface} from '../../inputs/autocomplete/autocomplete.interfaces'
+import {CheckboxFieldDataInterface} from '../../inputs/checkbox/checkbox.interfaces'
+import {DatepickerFieldDataInterface} from '../../inputs/datepicker/datepicker.interfaces'
+import {FileInputFieldDataInterface} from '../../inputs/file/file.interfaces'
 import {FormFieldsInterface} from './formBuilder.interfaces'
-import {FormControl, FormGroup} from '@angular/forms'
+import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {Injectable} from '@angular/core'
+import {InputFieldDataInterface} from '../../inputs/input/input.interfaces'
+import {SelectFieldDataInterface} from '../../inputs/select/select.interfaces'
+import {SlideToggleFieldDataInterface} from '../../inputs/slideToggle/slideToggle.interfaces'
+import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfaces'
+import validators from '../../validators'
 
 @Injectable()
 export class FormBuilderService {
+	directValueValidatorNames = ['checkEmailInUse', 'matchSibling']
+	plainValidatorNames = ['arrayNotEmpty', 'objectNotEmpty', 'validateEmail']
 	regularInputTypes = [
 		'color',
 		'email',
@@ -51,10 +52,10 @@ export class FormBuilderService {
 			slaveInputFields = []
 		fields.forEach((item) => {
 			let itemFieldData = {
-				inputFormControl: new FormControl(null, item.formControlValidators || []),
-				placeholder: item.label,
-				type: item.type
-			} as any
+					placeholder: item.label,
+					type: item.type
+				} as any,
+				formControlValidators = []
 			if (item.type === 'autocomplete') {
 				itemFieldData = Object.assign(itemFieldData, item.autocompleteConfig || {})
 			} else if (item.type === 'checkbox') {
@@ -75,6 +76,34 @@ export class FormBuilderService {
 			if (item.masterFieldName) {
 				slaveInputFields.push({name: item.name, masterFieldName: item.masterFieldName})
 			}
+			if (item.formControlValidators instanceof Array) {
+				formControlValidators = formControlValidators.concat(item.formControlValidators)
+			}
+			if (item.validations) {
+				item.validations.forEach((options) => {
+					if (this.directValueValidatorNames.indexOf(options.type) !== -1) {
+						formControlValidators.push(validators[options.type](options.value))
+						return
+					}
+					if (this.plainValidatorNames.indexOf(options.type) !== -1) {
+						formControlValidators.push(validators[options.type])
+						return
+					}
+					if (options.type === 'max') {
+						formControlValidators.push(Validators.max(options.value))
+						return
+					}
+					if (options.type === 'min') {
+						formControlValidators.push(Validators.min(options.value))
+						return
+					}
+					if (options.type === 'required') {
+						formControlValidators.push(Validators.required)
+						return
+					}
+				})
+			}
+			itemFieldData.inputFormControl = new FormControl(null, formControlValidators)
 			fieldData[item.name] = itemFieldData
 			formControls[item.name] = itemFieldData.inputFormControl
 		})

@@ -1,3 +1,6 @@
+# 0.0.26
+-  FormBuilder - added automatic mapping of validations.
+
 # 0.0.25
 - Updated the ramster-ui-core dependency.
 - Added a formBuilder service.

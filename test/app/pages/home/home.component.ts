@@ -165,7 +165,8 @@ export class HomePageComponent extends BasePageComponent {
 			}, {
 				label: 'Regular Input',
 				name: 'regularInput',
-				type: 'text'
+				type: 'text',
+				validations: [{type: 'required'}]
 			}, {
 				label: 'Select Input',
 				name: 'selectInput',
