@@ -15,7 +15,7 @@ import {TestModelRESTService} from './models/test/test.restService'
 
 // ramster components and services
 import {FilesRESTService, GlobalEventsService, RamsterUICoreModule, RequestService} from 'ramster-ui-core'
-import {RamsterUIFormsModule} from '../../src'
+import {FormBuilderService, RamsterUIFormsModule} from '../../src'
 
 import {LayoutComponent} from './layout/layout.component'
 
@@ -61,6 +61,7 @@ const routes: Routes = [
 	],
 	providers: [
 		FilesRESTService,
+		FormBuilderService,
 		GlobalEventsService,
 		RequestService,
 		TestModelRESTService

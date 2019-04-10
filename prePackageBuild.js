@@ -19,6 +19,9 @@ const
 
 co(function*() {
 	const pugFilePaths = [{
+				inputPath: path.join(__dirname, 'src/components/inputInjector/inputInjector.template.pug'),
+				outputPath: path.join(__dirname, 'src/components/inputInjector/inputInjector.template.html')
+			}, {
 				inputPath: path.join(__dirname, 'src/inputs/autocomplete/autocomplete.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/autocomplete/autocomplete.template.html')
 			}, {

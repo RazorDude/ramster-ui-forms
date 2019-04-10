@@ -1,3 +1,9 @@
+# 0.0.25
+- Updated the ramster-ui-core dependency.
+- Added a formBuilder service.
+- Added an InputInjector component which automates the whole *ngIf process for different types of inputs.
+- Updated the test page.
+
 # 0.0.24
 - Fix for the file input - now using elementRef to activate the label, instead of html5 id on it. Using the id used to cause the file always going to the first input element only if there are multiple rui-inputs in the page.
 

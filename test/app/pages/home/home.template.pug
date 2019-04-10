@@ -1,5 +1,6 @@
 .page-content(fxLayout='column', fxFill, fxLayoutAlign='start stretch')
-	h1 Test
+	h1 Ramster UI Forms Test Page
+	h2 Test with direct display
 	div
 		rui-autocomplete([fieldData]='testAutocompleteFieldData')
 		rui-autocomplete([fieldData]='testAutocompleteSlaveFieldData')
@@ -17,3 +18,18 @@
 			rui-select([fieldData]='testSelectFieldData')
 		rui-slide-toggle([fieldData]='testSlideToggleFieldData')
 		rui-textarea([fieldData]='testTextAreaFieldData')
+	h2 FormBuilder test
+	div
+		div(*ngFor='let item of generatedFormConfig')
+			rui-autocomplete(*ngIf='item.type === "autocomplete"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-checkbox(*ngIf='item.type === "checkbox"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-datepicker(*ngIf='item.type === "datepicker"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-file-input(*ngIf='item.type === "file"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-input(*ngIf='item.type === "input"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-select(*ngIf='item.type === "select"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-slide-toggle(*ngIf='item.type === "slideToggle"', [fieldData]='generatedFormFieldData[item.name]')
+			rui-textarea(*ngIf='item.type === "textarea"', [fieldData]='generatedFormFieldData[item.name]')
+
+	h2 FormBuilder + InputInjector test
+	div
+		rui-input-injector(*ngFor='let item of generatedFormConfig', [type]='item.type', [fieldData]='generatedFormFieldData[item.name]')

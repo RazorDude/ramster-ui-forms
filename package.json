@@ -1,6 +1,6 @@
 {
   "name": "ramster-ui-forms",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "A forms and inputs package that goes together with the other ramster-ui packages.",
   "main": "dist/bundles/ramster-ui-forms.umd.js",
   "scripts": {
@@ -57,7 +57,7 @@
     "progress-bar-webpack-plugin": "^1.11.0",
     "pug": "^2.0.3",
     "pug-html-loader": "^1.1.5",
-    "ramster-ui-core": ">=0.0.22",
+    "ramster-ui-core": ">=0.0.26",
     "raw-loader": "^1.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.3.3",

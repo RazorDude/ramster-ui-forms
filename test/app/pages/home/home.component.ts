@@ -2,13 +2,15 @@
 
 import {ActivatedRoute} from '@angular/router'
 import {Component} from '@angular/core'
-import {FormControl, Validators} from '@angular/forms'
+import {FormControl, FormGroup, Validators} from '@angular/forms'
 
 import {
 	AutocompleteFieldDataInterface,
 	CheckboxFieldDataInterface,
 	DatepickerFieldDataInterface,
 	FileInputFieldDataInterface,
+	FormBuilderService,
+	FormFieldsInterface,
 	InputFieldDataInterface,
 	SelectFieldDataInterface,
 	SlideToggleFieldDataInterface,
@@ -27,6 +29,19 @@ import {TestModelRESTService} from '../../models/test/test.restService'
 	]
 })
 export class HomePageComponent extends BasePageComponent {
+	generatedFormConfig: FormFieldsInterface[]
+	generatedForm: FormGroup
+	generatedFormFieldData: {
+		[fieldName: string]: 
+			AutocompleteFieldDataInterface |
+			CheckboxFieldDataInterface |
+			DatepickerFieldDataInterface |
+			FileInputFieldDataInterface |
+			InputFieldDataInterface |
+			SelectFieldDataInterface |
+			SlideToggleFieldDataInterface |
+			TextareaFieldDataInterface
+	}
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
 	testAutocompleteSlaveFieldData: AutocompleteFieldDataInterface
 	testAutocompleteWithChipsFieldData: AutocompleteFieldDataInterface
@@ -41,6 +56,7 @@ export class HomePageComponent extends BasePageComponent {
 
 	constructor(
 		activatedRoute: ActivatedRoute,
+		public formBuilder: FormBuilderService,
 		globalEventsService: GlobalEventsService,
 		public testModelRESTService: TestModelRESTService
 	) {
@@ -107,6 +123,70 @@ export class HomePageComponent extends BasePageComponent {
 			inputFormControl: new FormControl('', [Validators.required]),
 			placeholder: 'Text Area'
 		}
+
+		this.generatedFormConfig = [{
+				autocompleteConfig: {
+					loadSelectListOnInit: true,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				label: 'Autocomplete Input',
+				name: 'autocompleteInput',
+				type: 'autocomplete'
+			}, {
+				autocompleteConfig: {
+					loadSelectListOnInit: true,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService,
+					selectListRESTServiceFilterFieldName: 'id'
+				},
+				label: 'Autocomplete Slave Input',
+				masterFieldName: 'autocompleteInput',
+				name: 'autocompleteSlaveInput',
+				type: 'autocomplete'
+			}, {
+				label: 'Checkbox Input',
+				name: 'checkboxInput',
+				type: 'checkbox'
+			}, {
+				label: 'Datepicker Input',
+				name: 'datepickerInput',
+				type: 'datepicker'
+			}, {
+				label: 'File Input 1',
+				name: 'fileInput1',
+				type: 'file'
+			}, {
+				label: 'File Input 2',
+				name: 'fileInput2',
+				type: 'file'
+			}, {
+				label: 'Regular Input',
+				name: 'regularInput',
+				type: 'text'
+			}, {
+				label: 'Select Input',
+				name: 'selectInput',
+				selectConfig: {
+					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
+				},
+				type: 'select'
+			}, {
+				label: 'Slide Toggle Input',
+				name: 'slideToggleInput',
+				type: 'slideToggle'
+			}, {
+				label: 'Text Area Input',
+				name: 'textareaInput',
+				type: 'textarea'
+			}
+		]
+		let result = this.formBuilder.buildForm(this.generatedFormConfig)
+		this.generatedForm = result.form
+		this.generatedFormFieldData = result.fieldData
+
 		this.globalEventsService.setLayoutData({hasHeader: true})
 	}
 
