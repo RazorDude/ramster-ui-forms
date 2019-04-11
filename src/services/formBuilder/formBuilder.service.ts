@@ -103,7 +103,10 @@ export class FormBuilderService {
 					}
 				})
 			}
-			itemFieldData.inputFormControl = new FormControl(null, formControlValidators)
+			itemFieldData.inputFormControl = new FormControl(
+				typeof itemFieldData.initialValue === 'undefined' ? null : itemFieldData.initialValue,
+				formControlValidators
+			)
 			fieldData[item.name] = itemFieldData
 			formControls[item.name] = itemFieldData.inputFormControl
 		})

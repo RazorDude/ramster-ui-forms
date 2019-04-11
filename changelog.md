@@ -1,8 +1,11 @@
+# 0.0.28
+- Added an optional initialValue field to the FormFieldsInterface.
+
 # 0.0.27
 - Added a selectListRESTServiceMethodName option to the autocomplete.
 
 # 0.0.26
--  FormBuilder - added automatic mapping of validations.
+- FormBuilder - added automatic mapping of validations.
 
 # 0.0.25
 - Updated the ramster-ui-core dependency.

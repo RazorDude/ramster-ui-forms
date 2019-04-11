@@ -13,6 +13,7 @@ export interface FormFieldsInterface {
 	datepickerConfig?: DatepickerFieldDataInterface
 	fileConfig?: FileInputFieldDataInterface
 	formControlValidators?: any[]
+	initialValue?: any
 	inputConfig?: InputFieldDataInterface
 	label: string
 	masterFieldName?: string
