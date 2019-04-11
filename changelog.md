@@ -1,3 +1,6 @@
+# 0.0.27
+- Added a selectListRESTServiceMethodName option to the autocomplete.
+
 # 0.0.26
 -  FormBuilder - added automatic mapping of validations.
 

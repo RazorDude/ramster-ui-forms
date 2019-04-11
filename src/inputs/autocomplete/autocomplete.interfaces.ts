@@ -16,4 +16,5 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	selectListRESTService?: BaseRESTService,
 	selectListRESTServiceArgs?: {[x: string]: any}
 	selectListRESTServiceFilterFieldName?: string
+	selectListRESTServiceMethodName?: string
 }

@@ -147,7 +147,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 				}
 				filters[this.fieldData.selectListRESTServiceFilterFieldName] = value
 				otherArgs.filters = filters
-				this.fieldData.selectListRESTService.readSelectList(otherArgs).then((res) => {
+				this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then((res) => {
 						this.fieldData.selectList = res
 						if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 							this.fieldData.masterInputFormControlValueChangesCallback.next(value)
