@@ -4,6 +4,7 @@
 import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'
 
+import {FormInjector} from './components/formInjector/formInjector.component'
 import {InputInjector} from './components/inputInjector/inputInjector.component'
 import {InputsModule} from './inputs/inputs.module'
 import validators from './validators'
@@ -14,13 +15,18 @@ import validators from './validators'
 		InputsModule
 	],
 	declarations: [
+		FormInjector,
 		InputInjector
 	],
-	exports: [InputInjector, InputsModule]
+	exports: [
+		FormInjector,
+		InputInjector,
+		InputsModule
+	]
 })
 export class RamsterUIFormsModule {}
 
-export {InputInjector, InputsModule, validators}
+export {FormInjector, InputInjector, InputsModule, validators}
 export * from './inputs/autocomplete/autocomplete.interfaces'
 export * from './inputs/base/baseInput.component'
 export * from './inputs/base/baseInput.interfaces'

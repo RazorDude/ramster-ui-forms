@@ -18,6 +18,7 @@
 			rui-select([fieldData]='testSelectFieldData')
 		rui-slide-toggle([fieldData]='testSlideToggleFieldData')
 		rui-textarea([fieldData]='testTextAreaFieldData')
+
 	h2 FormBuilder test
 	div
 		div(*ngFor='let item of generatedFormConfig')
@@ -33,3 +34,31 @@
 	h2 FormBuilder + InputInjector test
 	div
 		rui-input-injector(*ngFor='let item of generatedFormConfig', [type]='item.type', [fieldData]='generatedFormFieldData[item.name]')
+
+	h2 FormBuilder + Positioning test
+	.positioning-test(fxLayout='row')
+		div(fxLayout='column', fxFill)
+			div(*ngFor='let row of generatedFormLayout', fxLayout='row', fxFlexOffset='20px')
+				div(*ngFor='let column of row', fxLayout='column', [fxFlex]='column.colSize', [fxFlexOffset]='column.colOffset')
+					div(*ngIf='column.innerRows', fxLayout='row', fxFlexOffset='-20px')
+						div(fxLayout='column', fxFill)
+							div(*ngFor='let innerRow of column.innerRows', fxLayout='row', fxFlexOffset='20px')
+								div(
+									*ngFor='let innerColumn of innerRow',
+									fxLayout='column',
+									[fxFlex]='innerColumn.colSize',
+									[fxFlexOffset]='innerColumn.colOffset'
+								)
+									rui-input-injector(
+										[type]='generatedFormConfig[innerColumn.itemIndex].type',
+										[fieldData]='generatedFormFieldData[innerColumn.fieldName]'
+									)
+					rui-input-injector(
+						*ngIf='!column.innerRows',
+						[type]='generatedFormConfig[column.itemIndex].type',
+						[fieldData]='generatedFormFieldData[column.fieldName]'
+					)
+
+	h2 FormBuilder + FormInjector test
+	div
+		rui-form-injector([layout]='generatedFormLayout', [fieldConfig]='generatedFormConfig', [fieldData]='generatedFormFieldData')

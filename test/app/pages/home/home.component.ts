@@ -11,6 +11,7 @@ import {
 	FileInputFieldDataInterface,
 	FormBuilderService,
 	FormFieldsInterface,
+	FormLayoutColumnDataInterface,
 	InputFieldDataInterface,
 	SelectFieldDataInterface,
 	SlideToggleFieldDataInterface,
@@ -42,6 +43,7 @@ export class HomePageComponent extends BasePageComponent {
 			SlideToggleFieldDataInterface |
 			TextareaFieldDataInterface
 	}
+	generatedFormLayout: FormLayoutColumnDataInterface[][]
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
 	testAutocompleteSlaveFieldData: AutocompleteFieldDataInterface
 	testAutocompleteWithChipsFieldData: AutocompleteFieldDataInterface
@@ -133,6 +135,7 @@ export class HomePageComponent extends BasePageComponent {
 				},
 				label: 'Autocomplete Input',
 				name: 'autocompleteInput',
+				positioning: {colOffset: '25%', colSize: '50%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
 				autocompleteConfig: {
@@ -145,26 +148,32 @@ export class HomePageComponent extends BasePageComponent {
 				label: 'Autocomplete Slave Input',
 				masterFieldName: 'autocompleteInput',
 				name: 'autocompleteSlaveInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
 				label: 'Checkbox Input',
 				name: 'checkboxInput',
+				positioning: {colSize: '50%', rowIndex: 1, rowSpan: 2},
 				type: 'checkbox'
 			}, {
 				label: 'Datepicker Input',
 				name: 'datepickerInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
 				type: 'datepicker'
 			}, {
 				label: 'File Input 1',
 				name: 'fileInput1',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
 				type: 'file'
 			}, {
 				label: 'File Input 2',
 				name: 'fileInput2',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'file'
 			}, {
 				label: 'Regular Input',
 				name: 'regularInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'text',
 				validations: [{type: 'required'}]
 			}, {
@@ -173,20 +182,24 @@ export class HomePageComponent extends BasePageComponent {
 				selectConfig: {
 					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
 				},
+				positioning: {colSize: '30%', rowIndex: 3},
 				type: 'select'
 			}, {
 				label: 'Slide Toggle Input',
 				name: 'slideToggleInput',
+				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
 				type: 'slideToggle'
 			}, {
 				label: 'Text Area Input',
 				name: 'textareaInput',
+				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
 				type: 'textarea'
 			}
 		]
 		let result = this.formBuilder.buildForm(this.generatedFormConfig)
 		this.generatedForm = result.form
 		this.generatedFormFieldData = result.fieldData
+		this.generatedFormLayout = result.layout
 
 		this.globalEventsService.setLayoutData({hasHeader: true})
 	}

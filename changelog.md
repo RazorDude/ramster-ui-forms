@@ -1,3 +1,8 @@
+# 0.0.29
+- Add an ability to build grid-based (row & column) layouts to formBuilder.buildForm.
+- Fixed the inputInjector for regular inputs - text, number, etc.
+- Addeded a formInjector component - takes a form layout that's been generated from formBuilder.buildForm and renders it. Still needs work, though.
+
 # 0.0.28
 - Added an optional initialValue field to the FormFieldsInterface.
 

@@ -1,14 +1,6 @@
-import {AutocompleteFieldDataInterface} from '../../inputs/autocomplete/autocomplete.interfaces'
-import {CheckboxFieldDataInterface} from '../../inputs/checkbox/checkbox.interfaces'
-import {DatepickerFieldDataInterface} from '../../inputs/datepicker/datepicker.interfaces'
-import {FileInputFieldDataInterface} from '../../inputs/file/file.interfaces'
-import {FormFieldsInterface} from './formBuilder.interfaces'
+import {BuildFormReturnDataInterface, FormFieldsInterface} from './formBuilder.interfaces'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {Injectable} from '@angular/core'
-import {InputFieldDataInterface} from '../../inputs/input/input.interfaces'
-import {SelectFieldDataInterface} from '../../inputs/select/select.interfaces'
-import {SlideToggleFieldDataInterface} from '../../inputs/slideToggle/slideToggle.interfaces'
-import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfaces'
 import validators from '../../validators'
 
 @Injectable()
@@ -24,7 +16,6 @@ export class FormBuilderService {
 		'search',
 		'tel',
 		'text',
-		'textarea',
 		'time',
 		'url',
 		'week'
@@ -33,29 +24,22 @@ export class FormBuilderService {
 	constructor() {
 	}
 
-	buildForm(fields: FormFieldsInterface[]): {
-		form: FormGroup,
-		fieldData: {
-			[fieldName: string]:
-				AutocompleteFieldDataInterface |
-				CheckboxFieldDataInterface |
-				DatepickerFieldDataInterface |
-				FileInputFieldDataInterface |
-				InputFieldDataInterface |
-				SelectFieldDataInterface |
-				SlideToggleFieldDataInterface |
-				TextareaFieldDataInterface
-		}
-	} {
-		let formControls = {},
+	buildForm(fields: FormFieldsInterface[]): BuildFormReturnDataInterface {
+		let currentInnerRowContainerIndex = null,
+			currentRowIndex = 0,
+			currentRowOffset = 0,
+			formControls = {},
 			fieldData = {},
+			innerRowTerminationIndex = null,
+			layout = [],
 			slaveInputFields = []
-		fields.forEach((item) => {
+		fields.forEach((item, index) => {
 			let itemFieldData = {
 					placeholder: item.label,
 					type: item.type
 				} as any,
 				formControlValidators = []
+			// set up the input config based on its type
 			if (item.type === 'autocomplete') {
 				itemFieldData = Object.assign(itemFieldData, item.autocompleteConfig || {})
 			} else if (item.type === 'checkbox') {
@@ -76,6 +60,7 @@ export class FormBuilderService {
 			if (item.masterFieldName) {
 				slaveInputFields.push({name: item.name, masterFieldName: item.masterFieldName})
 			}
+			// set up the input validations
 			if (item.formControlValidators instanceof Array) {
 				formControlValidators = formControlValidators.concat(item.formControlValidators)
 			}
@@ -103,19 +88,74 @@ export class FormBuilderService {
 					}
 				})
 			}
+			// create the actual formControl and populate the form and fieldData
 			itemFieldData.inputFormControl = new FormControl(
 				typeof itemFieldData.initialValue === 'undefined' ? null : itemFieldData.initialValue,
 				formControlValidators
 			)
 			fieldData[item.name] = itemFieldData
 			formControls[item.name] = itemFieldData.inputFormControl
+			// calculate the layout positioning if a config is provided
+			// TODO: this currently supports only first-level nesting, to be upgraded in the future
+			if (item.positioning) {
+				const {colOffset, colSize, rowIndex, rowSpan} = item.positioning
+				let row = null,
+					columnData = {colOffset, colSize, fieldName: item.name, itemIndex: index}
+				// terminate the inner row sequence - we've reach the first row that doesn't fall in the inner rows column
+				if ((innerRowTerminationIndex !== null) && (innerRowTerminationIndex === rowIndex)) {
+					currentInnerRowContainerIndex = null
+					innerRowTerminationIndex = null
+				}
+				// create (if needed) and get the row - regular row
+				if (currentInnerRowContainerIndex === null) {
+					row = layout[rowIndex - currentRowOffset]
+					// the row doesn't exist yet - this is the first column for the row; create it and set the current row index
+					if (!row) {
+						row = []
+						layout.push(row)
+						currentRowIndex = rowIndex
+					}
+				}
+				// inner row
+				else {
+					row = layout[currentRowIndex][currentInnerRowContainerIndex].innerRows[rowIndex - currentRowIndex]
+					if (!row) {
+						row = []
+						layout[currentRowIndex][currentInnerRowContainerIndex].innerRows.push(row)
+						currentRowOffset++
+					}
+				}
+				// if we need to add an innerRows container
+				if (rowSpan && (rowSpan >= 2)) {
+					// add it before the column
+					if (colOffset) {
+						row.push({colSize: colOffset, innerRows: [[]]})
+						row.push(columnData)
+						innerRowTerminationIndex = rowIndex + rowSpan
+						currentInnerRowContainerIndex = row.length - 2
+						delete columnData.colOffset
+					}
+					// add it after the column
+					else {
+						row.push(columnData)
+						row.push({innerRows: [[]]})
+						innerRowTerminationIndex = rowIndex + rowSpan
+						currentInnerRowContainerIndex = row.length - 1
+					}
+				}
+				// otherwise - just add the column to the row
+				else {
+					row.push(columnData)
+				}
+			}
 		})
 		slaveInputFields.forEach((item) => {
 			fieldData[item.name].masterInputFormControl = fieldData[item.masterFieldName].inputFormControl
 		})
 		return {
 			form: new FormGroup(formControls),
-			fieldData
+			fieldData,
+			layout
 		}
 	}
 }
