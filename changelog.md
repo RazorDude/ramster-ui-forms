@@ -1,3 +1,6 @@
+# 0.0.30
+- Fix for the formBuilder input initialValues.
+
 # 0.0.29
 - Add an ability to build grid-based (row & column) layouts to formBuilder.buildForm.
 - Fixed the inputInjector for regular inputs - text, number, etc.

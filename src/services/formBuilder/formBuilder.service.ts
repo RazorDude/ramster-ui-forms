@@ -90,7 +90,7 @@ export class FormBuilderService {
 			}
 			// create the actual formControl and populate the form and fieldData
 			itemFieldData.inputFormControl = new FormControl(
-				typeof itemFieldData.initialValue === 'undefined' ? null : itemFieldData.initialValue,
+				typeof item.initialValue === 'undefined' ? null : item.initialValue,
 				formControlValidators
 			)
 			fieldData[item.name] = itemFieldData

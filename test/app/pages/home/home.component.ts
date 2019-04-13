@@ -191,6 +191,7 @@ export class HomePageComponent extends BasePageComponent {
 				type: 'slideToggle'
 			}, {
 				label: 'Text Area Input',
+				initialValue: 'testText',
 				name: 'textareaInput',
 				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
 				type: 'textarea'
