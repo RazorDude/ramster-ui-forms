@@ -100,7 +100,7 @@ export class FormBuilderService {
 			if (item.positioning) {
 				const {colOffset, colSize, rowIndex, rowSpan} = item.positioning
 				let row = null,
-					columnData = {colOffset, colSize, fieldName: item.name, itemIndex: index}
+					columnData = {colOffset, colSize: !colSize || !colSize.length ? '100%' : colSize , fieldName: item.name, itemIndex: index}
 				// terminate the inner row sequence - we've reach the first row that doesn't fall in the inner rows column
 				if ((innerRowTerminationIndex !== null) && (innerRowTerminationIndex === rowIndex)) {
 					currentInnerRowContainerIndex = null

@@ -1,3 +1,7 @@
+# 0.0.31
+- Fixed the default "No file chosen" label for the file input.
+- Added a fallback width of 100% to the formBuilder layout.
+
 # 0.0.30
 - Fix for the formBuilder input initialValues.
 
