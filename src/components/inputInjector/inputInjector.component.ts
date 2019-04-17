@@ -7,6 +7,7 @@ import {InputFieldDataInterface} from '../../inputs/input/input.interfaces'
 import {SelectFieldDataInterface} from '../../inputs/select/select.interfaces'
 import {SlideToggleFieldDataInterface} from '../../inputs/slideToggle/slideToggle.interfaces'
 import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfaces'
+import {WysiwygFieldDataInterface} from '../../inputs/wysiwyg/wysiwyg.interfaces'
 
 @Component({
 	selector: 'rui-input-injector',
@@ -36,7 +37,8 @@ export class InputInjector {
 		InputFieldDataInterface |
 		SelectFieldDataInterface |
 		SlideToggleFieldDataInterface |
-		TextareaFieldDataInterface
+		TextareaFieldDataInterface |
+		WysiwygFieldDataInterface
 
 	constructor() {
 	}

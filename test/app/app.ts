@@ -6,7 +6,23 @@ import {BrowserModule} from '@angular/platform-browser'
 import {FlexLayoutModule} from '@angular/flex-layout'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {HttpClientModule} from '@angular/common/http'
-import {MatAutocompleteModule, MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSlideToggleModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatSelectModule, MatChipsModule} from '@angular/material'
+import {
+	MatAutocompleteModule,
+	MatButtonModule,
+	MatCheckboxModule,
+	MatDatepickerModule,
+	MatFormFieldModule,
+	MatIconModule,
+	MatInputModule,
+	MatSlideToggleModule,
+	MatTabsModule,
+	MatTableModule,
+	MatPaginatorModule,
+	MatSelectModule,
+	MatStepperModule,
+	MatSortModule,
+	MatChipsModule
+} from '@angular/material'
 import {NgModule} from '@angular/core'
 import {RouterModule, Routes} from '@angular/router'
 
@@ -48,8 +64,9 @@ const routes: Routes = [
 		MatTabsModule,
 		MatTableModule,
 		MatPaginatorModule,
-		MatSortModule,
 		MatSelectModule,
+		MatSortModule,
+		MatStepperModule,
 		MatChipsModule,
 		RamsterUICoreModule,
 		RamsterUIFormsModule

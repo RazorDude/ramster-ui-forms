@@ -51,14 +51,23 @@ co(function*() {
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/textarea/textarea.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/textarea/textarea.template.html')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.template.pug'),
+				outputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.template.html')
 			}
 		],
 		sassFilePaths = [{
+				inputPath: path.join(__dirname, 'src/components/formInjector/formInjector.styles.scss'),
+				outputPath: path.join(__dirname, 'src/components/formInjector/formInjector.styles.css')
+			}, {
 				inputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.css')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/file/file.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/file/file.styles.css')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.styles.scss'),
+				outputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.styles.css')
 			}
 		]
 	for (const i in pugFilePaths) {

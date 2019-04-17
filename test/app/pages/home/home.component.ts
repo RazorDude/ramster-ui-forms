@@ -16,6 +16,7 @@ import {
 	SelectFieldDataInterface,
 	SlideToggleFieldDataInterface,
 	TextareaFieldDataInterface,
+	WysiwygFieldDataInterface,
 	validators
 } from '../../../../src'
 import {BasePageComponent, GlobalEventsService} from 'ramster-ui-core'
@@ -41,7 +42,8 @@ export class HomePageComponent extends BasePageComponent {
 			InputFieldDataInterface |
 			SelectFieldDataInterface |
 			SlideToggleFieldDataInterface |
-			TextareaFieldDataInterface
+			TextareaFieldDataInterface |
+			WysiwygFieldDataInterface
 	}
 	generatedFormLayout: FormLayoutColumnDataInterface[][]
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
@@ -55,6 +57,7 @@ export class HomePageComponent extends BasePageComponent {
 	testSelectFieldData: SelectFieldDataInterface
 	testSlideToggleFieldData: SlideToggleFieldDataInterface
 	testTextAreaFieldData: TextareaFieldDataInterface
+	testWysiwygFieldData: WysiwygFieldDataInterface
 
 	constructor(
 		activatedRoute: ActivatedRoute,
@@ -125,6 +128,10 @@ export class HomePageComponent extends BasePageComponent {
 			inputFormControl: new FormControl('', [Validators.required]),
 			placeholder: 'Text Area'
 		}
+		this.testWysiwygFieldData = {
+			inputFormControl: new FormControl('', [Validators.required]),
+			placeholder: 'Wysiwyg'
+		}
 
 		this.generatedFormConfig = [{
 				autocompleteConfig: {
@@ -133,6 +140,7 @@ export class HomePageComponent extends BasePageComponent {
 					selectList: [],
 					selectListRESTService: this.testModelRESTService
 				},
+				initialValue: 1,
 				label: 'Autocomplete Input',
 				name: 'autocompleteInput',
 				positioning: {colOffset: '25%', colSize: '50%', rowIndex: 0},
@@ -195,6 +203,21 @@ export class HomePageComponent extends BasePageComponent {
 				name: 'textareaInput',
 				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
 				type: 'textarea'
+			}, {
+				label: 'Wysiwyg Input',
+				initialValue: 'testText',
+				name: 'wysiwygInput',
+				positioning: {colSize: '99%', rowIndex: 4},
+				type: 'wysiwyg'
+			}, {
+				label: 'Read Only Wysiwyg Input',
+				initialValue: 'testText 2',
+				name: 'wysiwygInput2',
+				positioning: {colSize: '99%', rowIndex: 5},
+				type: 'wysiwyg',
+				wysiwygConfig: {
+					readOnly: true
+				}
 			}
 		]
 		let result = this.formBuilder.buildForm(this.generatedFormConfig)

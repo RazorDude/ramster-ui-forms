@@ -1,5 +1,4 @@
 import {CommonModule} from '@angular/common'
-import {ReactiveFormsModule} from '@angular/forms'
 import {ModuleWithProviders, NgModule} from '@angular/core'
 import {
 	MatAutocompleteModule,
@@ -14,6 +13,8 @@ import {
 	MatSelectModule,
 	MatSlideToggleModule
 } from '@angular/material'
+import {NgxWigModule} from 'ngx-wig'
+import {ReactiveFormsModule} from '@angular/forms'
 
 import {AutocompleteComponent} from './autocomplete/autocomplete.component'
 import {CheckboxComponent} from './checkbox/checkbox.component'
@@ -23,6 +24,7 @@ import {InputComponent} from './input/input.component'
 import {SelectComponent} from './select/select.component'
 import {SlideToggleComponent} from './slideToggle/slideToggle.component'
 import {TextareaComponent} from './textarea/textarea.component'
+import {WysiwygComponent} from './wysiwyg/wysiwyg.component'
 
 @NgModule({
 	imports: [
@@ -38,6 +40,7 @@ import {TextareaComponent} from './textarea/textarea.component'
 		MatNativeDateModule,
 		MatSelectModule,
 		MatSlideToggleModule,
+		NgxWigModule,
 		ReactiveFormsModule
 	],
 	declarations: [
@@ -48,7 +51,8 @@ import {TextareaComponent} from './textarea/textarea.component'
 		InputComponent,
 		SelectComponent,
 		SlideToggleComponent,
-		TextareaComponent
+		TextareaComponent,
+		WysiwygComponent
 	],
 	exports: [
 		AutocompleteComponent,
@@ -58,15 +62,15 @@ import {TextareaComponent} from './textarea/textarea.component'
 		InputComponent,
 		SelectComponent,
 		SlideToggleComponent,
-		TextareaComponent
+		TextareaComponent,
+		WysiwygComponent
 	]
 })
 export class InputsModule {
 	static forRoot(): ModuleWithProviders {
 		return {
 			ngModule: InputsModule,
-			providers: [
-			]
+			providers: []
 		}
 	}
 }

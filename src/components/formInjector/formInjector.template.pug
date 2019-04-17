@@ -19,20 +19,19 @@ doctype html
 //- 			[type]='fieldConfig[column.itemIndex].type',
 //- 			[fieldData]='fieldData[column.fieldName]'
 //- 		)
-div(*ngFor='let row of layout; let rowIndex = index', [ngStyle]='{"margin-top": rowOffsets[rowIndex]}')
-	span(*ngFor='let column of row', [ngStyle]='{"width": column.colSize, "margin-top": column.colOffset}')
-		div(*ngIf='column.innerRows', [ngStyle]='{"margin-top": rowOffsets[rowIndex]}')
-			span(fxLayout='column', [ngStyle]='{"width": "100%"}')
-				div(*ngFor='let innerRow of column.innerRows; let innerRowIndex = index')
-					span(
-						*ngFor='let innerColumn of innerRow',
-						fxLayout='column',
-						[ngStyle]='{"width": innerColumn.colSize, "margin-top": innerColumn.colOffset}'
+div(*ngFor='let row of layout; let rowIndex = index', [ngStyle]='{"margin-top": rowOffsets[rowIndex] || "0"}')
+	.column(*ngFor='let column of row', [ngStyle]='{"width": column.colSize || "auto", "margin-left": column.colOffset || "0"}')
+		div(*ngIf='column.innerRows', [ngStyle]='{"margin-top": rowOffsets[rowIndex] || "0"}')
+			div(*ngFor='let innerRow of column.innerRows; let innerRowIndex = index', [ngStyle]='{"width": "100%"}')
+				.column(
+					*ngFor='let innerColumn of innerRow',
+					fxLayout='column',
+					[ngStyle]='{"width": innerColumn.colSize || "100%", "margin-left": innerColumn.colOffset || "0"}'
+				)
+					rui-input-injector(
+						[type]='fieldConfig[innerColumn.itemIndex].type',
+						[fieldData]='fieldData[innerColumn.fieldName]'
 					)
-						rui-input-injector(
-							[type]='fieldConfig[innerColumn.itemIndex].type',
-							[fieldData]='fieldData[innerColumn.fieldName]'
-						)
 		rui-input-injector(
 			*ngIf='!column.innerRows',
 			[type]='fieldConfig[column.itemIndex].type',

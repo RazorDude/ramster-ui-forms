@@ -1,3 +1,9 @@
+# 0.0.32
+- The autocomplete input now sets the correct searchBox value on init and initial select list load.
+- FormInjector UI WIP.
+- Added a wysiwyg input.
+- Dependency updates.
+
 # 0.0.31
 - Fixed the default "No file chosen" label for the file input.
 - Added a fallback width of 100% to the formBuilder layout.

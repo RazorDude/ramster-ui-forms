@@ -1,64 +1,64 @@
 .page-content(fxLayout='column', fxFill, fxLayoutAlign='start stretch')
 	h1 Ramster UI Forms Test Page
-	h2 Test with direct display
-	div
-		rui-autocomplete([fieldData]='testAutocompleteFieldData')
-		rui-autocomplete([fieldData]='testAutocompleteSlaveFieldData')
-		div(fxLayout='row')
-			div(fxFlex='80px')
-				rui-autocomplete([fieldData]='testAutocompleteWithChipsFieldData')
-		div(fxLayout='row')
-			input(type='button', (click)='populateChips()', value='Populate Chips')
-		rui-checkbox([fieldData]='testCheckboxFieldData')
-		rui-datepicker([fieldData]='testDatepickerFieldData')
-		rui-file-input([fieldData]='testFileInputFieldData')
-		rui-file-input([fieldData]='testFileInput2FieldData')
-		rui-input([fieldData]='testInputFieldData')
-		div
-			rui-select([fieldData]='testSelectFieldData')
-		rui-slide-toggle([fieldData]='testSlideToggleFieldData')
-		rui-textarea([fieldData]='testTextAreaFieldData')
+	mat-horizontal-stepper
+		mat-step(label='Direct display')
+			rui-autocomplete([fieldData]='testAutocompleteFieldData')
+			rui-autocomplete([fieldData]='testAutocompleteSlaveFieldData')
+			div(fxLayout='row')
+				div(fxFlex='80px')
+					rui-autocomplete([fieldData]='testAutocompleteWithChipsFieldData')
+			div(fxLayout='row')
+				input(type='button', (click)='populateChips()', value='Populate Chips')
+			rui-checkbox([fieldData]='testCheckboxFieldData')
+			rui-datepicker([fieldData]='testDatepickerFieldData')
+			rui-file-input([fieldData]='testFileInputFieldData')
+			rui-file-input([fieldData]='testFileInput2FieldData')
+			rui-input([fieldData]='testInputFieldData')
+			div
+				rui-select([fieldData]='testSelectFieldData')
+			rui-slide-toggle([fieldData]='testSlideToggleFieldData')
+			rui-textarea([fieldData]='testTextAreaFieldData')
+			rui-wysiwyg([fieldData]='testWysiwygFieldData')
 
-	h2 FormBuilder test
-	div
-		div(*ngFor='let item of generatedFormConfig')
-			rui-autocomplete(*ngIf='item.type === "autocomplete"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-checkbox(*ngIf='item.type === "checkbox"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-datepicker(*ngIf='item.type === "datepicker"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-file-input(*ngIf='item.type === "file"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-input(*ngIf='item.type === "input"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-select(*ngIf='item.type === "select"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-slide-toggle(*ngIf='item.type === "slideToggle"', [fieldData]='generatedFormFieldData[item.name]')
-			rui-textarea(*ngIf='item.type === "textarea"', [fieldData]='generatedFormFieldData[item.name]')
+		mat-step(label='FormBuilder')
+			div(*ngFor='let item of generatedFormConfig')
+				rui-autocomplete(*ngIf='item.type === "autocomplete"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-checkbox(*ngIf='item.type === "checkbox"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-datepicker(*ngIf='item.type === "datepicker"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-file-input(*ngIf='item.type === "file"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-input(*ngIf='item.type === "input"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-select(*ngIf='item.type === "select"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-slide-toggle(*ngIf='item.type === "slideToggle"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-textarea(*ngIf='item.type === "textarea"', [fieldData]='generatedFormFieldData[item.name]')
+				rui-wysiwyg(*ngIf='item.type === "wysiwyg"', [fieldData]='testWysiwygFieldData')
 
-	h2 FormBuilder + InputInjector test
-	div
-		rui-input-injector(*ngFor='let item of generatedFormConfig', [type]='item.type', [fieldData]='generatedFormFieldData[item.name]')
+		mat-step(label='FormBuilder + InputInjector')
+			rui-input-injector(*ngFor='let item of generatedFormConfig', [type]='item.type', [fieldData]='generatedFormFieldData[item.name]')
 
-	h2 FormBuilder + Positioning test
-	.positioning-test(fxLayout='row')
-		div(fxLayout='column', fxFill)
-			div(*ngFor='let row of generatedFormLayout', fxLayout='row', fxFlexOffset='20px')
-				div(*ngFor='let column of row', fxLayout='column', [fxFlex]='column.colSize', [fxFlexOffset]='column.colOffset')
-					div(*ngIf='column.innerRows', fxLayout='row', fxFlexOffset='-20px')
-						div(fxLayout='column', fxFill)
-							div(*ngFor='let innerRow of column.innerRows', fxLayout='row', fxFlexOffset='20px')
-								div(
-									*ngFor='let innerColumn of innerRow',
-									fxLayout='column',
-									[fxFlex]='innerColumn.colSize',
-									[fxFlexOffset]='innerColumn.colOffset'
-								)
-									rui-input-injector(
-										[type]='generatedFormConfig[innerColumn.itemIndex].type',
-										[fieldData]='generatedFormFieldData[innerColumn.fieldName]'
-									)
-					rui-input-injector(
-						*ngIf='!column.innerRows',
-						[type]='generatedFormConfig[column.itemIndex].type',
-						[fieldData]='generatedFormFieldData[column.fieldName]'
-					)
+		mat-step(label='FormBuilder + Positioning')
+			.positioning-test(fxLayout='row')
+				div(fxLayout='column', fxFill)
+					div(*ngFor='let row of generatedFormLayout', fxLayout='row', fxFlexOffset='20px')
+						div(*ngFor='let column of row', fxLayout='column', [fxFlex]='column.colSize', [fxFlexOffset]='column.colOffset')
+							div(*ngIf='column.innerRows', fxLayout='row', fxFlexOffset='-20px')
+								div(fxLayout='column', fxFill)
+									div(*ngFor='let innerRow of column.innerRows', fxLayout='row', fxFlexOffset='20px')
+										div(
+											*ngFor='let innerColumn of innerRow',
+											fxLayout='column',
+											[fxFlex]='innerColumn.colSize',
+											[fxFlexOffset]='innerColumn.colOffset'
+										)
+											rui-input-injector(
+												[type]='generatedFormConfig[innerColumn.itemIndex].type',
+												[fieldData]='generatedFormFieldData[innerColumn.fieldName]'
+											)
+							rui-input-injector(
+								*ngIf='!column.innerRows',
+								[type]='generatedFormConfig[column.itemIndex].type',
+								[fieldData]='generatedFormFieldData[column.fieldName]'
+							)
 
-	h2 FormBuilder + FormInjector test
-	div
-		rui-form-injector([layout]='generatedFormLayout', [fieldConfig]='generatedFormConfig', [fieldData]='generatedFormFieldData')
+		mat-step(label='FormBuilder + FormInjector')
+			.positioning-test
+				rui-form-injector([layout]='generatedFormLayout', [fieldConfig]='generatedFormConfig', [fieldData]='generatedFormFieldData')

@@ -1,3 +1,10 @@
 mat-form-field.rui-input-container
-	textarea(matInput, [formControl]='fieldData.inputFormControl', [placeholder]='fieldData.placeholder', cdkTextareaAutosize, [cdkAutosizeMinRows]='minRows', [cdkAutosizeMaxRows]='maxRows')
+	textarea(
+		matInput,
+		[formControl]='fieldData.inputFormControl',
+		[placeholder]='fieldData.placeholder',
+		cdkTextareaAutosize,
+		[cdkAutosizeMinRows]='minRows',
+		[cdkAutosizeMaxRows]='maxRows'
+	)
 	include ../base/baseInput.commonElementsTemplate.pug

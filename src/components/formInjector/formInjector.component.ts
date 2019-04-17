@@ -11,6 +11,7 @@ import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfa
 
 @Component({
 	selector: 'rui-form-injector',
+	styleUrls: ['./formInjector.styles.css'],
 	templateUrl: './formInjector.template.html'
 })
 export class FormInjector {

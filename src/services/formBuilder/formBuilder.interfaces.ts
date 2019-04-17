@@ -7,6 +7,7 @@ import {InputFieldDataInterface} from '../../inputs/input/input.interfaces'
 import {SelectFieldDataInterface} from '../../inputs/select/select.interfaces'
 import {SlideToggleFieldDataInterface} from '../../inputs/slideToggle/slideToggle.interfaces'
 import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfaces'
+import {WysiwygFieldDataInterface} from '../../inputs/wysiwyg/wysiwyg.interfaces'
 
 export interface BuildFormReturnDataInterface {
 	form: FormGroup
@@ -19,7 +20,8 @@ export interface BuildFormReturnDataInterface {
 			InputFieldDataInterface |
 			SelectFieldDataInterface |
 			SlideToggleFieldDataInterface |
-			TextareaFieldDataInterface
+			TextareaFieldDataInterface |
+			WysiwygFieldDataInterface
 	}
 	layout?: FormLayoutColumnDataInterface[][]
 }
@@ -64,8 +66,10 @@ export interface FormFieldsInterface {
 		// end of text inputs
 		'select' |
 		'slideToggle' |
-		'textarea'
-	validations?: FormFieldValidationsInterface[]
+		'textarea' |
+		'wysiwyg'
+	validations?: FormFieldValidationsInterface[],
+	wysiwygConfig?: WysiwygFieldDataInterface
 }
 
 export interface FormFieldValidationsInterface {

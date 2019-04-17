@@ -6,10 +6,11 @@ export interface BaseInputFieldDataOnChangeHandlerDataInterface {
 }
 
 export interface BaseInputFieldDataInterface {
-	errorMessages?: {[x: string]: string},
-	hint?: string,
-	inputFormControl?: AbstractControl,
-	onChangeHandler?: Subject<BaseInputFieldDataOnChangeHandlerDataInterface>,
-	onChangeValueCheckTimeout?: number,
+	errorMessages?: {[x: string]: string}
+	hint?: string
+	inputFormControl?: AbstractControl
+	onChangeHandler?: Subject<BaseInputFieldDataOnChangeHandlerDataInterface>
+	onChangeValueCheckTimeout?: number
 	placeholder?: string
+	readOnly?: boolean
 }

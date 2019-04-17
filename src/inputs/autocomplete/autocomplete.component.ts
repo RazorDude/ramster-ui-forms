@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core'
+import {ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {FormControl} from '@angular/forms'
 import {Subject} from 'rxjs'
 
@@ -30,7 +30,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 	searchBox: FormControl
 	selectedChips: SelectListInterface[] = []
 
-	constructor() {
+	constructor(
+		public changeDetectorRef: ChangeDetectorRef
+	) {
 		super()
 	}
 
@@ -109,20 +111,8 @@ export class AutocompleteComponent extends BaseInputComponent {
 			}
 			const selectList = this.fieldData.selectList,
 				currentItem = selectList[this.currentSelectionIndex]
-			let valuePatched = false
 			if (!currentItem || (value !== currentItem.value)) {
-				for (const i in selectList) {
-					const listItem = selectList[i]
-					if (value === listItem.value) {
-						this.currentSelectionIndex = parseInt(i, 10)
-						this.searchBox.patchValue(listItem.text)
-						valuePatched = true
-						break
-					}
-				}
-				if (!valuePatched) {
-					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
-				}
+				this.setCurrentSelectionToValue(selectList, value)
 			}
 		})
 
@@ -161,8 +151,12 @@ export class AutocompleteComponent extends BaseInputComponent {
 		if (this.fieldData.loadSelectListOnInit && (this.fieldData.selectListRESTService instanceof BaseRESTService)) {
 			this.fieldData.selectListRESTService.readSelectList(this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs).then((res) => {
 					this.fieldData.selectList = res
-				}, (err) => false
+					this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
+					this.changeDetectorRef.detectChanges()
+				}, (err) => console.error(err)
 			)
+		} else if (this.fieldData.selectList.length && (typeof this.fieldData.inputFormControl.value !== 'undefined')) {
+			this.setCurrentSelectionToValue(this.fieldData.selectList, this.fieldData.inputFormControl.value)
 		}
 	}
 
@@ -279,5 +273,22 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 		currentValues.splice(currentChipValueIndex, 1)
 		this.fieldData.inputFormControl.patchValue(currentValues)
+	}
+
+	setCurrentSelectionToValue(selectList: SelectListInterface[], value: any): void {
+		let valuePatched = false
+		for (const i in selectList) {
+			const listItem = selectList[i]
+			if (value === listItem.value) {
+				this.currentSelectionIndex = parseInt(i, 10)
+				this.searchBox.patchValue(listItem.text)
+				valuePatched = true
+				break
+			}
+		}
+		if (!valuePatched) {
+			this.currentSelectionIndex = -1
+			this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
+		}
 	}
 }

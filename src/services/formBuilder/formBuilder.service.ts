@@ -56,6 +56,8 @@ export class FormBuilderService {
 				itemFieldData = Object.assign(itemFieldData, item.slideToggleConfig || {})
 			} else if (item.type === 'textarea') {
 				itemFieldData = Object.assign(itemFieldData, item.textareaConfig || {})
+			} else if (item.type === 'wysiwyg') {
+				itemFieldData = Object.assign(itemFieldData, item.wysiwygConfig || {})
 			}
 			if (item.masterFieldName) {
 				slaveInputFields.push({name: item.name, masterFieldName: item.masterFieldName})

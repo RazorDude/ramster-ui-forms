@@ -1,6 +1,6 @@
 {
   "name": "ramster-ui-forms",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "A forms and inputs package that goes together with the other ramster-ui packages.",
   "main": "dist/bundles/ramster-ui-forms.umd.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "@angular/cdk": "^7.1.0",
     "@angular/common": "^7.1.0",
     "@angular/compiler": "^7.1.0",
-    "@angular/compiler-cli": "^7.1.0",
+    "@angular/compiler-cli": "^7.2.13",
     "@angular/core": "^7.1.0",
     "@angular/flex-layout": "^7.0.0-beta.22",
     "@angular/forms": "^7.1.0",
@@ -51,8 +51,9 @@
     "hammerjs": "^2.0.8",
     "html-loader": "^0.5.5",
     "moment": "^2.22.2",
-    "ng-packagr": "^4.4.0",
-    "node-sass": "^4.10.0",
+    "ng-packagr": "^5.1.0",
+    "ngx-wig": "^2.0.1",
+    "node-sass": "^4.11.0",
     "popper.js": "^1.14.5",
     "progress-bar-webpack-plugin": "^1.11.0",
     "pug": "^2.0.3",
@@ -77,6 +78,6 @@
     "@angular/material": "^7.1.0",
     "@types/hammerjs": "^2.0.36",
     "hammerjs": "^2.0.8",
-    "ramster-ui-core": ">=0.0.17"
+    "ramster-ui-core": ">=0.0.26"
   }
 }
