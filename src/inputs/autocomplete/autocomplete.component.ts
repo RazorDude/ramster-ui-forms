@@ -123,9 +123,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 			this.fieldData.selectListRESTServiceFilterFieldName
 		) {
 			this.fieldData.masterInputFormControl.valueChanges.subscribe((value) => {
-				this.fieldData.selectList = []
-				this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
 				if ((value === null) || (value === '')) {
+					this.fieldData.selectList = []
+					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
 					if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 						this.fieldData.masterInputFormControlValueChangesCallback.next(value)
 					}
@@ -139,6 +139,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 				otherArgs.filters = filters
 				this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then((res) => {
 						this.fieldData.selectList = res
+						this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
 						if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 							this.fieldData.masterInputFormControlValueChangesCallback.next(value)
 						}

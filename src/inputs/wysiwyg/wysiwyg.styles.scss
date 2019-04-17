@@ -1,14 +1,17 @@
-.placeholder {
-	left: 0;
-	pointer-events: none;
-	width: 100%;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	transform-origin: 0 0;
-	transition: transform .4s cubic-bezier(.25,.8,.25,1),color .4s cubic-bezier(.25,.8,.25,1),width .4s cubic-bezier(.25,.8,.25,1);
-	color: rgba(0,0,0,.54);
+.placeholder-container {
 	margin-bottom: 10px;
+
+	.placeholder {
+		left: 0;
+		pointer-events: none;
+		width: 100%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		transform-origin: 0 0;
+		transition: transform .4s cubic-bezier(.25,.8,.25,1),color .4s cubic-bezier(.25,.8,.25,1),width .4s cubic-bezier(.25,.8,.25,1);
+		color: rgba(0,0,0,.54);
+	}
 }
 
 .read-only {

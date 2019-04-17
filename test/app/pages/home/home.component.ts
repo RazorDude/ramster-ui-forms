@@ -31,6 +31,7 @@ import {TestModelRESTService} from '../../models/test/test.restService'
 	]
 })
 export class HomePageComponent extends BasePageComponent {
+	currentTabIndex: number = 3
 	generatedFormConfig: FormFieldsInterface[]
 	generatedForm: FormGroup
 	generatedFormFieldData: {
@@ -233,5 +234,16 @@ export class HomePageComponent extends BasePageComponent {
 
 	populateChips(): void {
 		this.testAutocompleteWithChipsFieldData.inputFormControl.patchValue([1])
+	}
+
+	saveForm(): void {
+		const {generatedForm, generatedFormFieldData} = this
+		for (const key in generatedFormFieldData) {
+			generatedFormFieldData[key].inputFormControl.markAsTouched()
+			generatedFormFieldData[key].inputFormControl.updateValueAndValidity()
+		}
+		generatedForm.markAsTouched()
+		generatedForm.updateValueAndValidity()
+		console.log(generatedForm.valid)
 	}
 }

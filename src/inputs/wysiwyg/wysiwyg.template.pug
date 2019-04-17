@@ -1,5 +1,5 @@
 .rui-input-container([ngClass]='{"read-only": fieldData.readOnly}')
-	div
+	div.placeholder-container
 		label.placeholder {{fieldData.placeholder}}
 	ngx-wig(
 		[formControl]='fieldData.inputFormControl',

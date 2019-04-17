@@ -1,14 +1,15 @@
-.placeholder {
-  left: 0;
-  pointer-events: none;
-  width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  transform-origin: 0 0;
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  color: rgba(0, 0, 0, 0.54);
+.placeholder-container {
   margin-bottom: 10px; }
+  .placeholder-container .placeholder {
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transform-origin: 0 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: rgba(0, 0, 0, 0.54); }
 
 .read-only {
   pointer-events: none; }
