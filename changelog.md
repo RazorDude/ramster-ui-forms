@@ -1,3 +1,6 @@
+# 0.0.35
+- Autocomplete - fixed the initial value issues with slave inputs.
+
 # 0.0.34
 - Fixed the wysiwyg label margin.
 - Possible autocomplete slave input fix.

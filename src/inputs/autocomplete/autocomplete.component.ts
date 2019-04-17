@@ -122,29 +122,13 @@ export class AutocompleteComponent extends BaseInputComponent {
 			(this.fieldData.selectListRESTService instanceof BaseRESTService) &&
 			this.fieldData.selectListRESTServiceFilterFieldName
 		) {
-			this.fieldData.masterInputFormControl.valueChanges.subscribe((value) => {
-				if ((value === null) || (value === '')) {
-					this.fieldData.selectList = []
-					this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
-					if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
-						this.fieldData.masterInputFormControlValueChangesCallback.next(value)
-					}
-					return
+			// we need this after the initial tick, as sometimes the master control value can be null, then updated properly, but the events wouldn't fire in the corrent order
+			setTimeout(() => {
+				this.fieldData.masterInputFormControl.valueChanges.subscribe((value) => this.loadSelectListOnMasterChange(value))
+				const curentValue = this.fieldData.masterInputFormControl.value
+				if ((typeof curentValue !== 'undefined') && (curentValue !== null) && (curentValue !== '')) {
+					this.loadSelectListOnMasterChange(curentValue)
 				}
-				let {filters, ...otherArgs} = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
-				if (!filters) {
-					filters = {}
-				}
-				filters[this.fieldData.selectListRESTServiceFilterFieldName] = value
-				otherArgs.filters = filters
-				this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then((res) => {
-						this.fieldData.selectList = res
-						this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
-						if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
-							this.fieldData.masterInputFormControlValueChangesCallback.next(value)
-						}
-					}, (err) => false
-				)
 			})
 		}
 
@@ -190,6 +174,31 @@ export class AutocompleteComponent extends BaseInputComponent {
 			newList.push(option)
 		}
 		return newList.length ? newList : [{text: 'No more results exist.', value: '_system_unselectable'}]
+	}
+
+	loadSelectListOnMasterChange(value: any): void {
+		if ((typeof value === 'undefined') || (value === null) || (value === '')) {
+			this.fieldData.selectList = []
+			this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
+			if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
+				this.fieldData.masterInputFormControlValueChangesCallback.next(value)
+			}
+			return
+		}
+		let {filters, ...otherArgs} = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
+		if (!filters) {
+			filters = {}
+		}
+		filters[this.fieldData.selectListRESTServiceFilterFieldName] = value
+		otherArgs.filters = filters
+		this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then((res) => {
+				this.fieldData.selectList = res
+				this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
+				if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
+					this.fieldData.masterInputFormControlValueChangesCallback.next(value)
+				}
+			}, (err) => console.error(err)
+		)
 	}
 
 	onFocus(): void {

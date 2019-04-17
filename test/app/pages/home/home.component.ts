@@ -154,6 +154,7 @@ export class HomePageComponent extends BasePageComponent {
 					selectListRESTService: this.testModelRESTService,
 					selectListRESTServiceFilterFieldName: 'id'
 				},
+				initialValue: 2,
 				label: 'Autocomplete Slave Input',
 				masterFieldName: 'autocompleteInput',
 				name: 'autocompleteSlaveInput',
