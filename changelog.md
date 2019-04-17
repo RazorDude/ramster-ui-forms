@@ -1,3 +1,6 @@
+# 0.0.33
+- Autocomplete hotfix.
+
 # 0.0.32
 - The autocomplete input now sets the correct searchBox value on init and initial select list load.
 - FormInjector UI WIP.

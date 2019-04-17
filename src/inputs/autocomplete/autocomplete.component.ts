@@ -155,7 +155,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 					this.changeDetectorRef.detectChanges()
 				}, (err) => console.error(err)
 			)
-		} else if (this.fieldData.selectList.length && (typeof this.fieldData.inputFormControl.value !== 'undefined')) {
+		} else if (this.fieldData.selectList && this.fieldData.selectList.length && (typeof this.fieldData.inputFormControl.value !== 'undefined')) {
 			this.setCurrentSelectionToValue(this.fieldData.selectList, this.fieldData.inputFormControl.value)
 		}
 	}
