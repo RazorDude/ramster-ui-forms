@@ -1,11 +1,21 @@
 doctype html
-.rui-file-input-container([ngClass]='[fieldData.inputFormControl.invalid ? "invalid" : "", (fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched) ? "non-pristine" : "", fieldData.inputFormControl.value !== "" ? "has-value" : ""]')
+.rui-file-input-container(
+	[ngClass]='[fieldData.inputFormControl.invalid ? "invalid" : "", (fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched) ? "non-pristine" : "", fieldData.inputFormControl.value !== "" ? "has-value" : ""]'
+)
 	div
 		label.placeholder {{fieldData.placeholder}}
-	.file-preview.image-container(*ngIf='fieldData.preview && (backgroundImageUrl !== "")', [ngStyle]='{"background-image": backgroundImageUrl, width: previewWidth, height: previewHeight}')
+	.file-preview.image-container(
+		*ngIf='fieldData.preview && (backgroundImageUrl !== "")',
+		[ngStyle]='{"background-image": backgroundImageUrl, width: previewWidth, height: previewHeight}'
+	)
 	div.button-wrapper([ngStyle]='{width: fieldData.hideFileName ? previewWidth : "auto"}')
-		label.mat-raised-button([ngStyle]='{width: fieldData.hideFileName ? "100%" : "auto"}', (click)='onLabelClick()') Choose File
-		span.file-name(*ngIf='!fieldData.hideFileName') {{!fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName}}
+		label.mat-raised-button(
+			[ngStyle]='{width: fieldData.hideFileName ? "100%" : "auto"}',
+			(click)='onLabelClick()'
+		) Choose File
+		span.file-name(
+			*ngIf='!fieldData.hideFileName'
+		) {{!fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName}}
 		input.actual-file-input(#fileInput, type='file', (change)='onFileChange($event)')
 	div.errors-container
 		include ../base/baseInput.commonElementsTemplate.pug

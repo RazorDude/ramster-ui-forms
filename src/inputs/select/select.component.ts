@@ -62,6 +62,10 @@ export class SelectComponent extends BaseInputComponent {
 				}, (err) => false
 			)
 		}
+
+		if (this.fieldData.readOnly) {
+			this.fieldData.inputFormControl.disable()
+		}
 	}
 
 	// onSelectionChange(event: any, value: any, index: number): void {

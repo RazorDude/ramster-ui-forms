@@ -1,7 +1,12 @@
 doctype html
 mat-form-field.rui-input-container
-	//- input(matInput, [formControl]='fieldData.inputFormControl', [placeholder]='fieldData.placeholder')
-	input(matInput, [matDatepicker]='picker', [placeholder]='fieldData.placeholder', [formControl]='fieldData.inputFormControl')
-	mat-datepicker-toggle(matSuffix, [for]='picker')
+	input(
+		matInput,
+		[formControl]='fieldData.inputFormControl',
+		[matDatepicker]='picker',
+		[readonly]='fieldData.readOnly',
+		[placeholder]='fieldData.placeholder'
+	)
+	mat-datepicker-toggle(*ngIf='!fieldData.readOnly', matSuffix, [for]='picker')
 	mat-datepicker(#picker)
 	include ../base/baseInput.commonElementsTemplate.pug

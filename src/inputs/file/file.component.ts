@@ -115,6 +115,9 @@ export class FileInputComponent extends BaseInputComponent {
 	}
 
 	onLabelClick(): void {
+		if (this.fieldData.readOnly) {
+			return
+		}
 		this.fileInputElement.nativeElement.click()
 	}
 }

@@ -1,3 +1,6 @@
+# 0.0.36
+- Added readOnly support for all inputs.
+
 # 0.0.35
 - Autocomplete - fixed the initial value issues with slave inputs.
 

@@ -144,7 +144,7 @@ export class HomePageComponent extends BasePageComponent {
 				initialValue: 1,
 				label: 'Autocomplete Input',
 				name: 'autocompleteInput',
-				positioning: {colOffset: '25%', colSize: '50%', rowIndex: 0},
+				positioning: {colOffset: '25%', colSize: '25%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
 				autocompleteConfig: {
@@ -161,9 +161,28 @@ export class HomePageComponent extends BasePageComponent {
 				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
+				autocompleteConfig: {
+					loadSelectListOnInit: true,
+					readOnly: true,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				initialValue: 1,
+				label: 'Read-Only Autocomplete Input',
+				name: 'readOnlyAutocompleteInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 0},
+				type: 'autocomplete'
+			}, {
 				label: 'Checkbox Input',
 				name: 'checkboxInput',
-				positioning: {colSize: '50%', rowIndex: 1, rowSpan: 2},
+				positioning: {colSize: '20%', rowIndex: 1, rowSpan: 2},
+				type: 'checkbox'
+			}, {
+				checkboxConfig: {readOnly: true},
+				label: 'Read-Only Checkbox Input',
+				name: 'readOnlyheckboxInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
 				type: 'checkbox'
 			}, {
 				label: 'Datepicker Input',
@@ -171,9 +190,15 @@ export class HomePageComponent extends BasePageComponent {
 				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
 				type: 'datepicker'
 			}, {
+				datepickerConfig: {readOnly: true},
+				label: 'Read-Only Datepicker Input',
+				name: 'readOnlyDatepickerInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				type: 'datepicker'
+			}, {
 				label: 'File Input 1',
 				name: 'fileInput1',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'file'
 			}, {
 				label: 'File Input 2',
@@ -181,9 +206,22 @@ export class HomePageComponent extends BasePageComponent {
 				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'file'
 			}, {
+				fileConfig: {readOnly: true},
+				label: 'Read-Only File Input',
+				name: 'readOnlyFileInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				type: 'file'
+			}, {
 				label: 'Regular Input',
 				name: 'regularInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				positioning: {colSize: '20%', rowIndex: 3},
+				type: 'text',
+				validations: [{type: 'required'}]
+			}, {
+				inputConfig: {readOnly: true, type: 'text'},
+				label: 'Read-Only Regular Input',
+				name: 'readOnlyRegularInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'text',
 				validations: [{type: 'required'}]
 			}, {
@@ -192,30 +230,52 @@ export class HomePageComponent extends BasePageComponent {
 				selectConfig: {
 					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
 				},
-				positioning: {colSize: '30%', rowIndex: 3},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				type: 'select'
+			}, {
+				label: 'Read-Only Select Input',
+				name: 'readOnlySelectInput',
+				selectConfig: {
+					readOnly: true,
+					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
+				},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'select'
 			}, {
 				label: 'Slide Toggle Input',
 				name: 'slideToggleInput',
-				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
+				positioning: {colSize: '20%', rowIndex: 4},
+				type: 'slideToggle'
+			}, {
+				label: 'Read-Only Slide Toggle Input',
+				name: 'readOnlylideToggleInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				slideToggleConfig: {readOnly: true},
 				type: 'slideToggle'
 			}, {
 				label: 'Text Area Input',
 				initialValue: 'testText',
 				name: 'textareaInput',
-				positioning: {colOffset: '3%', colSize: '30%', rowIndex: 3},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				type: 'textarea'
+			}, {
+				label: 'Read-Only Text Area Input',
+				initialValue: 'testText',
+				name: 'readOnlyTextareaInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				textareaConfig: {readOnly: true},
 				type: 'textarea'
 			}, {
 				label: 'Wysiwyg Input',
 				initialValue: 'testText',
 				name: 'wysiwygInput',
-				positioning: {colSize: '99%', rowIndex: 4},
+				positioning: {colSize: '99%', rowIndex: 5},
 				type: 'wysiwyg'
 			}, {
 				label: 'Read Only Wysiwyg Input',
 				initialValue: 'testText 2',
 				name: 'wysiwygInput2',
-				positioning: {colSize: '99%', rowIndex: 5},
+				positioning: {colSize: '99%', rowIndex: 6},
 				type: 'wysiwyg',
 				wysiwygConfig: {
 					readOnly: true

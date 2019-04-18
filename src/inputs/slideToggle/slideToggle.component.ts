@@ -20,5 +20,9 @@ export class SlideToggleComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
+
+		if (this.fieldData.readOnly) {
+			this.fieldData.inputFormControl.disable()
+		}
 	}
 }

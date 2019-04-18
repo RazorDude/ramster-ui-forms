@@ -89,7 +89,7 @@ co(function*() {
 		console.log(`Successfully built the css file at ${outputPath}.`)
 	}
 	return true
-}).then(() => console.log('[prePackageBuild info]: All build completed successfully.'), (error) => {
+}).then(() => console.log('[prePackageBuild info]: All builds completed successfully.'), (error) => {
 	console.log('[prePackageBuild info]: Error while building: ', error)
 	process.exit(1)
 })

@@ -10,6 +10,7 @@ mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
 		[matChipInputFor]='chipList',
 		[matChipInputAddOnBlur]='onBlur',
 		[placeholder]='fieldData.placeholder',
+		[readonly]='fieldData.readOnly',
 		(focus)='onFocus()',
 		(blur)='onBlur()'
 	)
@@ -39,6 +40,7 @@ mat-form-field.rui-input-container(*ngIf='!fieldData.hasChips')
 		[formControl]='searchBox',
 		[matAutocomplete]='autocompleteElement',
 		[placeholder]='fieldData.placeholder',
+		[readonly]='fieldData.readOnly',
 		(focus)='onFocus()',
 		(blur)='onBlur()'
 	)
