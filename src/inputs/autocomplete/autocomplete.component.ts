@@ -38,7 +38,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {filteredSelectListMaxLength, hasChips, searchBoxAsyncValidators, searchBoxValidators} = this.fieldData
+		const {filteredSelectListMaxLength, hasChips, searchBoxAsyncValidators, searchBoxValidators, selectListRESTServiceMethodName} = this.fieldData
 		if (hasChips) {
 			this.defaultEmptyInputValue = []
 		}
@@ -134,7 +134,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 
 		// load the select list on init, if required
 		if (this.fieldData.loadSelectListOnInit && (this.fieldData.selectListRESTService instanceof BaseRESTService)) {
-			this.fieldData.selectListRESTService.readSelectList(this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs).then((res) => {
+			this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs).then((res) => {
 					this.fieldData.selectList = res
 					this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
 					this.changeDetectorRef.detectChanges()

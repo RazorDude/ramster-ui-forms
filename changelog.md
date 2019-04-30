@@ -1,3 +1,6 @@
+# 0.0.37
+- Fixed the autocomplete and select inputs selectListRESTServiceMethodName behaviour for regular, non-slave inputs.
+
 # 0.0.36
 - Added readOnly support for all inputs.
 
