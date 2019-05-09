@@ -1,3 +1,6 @@
+# 0.0.38
+- Added min and max to the default input - to be used with type=number.
+
 # 0.0.37
 - Fixed the autocomplete and select inputs selectListRESTServiceMethodName behaviour for regular, non-slave inputs.
 

@@ -55,6 +55,7 @@ export class HomePageComponent extends BasePageComponent {
 	testFileInputFieldData: FileInputFieldDataInterface
 	testFileInput2FieldData: FileInputFieldDataInterface
 	testInputFieldData: InputFieldDataInterface
+	testNumberInputFieldData: InputFieldDataInterface
 	testSelectFieldData: SelectFieldDataInterface
 	testSlideToggleFieldData: SlideToggleFieldDataInterface
 	testTextAreaFieldData: TextareaFieldDataInterface
@@ -115,6 +116,13 @@ export class HomePageComponent extends BasePageComponent {
 			inputFormControl: new FormControl('', [Validators.required]),
 			placeholder: 'Regular Input',
 			type: 'text'
+		}
+		this.testNumberInputFieldData = {
+			inputFormControl: new FormControl('', [Validators.required]),
+			placeholder: 'Number Input With Min And Max',
+			max: 10,
+			min: 1,
+			type: 'number'
 		}
 		this.testSelectFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),
