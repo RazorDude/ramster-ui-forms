@@ -1,3 +1,6 @@
+# 0.0.39
+- Improved file ulpload error handling.
+
 # 0.0.38
 - Added min and max to the default input - to be used with type=number.
 

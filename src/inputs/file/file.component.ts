@@ -95,7 +95,7 @@ export class FileInputComponent extends BaseInputComponent {
 		}
 		if (directUpload) {
 			// upload the file
-			this.filesRESTService.upload(file, {outputFileName}, {handleError: false}).then(
+			this.filesRESTService.upload(file, {outputFileName}).then(
 				(res) => {
 					this.backgroundImageUrl = `url('/storage/tmp/${outputFileName}')`
 					this.fileName = fileName
@@ -103,7 +103,8 @@ export class FileInputComponent extends BaseInputComponent {
 					inputFormControl.markAsDirty()
 				},
 				(err) => {
-					this.globalEventsService.notify('error', `Error uploading the file: ${err.message || 'Internal server error.'}`)
+					console.error(err)
+					// this.globalEventsService.notify('error', `Error uploading the file: ${err.message || 'Internal server error.'}`)
 					inputFormControl.patchValue('')
 				}
 			)
