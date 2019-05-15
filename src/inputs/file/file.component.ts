@@ -95,7 +95,7 @@ export class FileInputComponent extends BaseInputComponent {
 		}
 		if (directUpload) {
 			// upload the file
-			this.filesRESTService.upload(file, {outputFileName}).then(
+			this.filesRESTService.upload(file, {outputFileName}, {handleError: true}).then(
 				(res) => {
 					this.backgroundImageUrl = `url('/storage/tmp/${outputFileName}')`
 					this.fileName = fileName

@@ -1,3 +1,6 @@
+# 0.0.40
+- Improved file ulpload error handling even further.
+
 # 0.0.39
 - Improved file ulpload error handling.
 
