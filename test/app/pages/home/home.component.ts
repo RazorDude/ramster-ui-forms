@@ -98,7 +98,9 @@ export class HomePageComponent extends BasePageComponent {
 		}
 		this.testCheckboxFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),
-			placeholder: 'Checkbox'
+			placeholder: 'Checkbox with link:',
+			linkText: 'Terms and conditions',
+			linkHref: 'termsAndConditions'
 		}
 		this.testDatepickerFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),

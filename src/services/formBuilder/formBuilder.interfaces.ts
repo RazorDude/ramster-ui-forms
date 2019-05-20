@@ -36,7 +36,7 @@ export interface FormFieldsInterface {
 	inputConfig?: InputFieldDataInterface
 	label: string
 	masterFieldName?: string
-	name: string
+	name: string,
 	positioning?: {
 		colOffset?: string
 		colSize: string
