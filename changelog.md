@@ -1,3 +1,6 @@
+# 0.0.41
+- Checkbox inputs now support links for the label.
+
 # 0.0.40
 - Improved file ulpload error handling even further.
 
