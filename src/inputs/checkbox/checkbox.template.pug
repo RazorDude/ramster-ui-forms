@@ -1,3 +1,7 @@
 div.rui-input-container
-	mat-checkbox([formControl]='fieldData.inputFormControl') {{fieldData.placeholder}}
+	mat-checkbox([formControl]='fieldData.inputFormControl')
+		a([href]="fieldData.linkHref", target='_blank', *ngIf="fieldData.linkInFront") {{fieldData.linkText}}
+		span {{fieldData.placeholder}}
+		a([href]="fieldData.linkHref", target='_blank', *ngIf="!fieldData.linkInFront") {{fieldData.linkText}}
+
 	include ../base/baseInput.commonElementsTemplate.pug
