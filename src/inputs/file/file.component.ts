@@ -38,7 +38,7 @@ export class FileInputComponent extends BaseInputComponent {
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
-		this.previewIsRound = previewIsRound || true
+		this.previewIsRound = typeof previewIsRound === 'undefined' ? true : previewIsRound
 		if (previewWidth) {
 			this.previewWidth = previewWidth
 		}

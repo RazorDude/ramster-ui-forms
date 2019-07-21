@@ -1,3 +1,6 @@
+# 0.0.44
+- The option from v0.0.43 now actually works.
+
 # 0.0.43
 - Added the option to switch between round and square preview for the file input.
 
