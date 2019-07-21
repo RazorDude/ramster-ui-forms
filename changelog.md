@@ -1,3 +1,9 @@
+# 0.0.43
+- Added the option to switch between round and square preview for the file input.
+
+# 0.0.42
+- Added hint actions support to the base input.
+
 # 0.0.41
 - Checkbox inputs now support links for the label.
 

@@ -19,7 +19,9 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 	border: 1px solid #ababab;
-	border-radius: 50%;
+	&.is-round {
+		border-radius: 50%;
+	}
 }
 
 .button-wrapper {

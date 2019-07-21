@@ -1,3 +1,7 @@
-mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{fieldData.hint}}
+mat-hint(
+	*ngIf=`fieldData.hint && (fieldData.hint !== '')`,
+	[ngClass]='{"is-clickable": fieldData.hintAction}',
+	(click)='executeHintAction()'
+) {{fieldData.hint}}
 mat-error(*ngIf='fieldData.inputFormControl.invalid && (fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched) && fieldData.inputFormControl.errors')
 	span(*ngFor='let errorKey of JSObject.keys(fieldData.inputFormControl.errors)') {{errorMessages[errorKey]}}

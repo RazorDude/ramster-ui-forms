@@ -8,6 +8,7 @@ export interface BaseInputFieldDataOnChangeHandlerDataInterface {
 export interface BaseInputFieldDataInterface {
 	errorMessages?: {[x: string]: string}
 	hint?: string
+	hintAction?: Function
 	inputFormControl?: AbstractControl
 	onChangeHandler?: Subject<BaseInputFieldDataOnChangeHandlerDataInterface>
 	onChangeValueCheckTimeout?: number

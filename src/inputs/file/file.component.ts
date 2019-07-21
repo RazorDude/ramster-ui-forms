@@ -22,6 +22,7 @@ export class FileInputComponent extends BaseInputComponent {
 	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
 	previewHeight: string = '50px'
+	previewIsRound: boolean = true
 	previewWidth: string = '50px'
 
 	constructor(
@@ -33,10 +34,11 @@ export class FileInputComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {inputFormControl, previewHeight, previewWidth} = this.fieldData
+		const {inputFormControl, previewHeight, previewIsRound, previewWidth} = this.fieldData
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
+		this.previewIsRound = previewIsRound || true
 		if (previewWidth) {
 			this.previewWidth = previewWidth
 		}

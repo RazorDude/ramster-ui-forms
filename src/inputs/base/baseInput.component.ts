@@ -39,4 +39,10 @@ export class BaseInputComponent implements OnInit {
 			})
 		}
 	}
+
+	executeHintAction(): void {
+		if (this.fieldData.hintAction) {
+			this.fieldData.hintAction()
+		}
+	}
 }
