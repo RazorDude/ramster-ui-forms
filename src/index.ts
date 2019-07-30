@@ -1,5 +1,3 @@
-'use strict'
-
 // angular dependencies
 import {CommonModule} from '@angular/common'
 import {NgModule} from '@angular/core'

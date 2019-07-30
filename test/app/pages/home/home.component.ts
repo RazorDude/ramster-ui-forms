@@ -216,6 +216,19 @@ export class HomePageComponent extends BasePageComponent {
 				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'file'
 			}, {
+				fileConfig: {
+					preview: true,
+					previewDefaultImageUrl: '/static/defaultImage.jpg',
+					previewHeight: '100px',
+					previewIsRound: false,
+					previewWidth: '100px',
+					showChooseFileButton: false
+				},
+				label: 'File Input 3',
+				name: 'fileInput3',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				type: 'file'
+			}, {
 				fileConfig: {readOnly: true},
 				label: 'Read-Only File Input',
 				name: 'readOnlyFileInput',

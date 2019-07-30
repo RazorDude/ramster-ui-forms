@@ -6,7 +6,9 @@ export interface FileInputFieldDataInterface extends BaseInputFieldDataInterface
 	hideFileName?: boolean
 	maxFileSizeMB?: number
 	preview?: boolean
+	previewDefaultImageUrl?: string
 	previewHeight?: string
 	previewIsRound?: boolean
 	previewWidth?: string
+	showChooseFileButton?: boolean
 }

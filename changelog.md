@@ -1,3 +1,8 @@
+# 0.1.0
+- Moved to ramster-ui-core v0.1.
+- Added an initial file preview image to the file input.
+- Added showChooseFileButton to the file input config, true by default.
+
 # 0.0.44
 - The option from v0.0.43 now actually works.
 

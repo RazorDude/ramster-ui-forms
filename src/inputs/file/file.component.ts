@@ -21,9 +21,11 @@ export class FileInputComponent extends BaseInputComponent {
 	defaultMaxFileSizeMB: 10 // in megabytes
 	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
+	previewDefaultImageUrl: string = ''
 	previewHeight: string = '50px'
 	previewIsRound: boolean = true
 	previewWidth: string = '50px'
+	showChooseFileButton: boolean = true
 
 	constructor(
 		public globalEventsService: GlobalEventsService,
@@ -34,17 +36,22 @@ export class FileInputComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {inputFormControl, previewHeight, previewIsRound, previewWidth} = this.fieldData
+		const {inputFormControl, previewDefaultImageUrl, previewHeight, previewIsRound, previewWidth, showChooseFileButton} = this.fieldData
 		if (previewHeight) {
 			this.previewHeight = previewHeight
+		}
+		if (previewDefaultImageUrl) {
+			this.backgroundImageUrl = `url('${previewDefaultImageUrl}')`
+			this.previewDefaultImageUrl = previewDefaultImageUrl
 		}
 		this.previewIsRound = typeof previewIsRound === 'undefined' ? true : previewIsRound
 		if (previewWidth) {
 			this.previewWidth = previewWidth
 		}
+		this.showChooseFileButton = typeof showChooseFileButton === 'undefined' ? true : showChooseFileButton
 		inputFormControl.valueChanges.subscribe((value) => {
 			if (value === '') {
-				this.backgroundImageUrl = ''
+				this.backgroundImageUrl = previewDefaultImageUrl
 				this.fileName = ''
 				inputFormControl.markAsDirty()
 			}

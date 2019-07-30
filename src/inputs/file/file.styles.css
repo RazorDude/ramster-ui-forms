@@ -16,7 +16,10 @@
 .file-preview {
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ababab; }
+  border: 1px solid #ababab;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center; }
   .file-preview.is-round {
     border-radius: 50%; }
 
