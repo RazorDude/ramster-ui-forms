@@ -217,6 +217,7 @@ export class HomePageComponent extends BasePageComponent {
 				type: 'file'
 			}, {
 				fileConfig: {
+					directUpload: true,
 					preview: true,
 					previewCancelButton: true,
 					previewCancelButtonIconUrl: '/static/remove-circle.svg',

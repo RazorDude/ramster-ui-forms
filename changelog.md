@@ -1,3 +1,9 @@
+# 0.1.3
+- Added forceShowPreviewCancelButton functionality to the file input (use previewCancelButtonForceShowInitially in the file input interface).
+
+# 0.1.2
+- The file input direct upload image preview now correctly displays the default and current images.
+
 # 0.1.1
 - Added a previewCancelButton option and a previewCancelButtonIcon option to the file input interface (and the related functionality in the file input).
 - The datepicker input now opens its calendar when clicking on the input itself.

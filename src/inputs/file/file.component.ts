@@ -17,6 +17,7 @@ export class FileInputComponent extends BaseInputComponent {
 	defaultMaxFileSizeMB: 10 // in megabytes
 	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
+	forceShowPreviewCancelButton: boolean = false
 	previewCancelButtonIconUrl: string = ''
 	previewHeight: string = '50px'
 	previewIsRound: boolean = true
@@ -37,6 +38,7 @@ export class FileInputComponent extends BaseInputComponent {
 		super.ngOnInit()
 		const {
 			inputFormControl,
+			previewCancelButtonForceShowInitially,
 			previewCancelButtonIconUrl,
 			previewDefaultImageUrl,
 			previewHeight,
@@ -47,11 +49,12 @@ export class FileInputComponent extends BaseInputComponent {
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
-		if (previewDefaultImageUrl) {
-			this.backgroundImageUrl = `url('${previewDefaultImageUrl}')`
-		}
+		this.forceShowPreviewCancelButton = previewCancelButtonForceShowInitially || false
 		if (previewCancelButtonIconUrl) {
 			this.previewCancelButtonIconUrl = `url(${previewCancelButtonIconUrl})`
+		}
+		if (previewDefaultImageUrl) {
+			this.backgroundImageUrl = `url('${previewDefaultImageUrl}')`
 		}
 		this.previewIsRound = typeof previewIsRound === 'undefined' ? true : previewIsRound
 		if (previewWidth) {
@@ -60,7 +63,7 @@ export class FileInputComponent extends BaseInputComponent {
 		this.showChooseFileButton = typeof showChooseFileButton === 'undefined' ? true : showChooseFileButton
 		inputFormControl.valueChanges.subscribe((value) => {
 			if (value === '') {
-				this.backgroundImageUrl = this.fieldData.previewDefaultImageUrl || ''
+				this.backgroundImageUrl = this.fieldData.previewDefaultImageUrl ? `url('${this.fieldData.previewDefaultImageUrl}')` : ''
 				this.fileName = ''
 				inputFormControl.markAsDirty()
 			}
@@ -89,7 +92,8 @@ export class FileInputComponent extends BaseInputComponent {
 			file = event.target.files[0] as File
 		// if the user has deselected the currently selected file
 		if (!file) {
-			if (inputFormControl.value !== '') {
+			if ((inputFormControl.value !== '') || this.forceShowPreviewCancelButton) {
+				this.forceShowPreviewCancelButton = false
 				inputFormControl.patchValue('')
 			}
 			return

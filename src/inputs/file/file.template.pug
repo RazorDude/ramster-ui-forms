@@ -5,7 +5,7 @@ doctype html
 	div
 		label.placeholder {{fieldData.placeholder}}
 	div(
-		*ngIf='fieldData.preview && fieldData.previewCancelButton',
+		*ngIf='fieldData.preview && fieldData.previewCancelButton && ((fieldData.inputFormControl.value && (fieldData.inputFormControl.value !== "")) || forceShowPreviewCancelButton)',
 		[ngStyle]='{"width": previewWidth}'
 	)
 		.cancel-button(
