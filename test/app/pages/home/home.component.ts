@@ -218,6 +218,8 @@ export class HomePageComponent extends BasePageComponent {
 			}, {
 				fileConfig: {
 					preview: true,
+					previewCancelButton: true,
+					previewCancelButtonIconUrl: '/static/remove-circle.svg',
 					previewDefaultImageUrl: '/static/defaultImage.jpg',
 					previewHeight: '100px',
 					previewIsRound: false,

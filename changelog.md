@@ -1,3 +1,7 @@
+# 0.1.1
+- Added a previewCancelButton option and a previewCancelButtonIcon option to the file input interface (and the related functionality in the file input).
+- The datepicker input now opens its calendar when clicking on the input itself.
+
 # 0.1.0
 - Moved to ramster-ui-core v0.1.
 - Added an initial file preview image to the file input.

@@ -1,9 +1,8 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core'
-import * as moment from 'moment'
-
 import {BaseInputComponent} from '../base/baseInput.component'
-import {GlobalEventsService, FilesRESTService} from 'ramster-ui-core'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {FileInputFieldDataInterface} from './file.interfaces'
+import {GlobalEventsService, FilesRESTService} from 'ramster-ui-core'
+import * as moment from 'moment'
 
 
 @Component({
@@ -14,18 +13,18 @@ import {FileInputFieldDataInterface} from './file.interfaces'
 	templateUrl: './file.template.html'
 })
 export class FileInputComponent extends BaseInputComponent {
-	@Input()
-	fieldData: FileInputFieldDataInterface
-
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: 10 // in megabytes
 	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
-	previewDefaultImageUrl: string = ''
+	previewCancelButtonIconUrl: string = ''
 	previewHeight: string = '50px'
 	previewIsRound: boolean = true
 	previewWidth: string = '50px'
 	showChooseFileButton: boolean = true
+
+	@Input()
+	fieldData: FileInputFieldDataInterface
 
 	constructor(
 		public globalEventsService: GlobalEventsService,
@@ -36,13 +35,23 @@ export class FileInputComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {inputFormControl, previewDefaultImageUrl, previewHeight, previewIsRound, previewWidth, showChooseFileButton} = this.fieldData
+		const {
+			inputFormControl,
+			previewCancelButtonIconUrl,
+			previewDefaultImageUrl,
+			previewHeight,
+			previewIsRound,
+			previewWidth,
+			showChooseFileButton
+		} = this.fieldData
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
 		if (previewDefaultImageUrl) {
 			this.backgroundImageUrl = `url('${previewDefaultImageUrl}')`
-			this.previewDefaultImageUrl = previewDefaultImageUrl
+		}
+		if (previewCancelButtonIconUrl) {
+			this.previewCancelButtonIconUrl = `url(${previewCancelButtonIconUrl})`
 		}
 		this.previewIsRound = typeof previewIsRound === 'undefined' ? true : previewIsRound
 		if (previewWidth) {
@@ -51,7 +60,7 @@ export class FileInputComponent extends BaseInputComponent {
 		this.showChooseFileButton = typeof showChooseFileButton === 'undefined' ? true : showChooseFileButton
 		inputFormControl.valueChanges.subscribe((value) => {
 			if (value === '') {
-				this.backgroundImageUrl = previewDefaultImageUrl
+				this.backgroundImageUrl = this.fieldData.previewDefaultImageUrl || ''
 				this.fileName = ''
 				inputFormControl.markAsDirty()
 			}

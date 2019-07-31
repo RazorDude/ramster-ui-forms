@@ -4,16 +4,24 @@ doctype html
 )
 	div
 		label.placeholder {{fieldData.placeholder}}
+	div(
+		*ngIf='fieldData.preview && fieldData.previewCancelButton',
+		[ngStyle]='{"width": previewWidth}'
+	)
+		.cancel-button(
+			[ngStyle]='{"background-image": previewCancelButtonIconUrl}',
+			(click)='onFileChange({target: {files: []}})'
+		)
 	.file-preview.image-container(
 		*ngIf='fieldData.preview && (backgroundImageUrl !== "")',
 		[ngClass]='{"is-round": previewIsRound}',
-		[ngStyle]='{"background-image": backgroundImageUrl, width: previewWidth, height: previewHeight}',
-		(click)=' onLabelClick()'
+		[ngStyle]='{"background-image": backgroundImageUrl, "width": previewWidth, "height": previewHeight}',
+		(click)='onLabelClick()'
 	)
-	div.button-wrapper([ngStyle]='{width: fieldData.hideFileName ? previewWidth : "auto"}')
+	div.button-wrapper([ngStyle]='{"width": fieldData.hideFileName ? previewWidth : "auto"}')
 		label.mat-raised-button(
 			*ngIf='showChooseFileButton',
-			[ngStyle]='{width: fieldData.hideFileName ? "100%" : "auto"}',
+			[ngStyle]='{"width": fieldData.hideFileName ? "100%" : "auto"}',
 			(click)='onLabelClick()'
 		) Choose File
 		span.file-name(

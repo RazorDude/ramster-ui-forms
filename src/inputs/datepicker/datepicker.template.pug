@@ -1,11 +1,14 @@
 doctype html
 mat-form-field.rui-input-container
 	input(
+		#pickerInput,
 		matInput,
 		[formControl]='fieldData.inputFormControl',
 		[matDatepicker]='picker',
 		[placeholder]='fieldData.placeholder',
-		[readonly]='fieldData.readOnly'
+		[readonly]='fieldData.readOnly',
+		(focus)='openCalendar(picker)',
+		(click)='openCalendar(picker)'
 	)
 	mat-datepicker-toggle(*ngIf='!fieldData.readOnly', matSuffix, [for]='picker')
 	mat-datepicker(#picker)
