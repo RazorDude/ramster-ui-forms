@@ -1,3 +1,6 @@
+# 0.1.4
+- Min and max date for the datepicker.
+
 # 0.1.3
 - Added forceShowPreviewCancelButton functionality to the file input (use previewCancelButtonForceShowInitially in the file input interface).
 

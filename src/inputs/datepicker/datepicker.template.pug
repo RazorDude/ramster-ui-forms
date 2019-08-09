@@ -5,6 +5,8 @@ mat-form-field.rui-input-container
 		matInput,
 		[formControl]='fieldData.inputFormControl',
 		[matDatepicker]='picker',
+		[max]='fieldData.maxDate',
+		[min]='fieldData.minDate',
 		[placeholder]='fieldData.placeholder',
 		[readonly]='fieldData.readOnly',
 		(focus)='openCalendar(picker)',
