@@ -1,3 +1,6 @@
+# 0.1.6
+- Fix for the file input.
+
 # 0.1.5
 - File input - updated the file input preview default background image to support dynamic change of the url.
 

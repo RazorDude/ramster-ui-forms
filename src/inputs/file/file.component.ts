@@ -76,7 +76,8 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 				previousValue = changes.fieldData.previousValue,
 				currentFormControlValue = this.fieldData.inputFormControl.value
 			if (
-				(currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl) &&
+				currentValue &&
+				(!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl)) &&
 				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === ''))
 			) {
 				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
