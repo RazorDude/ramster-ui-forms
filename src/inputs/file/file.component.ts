@@ -1,5 +1,5 @@
 import {BaseInputComponent} from '../base/baseInput.component'
-import {Component, ElementRef, Input, ViewChild} from '@angular/core'
+import {Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core'
 import {FileInputFieldDataInterface} from './file.interfaces'
 import {GlobalEventsService, FilesRESTService} from 'ramster-ui-core'
 import * as moment from 'moment'
@@ -12,7 +12,7 @@ import * as moment from 'moment'
 	],
 	templateUrl: './file.template.html'
 })
-export class FileInputComponent extends BaseInputComponent {
+export class FileInputComponent extends BaseInputComponent implements OnChanges {
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: 10 // in megabytes
 	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
@@ -68,6 +68,20 @@ export class FileInputComponent extends BaseInputComponent {
 				inputFormControl.markAsDirty()
 			}
 		})
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes.fieldData) {
+			const currentValue = changes.fieldData.currentValue,
+				previousValue = changes.fieldData.previousValue,
+				currentFormControlValue = this.fieldData.inputFormControl.value
+			if (
+				(currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl) &&
+				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === ''))
+			) {
+				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
+			}
+		}
 	}
 
 	getExtName(fileName: string): string {

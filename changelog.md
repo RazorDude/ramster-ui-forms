@@ -1,3 +1,6 @@
+# 0.1.5
+- File input - updated the file input preview default background image to support dynamic change of the url.
+
 # 0.1.4
 - Min and max date for the datepicker.
 
