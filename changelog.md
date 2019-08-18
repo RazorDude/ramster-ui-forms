@@ -1,3 +1,6 @@
+# 0.1.10
+- Finally fixed the file input previewDefaultImageUrl functionality
+
 # 0.1.9
 - Aaaand more debugging.
 

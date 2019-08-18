@@ -71,34 +71,14 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		console.log('changes')
 		if (changes.fieldData) {
 			const currentValue = changes.fieldData.currentValue,
-				previousValue = changes.fieldData.previousValue,
 				currentFormControlValue = this.fieldData.inputFormControl.value
-			console.log(
-				'changes.fieldData, currentValue:',
-				currentValue,
-				'; previousValue:',
-				previousValue,
-				'; currentFormControValue:',
-				currentFormControlValue,
-				'; condition:',
-				currentValue &&
-				(!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl)) &&
-				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === '')),
-				'; secondConditionPart:',
-				!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl),
-				'; thirdConditionPart:',
-				(typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === '')
-			)
 			if (
-				currentValue &&
-				(!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl)) &&
+				currentValue && currentValue.previewDefaultImageUrl && currentValue.previewDefaultImageUrl.length &&
 				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === ''))
 			) {
 				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
-				console.log(this.backgroundImageUrl)
 			}
 		}
 	}
