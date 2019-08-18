@@ -76,7 +76,22 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 			const currentValue = changes.fieldData.currentValue,
 				previousValue = changes.fieldData.previousValue,
 				currentFormControlValue = this.fieldData.inputFormControl.value
-			console.log('changes.fieldData', currentValue, ';', previousValue, ';', currentFormControlValue)
+			console.log(
+				'changes.fieldData, currentValue:',
+				currentValue,
+				'; previousValue:',
+				previousValue,
+				'; currentFormControValue:',
+				currentFormControlValue,
+				'; condition:',
+				currentValue &&
+				(!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl)) &&
+				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === '')),
+				'; secondConditionPart:',
+				!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl),
+				'; thirdConditionPart:',
+				(typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === '')
+			)
 			if (
 				currentValue &&
 				(!previousValue || (currentValue.previewDefaultImageUrl !== previousValue.previewDefaultImageUrl)) &&
