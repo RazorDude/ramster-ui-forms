@@ -1,3 +1,6 @@
+# 0.1.7
+- Just some debugging.
+
 # 0.1.6
 - Fix for the file input.
 

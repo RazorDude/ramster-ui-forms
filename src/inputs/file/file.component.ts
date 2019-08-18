@@ -71,7 +71,9 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
+		console.log('changes')
 		if (changes.fieldData) {
+			console.log('changes.fieldData')
 			const currentValue = changes.fieldData.currentValue,
 				previousValue = changes.fieldData.previousValue,
 				currentFormControlValue = this.fieldData.inputFormControl.value
@@ -81,6 +83,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 				((typeof currentFormControlValue === 'undefined') || (currentFormControlValue === null) || (currentFormControlValue === ''))
 			) {
 				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
+				console.log(this.backgroundImageUrl)
 			}
 		}
 	}

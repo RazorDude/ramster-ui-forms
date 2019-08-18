@@ -313,10 +313,12 @@ export class HomePageComponent extends BasePageComponent {
 		this.generatedFormFieldData = result.fieldData
 		this.generatedFormLayout = result.layout
 
-		this.globalEventsService.setLayoutData({hasHeader: true})
+		this.globalEventsService.pageLoaded({hasHeader: true})
 	}
 
 	onInitialDataLoaded(): void {
+		let fieldData = this.generatedFormFieldData.fileInput3 as FileInputFieldDataInterface
+		fieldData.previewDefaultImageUrl = '/static/food-image.jpg'
 	}
 
 	populateChips(): void {
@@ -331,6 +333,5 @@ export class HomePageComponent extends BasePageComponent {
 		}
 		generatedForm.markAsTouched()
 		generatedForm.updateValueAndValidity()
-		console.log(generatedForm.valid)
 	}
 }
