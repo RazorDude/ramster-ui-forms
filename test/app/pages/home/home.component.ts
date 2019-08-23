@@ -1,9 +1,4 @@
-'use strict'
-
 import {ActivatedRoute} from '@angular/router'
-import {Component} from '@angular/core'
-import {FormControl, FormGroup, Validators} from '@angular/forms'
-
 import {
 	AutocompleteFieldDataInterface,
 	CheckboxFieldDataInterface,
@@ -20,7 +15,8 @@ import {
 	validators
 } from '../../../../src'
 import {BasePageComponent, GlobalEventsService} from 'ramster-ui-core'
-
+import {Component, ElementRef, ViewChild} from '@angular/core'
+import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {TestModelRESTService} from '../../models/test/test.restService'
 
 @Component({
@@ -60,6 +56,9 @@ export class HomePageComponent extends BasePageComponent {
 	testSlideToggleFieldData: SlideToggleFieldDataInterface
 	testTextAreaFieldData: TextareaFieldDataInterface
 	testWysiwygFieldData: WysiwygFieldDataInterface
+
+	@ViewChild('autocompleMasterInput') autocompleMasterInputRef: ElementRef
+	@ViewChild('regularInput') regularInputRef: ElementRef
 
 	constructor(
 		activatedRoute: ActivatedRoute,
@@ -312,6 +311,8 @@ export class HomePageComponent extends BasePageComponent {
 		this.generatedForm = result.form
 		this.generatedFormFieldData = result.fieldData
 		this.generatedFormLayout = result.layout
+
+		console.log(this.autocompleMasterInputRef, this.regularInputRef)
 
 		this.globalEventsService.pageLoaded({hasHeader: true})
 	}

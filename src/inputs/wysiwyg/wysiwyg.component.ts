@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core'
-import {DEFAULT_LIBRARY_BUTTONS} from 'ngx-wig'
-
 import {BaseInputComponent} from '../base/baseInput.component'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
+import {DEFAULT_LIBRARY_BUTTONS} from 'ngx-wig'
 import {WysiwygFieldDataInterface} from './wysiwyg.interfaces'
 
 
@@ -21,6 +20,8 @@ export class WysiwygComponent extends BaseInputComponent {
 
 	maxRows: number = 10
 	minRows: number = 10
+
+	@ViewChild('inputElement') inputElementRef: ElementRef
 
 	constructor() {
 		super()

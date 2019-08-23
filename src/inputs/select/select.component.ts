@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core'
-import {FormControl} from '@angular/forms'
-import {Subject} from 'rxjs'
-
 import {BaseInputComponent} from '../base/baseInput.component'
 import {BaseRESTService} from 'ramster-ui-core'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
+import {FormControl} from '@angular/forms'
 import {SelectFieldDataInterface} from './select.interfaces'
+import {Subject} from 'rxjs'
+
 
 @Component({
 	selector: 'rui-select',
@@ -17,6 +17,8 @@ export class SelectComponent extends BaseInputComponent {
 
 	// currentSelectionIndex: number = -1
 	defaultSelectListRESTServiceArgs = {titleField: 'name', orderBy: 'name', orderDirection: 'asc'}
+
+	@ViewChild('inputElement') inputElementRef: ElementRef
 
 	constructor() {
 		super()

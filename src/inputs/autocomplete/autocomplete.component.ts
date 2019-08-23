@@ -17,8 +17,10 @@ export class AutocompleteComponent extends BaseInputComponent {
 	@Input()
 	fieldData: AutocompleteFieldDataInterface = {} as AutocompleteFieldDataInterface
 
+	@ViewChild('autocompleteSearchBox') autocompleteSearchBoxRef: ElementRef
 	@ViewChild('chipList') chipListContainer: any
 	@ViewChild('chipSearchBox') chipSearchBox: ElementRef<HTMLInputElement>
+	@ViewChild('autocompleteElement') inputElementRef: ElementRef
 
 	chipJustDeselected: boolean = false
 	currentSelectionIndex: number = -1

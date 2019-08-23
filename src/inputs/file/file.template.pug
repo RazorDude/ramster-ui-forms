@@ -27,6 +27,6 @@ doctype html
 		span.file-name(
 			*ngIf='!fieldData.hideFileName && showChooseFileButton'
 		) {{!fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName}}
-		input.actual-file-input(#fileInput, type='file', (change)='onFileChange($event)')
+		input.actual-file-input(#inputElement, type='file', (change)='onFileChange($event)')
 	div.errors-container
 		include ../base/baseInput.commonElementsTemplate.pug

@@ -15,7 +15,6 @@ import * as moment from 'moment'
 export class FileInputComponent extends BaseInputComponent implements OnChanges {
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: 10 // in megabytes
-	@ViewChild('fileInput') fileInputElement: ElementRef<HTMLInputElement>
 	fileName: string = ''
 	forceShowPreviewCancelButton: boolean = false
 	previewCancelButtonIconUrl: string = ''
@@ -23,6 +22,8 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	previewIsRound: boolean = true
 	previewWidth: string = '50px'
 	showChooseFileButton: boolean = true
+
+	@ViewChild('inputElement') inputElementRef: ElementRef<HTMLInputElement>
 
 	@Input()
 	fieldData: FileInputFieldDataInterface
@@ -154,6 +155,6 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 		if (this.fieldData.readOnly) {
 			return
 		}
-		this.fileInputElement.nativeElement.click()
+		this.inputElementRef.nativeElement.click()
 	}
 }

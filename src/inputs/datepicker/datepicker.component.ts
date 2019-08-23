@@ -1,5 +1,5 @@
 import {BaseInputComponent} from '../base/baseInput.component'
-import {Component, Input} from '@angular/core'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {DatepickerFieldDataInterface} from './datepicker.interfaces'
 import {MatDatepicker} from '@angular/material'
 
@@ -12,6 +12,8 @@ import {MatDatepicker} from '@angular/material'
 export class DatepickerComponent extends BaseInputComponent {
 	@Input()
 	fieldData: DatepickerFieldDataInterface
+
+	@ViewChild('inputElement') inputElementRef: ElementRef<HTMLInputElement>
 
 	constructor() {
 		super()

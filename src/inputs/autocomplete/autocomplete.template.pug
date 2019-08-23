@@ -34,6 +34,7 @@ mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
 		) {{item.text}}
 mat-form-field.rui-input-container(*ngIf='!fieldData.hasChips')
 	input(
+		#autocompleteSearchBox,
 		matInput,
 		type='text',
 		[attr.autocomplete]='noAutofillAttr',

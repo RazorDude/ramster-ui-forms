@@ -1,7 +1,9 @@
+doctype html
 .rui-input-container([ngClass]='{"read-only": fieldData.readOnly}')
 	div.placeholder-container
 		label.placeholder {{fieldData.placeholder}}
 	ngx-wig(
+		#inputElement,
 		[formControl]='fieldData.inputFormControl',
 		[placeholder]='fieldData.placeholder',
 		[buttons]='fieldData.readOnly ? "" : buttons'

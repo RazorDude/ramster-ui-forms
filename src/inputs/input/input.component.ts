@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core'
-
 import {BaseInputComponent} from '../base/baseInput.component'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {InputFieldDataInterface} from './input.interfaces'
 
 
@@ -13,6 +12,7 @@ export class InputComponent extends BaseInputComponent {
 	@Input()
 	fieldData: InputFieldDataInterface
 
+	@ViewChild('inputElement') inputElementRef: ElementRef<HTMLInputElement>
 
 	constructor() {
 		super()

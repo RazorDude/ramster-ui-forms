@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core'
-
 import {BaseInputComponent} from '../base/baseInput.component'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 import {SlideToggleFieldDataInterface} from './slideToggle.interfaces'
 
 
@@ -13,6 +12,7 @@ export class SlideToggleComponent extends BaseInputComponent {
 	@Input()
 	fieldData: SlideToggleFieldDataInterface
 
+	@ViewChild('inputElement') inputElementRef: ElementRef
 
 	constructor() {
 		super()

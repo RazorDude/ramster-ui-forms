@@ -1,3 +1,6 @@
+# 0.2.0
+- Added an inputElementRef to all inputs.
+
 # 0.1.10
 - Finally fixed the file input previewDefaultImageUrl functionality
 

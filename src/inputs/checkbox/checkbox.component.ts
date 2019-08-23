@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core'
-
 import {BaseInputComponent} from '../base/baseInput.component'
 import {CheckboxFieldDataInterface} from './checkbox.interfaces'
+import {Component, ElementRef, Input, ViewChild} from '@angular/core'
 
 
 @Component({
@@ -13,6 +12,7 @@ export class CheckboxComponent extends BaseInputComponent {
 	@Input()
 	fieldData: CheckboxFieldDataInterface
 
+	@ViewChild('inputElement') inputElementRef: ElementRef
 
 	constructor() {
 		super()
