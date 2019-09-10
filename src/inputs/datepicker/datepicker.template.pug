@@ -1,5 +1,8 @@
 doctype html
-mat-form-field.rui-input-container
+mat-form-field.rui-input-container(
+	[floatLabel]='fieldData.floatLabel',
+	[hideRequiredMarker]='fieldData.hideRequiredMarker'
+)
 	input(
 		#inputElement,
 		matInput,

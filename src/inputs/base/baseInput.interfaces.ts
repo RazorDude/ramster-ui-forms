@@ -7,6 +7,8 @@ export interface BaseInputFieldDataOnChangeHandlerDataInterface {
 
 export interface BaseInputFieldDataInterface {
 	errorMessages?: {[x: string]: string}
+	floatLabel?: string
+	hideRequiredMarker?: boolean
 	hint?: string
 	hintAction?: Function
 	inputFormControl?: AbstractControl

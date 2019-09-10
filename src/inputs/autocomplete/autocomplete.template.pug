@@ -1,5 +1,9 @@
 doctype html
-mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
+mat-form-field.rui-input-container(
+	*ngIf='fieldData.hasChips',
+	[floatLabel]='fieldData.floatLabel',
+	[hideRequiredMarker]='fieldData.hideRequiredMarker'
+)
 	input(
 		matInput,
 		type='text',
@@ -32,7 +36,11 @@ mat-form-field.rui-input-container(*ngIf='fieldData.hasChips')
 			[value]='item.text',
 			(onSelectionChange)='onSelectionChange($event, item.value, i)'
 		) {{item.text}}
-mat-form-field.rui-input-container(*ngIf='!fieldData.hasChips')
+mat-form-field.rui-input-container(
+	*ngIf='!fieldData.hasChips',
+	[floatLabel]='fieldData.floatLabel',
+	[hideRequiredMarker]='fieldData.hideRequiredMarker'
+)
 	input(
 		#autocompleteSearchBox,
 		matInput,

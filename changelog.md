@@ -1,3 +1,6 @@
+# 0.2.1
+- Added floatLabel and hideRequiredMarker to all inputs and their interfaces.
+
 # 0.2.0
 - Added an inputElementRef to all inputs.
 
