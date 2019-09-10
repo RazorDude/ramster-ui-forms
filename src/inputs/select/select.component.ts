@@ -52,6 +52,9 @@ export class SelectComponent extends BaseInputComponent {
 						if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 							this.fieldData.masterInputFormControlValueChangesCallback.next(value)
 						}
+						if (this.fieldData.selectListLoadedCallback instanceof Subject) {
+							this.fieldData.selectListLoadedCallback.next()
+						}
 					}, (err) => false
 				)
 			})

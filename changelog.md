@@ -1,3 +1,6 @@
+# 0.3.0
+- Added a selectListLoaded observable to the autocomplete and select inputs and their interfaces.
+
 # 0.2.1
 - Added floatLabel and hideRequiredMarker to all inputs and their interfaces.
 
