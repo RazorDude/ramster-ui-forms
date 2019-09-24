@@ -153,7 +153,7 @@ export class HomePageComponent extends BasePageComponent {
 				initialValue: 1,
 				label: 'Autocomplete Input',
 				name: 'autocompleteInput',
-				positioning: {colOffset: '25%', colSize: '25%', rowIndex: 0},
+				positioning: {colOffset: '15%', colSize: '15%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
 				autocompleteConfig: {
@@ -180,7 +180,21 @@ export class HomePageComponent extends BasePageComponent {
 				initialValue: 1,
 				label: 'Read-Only Autocomplete Input',
 				name: 'readOnlyAutocompleteInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 0},
+				positioning: {colOffset: '5%', colSize: '15%', rowIndex: 0},
+				type: 'autocomplete'
+			}, {
+				autocompleteConfig: {
+					hasChips: true,
+					loadSelectListOnInit: true,
+					maxChipCount: 2,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				// initialValue: 1,
+				label: 'Chips Input',
+				name: 'chipsInputs',
+				positioning: {colOffset: '10%', colSize: '15%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
 				label: 'Checkbox Input',

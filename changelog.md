@@ -1,3 +1,6 @@
+# 0.3.2
+- MaxChipCount actually works now.
+
 # 0.3.1
 - Added a maxChipCount option to the autocomplete component.
 

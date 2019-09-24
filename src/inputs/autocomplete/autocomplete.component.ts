@@ -104,10 +104,11 @@ export class AutocompleteComponent extends BaseInputComponent {
 								}
 							}
 						})
-						if ((typeof maxChipCount !== 'undefined') && (selectedChips.length > maxChipCount)) {
-							selectedChips = selectedChips.splice(maxChipCount, selectedChips.length - maxChipCount)
-						}
 						this.selectedChips = selectedChips
+						if ((typeof maxChipCount !== 'undefined') && (selectedChips.length > maxChipCount)) {
+							value.splice(maxChipCount, selectedChips.length - maxChipCount)
+							this.fieldData.inputFormControl.patchValue(value)
+						}
 					}
 				})
 				return
