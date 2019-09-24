@@ -1,3 +1,6 @@
+# 0.3.1
+- Added a maxChipCount option to the autocomplete component.
+
 # 0.3.0
 - Added a selectListLoaded observable to the autocomplete and select inputs and their interfaces.
 

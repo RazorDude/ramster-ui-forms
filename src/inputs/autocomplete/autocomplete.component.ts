@@ -43,6 +43,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 		const {filteredSelectListMaxLength, hasChips, searchBoxAsyncValidators, searchBoxValidators, selectListRESTServiceMethodName} = this.fieldData
 		if (hasChips) {
 			this.defaultEmptyInputValue = []
+			// if (!this.errorMessages.maxChipCountExceeded && this.fieldData.maxChipCount) {
+			// 	this.errorMessages.maxChipCountExceeded = `You can select up to ${this.fieldData.maxChipCount} items only.`
+			// }
 		}
 		this.searchBox = new FormControl('', searchBoxValidators, searchBoxAsyncValidators)
 		if (filteredSelectListMaxLength) {
@@ -71,7 +74,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 				return
 			}
 			if (this.fieldData.hasChips) {
-				this.filteredSelectList = this.getFilteredSelectListWithoutSelectChips()
+				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()
 				return
 			}
 			this.filteredSelectList = this.fieldData.selectList.slice(
@@ -91,7 +94,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 				}
 				setTimeout(() => {
 					if (this.selectedChips.length !== value.length) {
-						const selectList = this.fieldData.selectList
+						const {selectList, maxChipCount} = this.fieldData
 						let selectedChips = []
 						value.forEach((item) => {
 							for (const i in selectList) {
@@ -101,6 +104,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 								}
 							}
 						})
+						if ((typeof maxChipCount !== 'undefined') && (selectedChips.length > maxChipCount)) {
+							selectedChips = selectedChips.splice(maxChipCount, selectedChips.length - maxChipCount)
+						}
 						this.selectedChips = selectedChips
 					}
 				})
@@ -150,7 +156,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 	}
 
-	getFilteredSelectListWithoutSelectChips(): SelectListInterface[] {
+	getFilteredSelectListWithoutSelectedChips(): SelectListInterface[] {
 		const
 			selectedChips = this.selectedChips,
 			selectedChipsLength = selectedChips.length,
@@ -210,7 +216,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 		this.noAutofillAttr = (new Date()).getTime()
 		if (this.searchBox.value === '') {
 			if (this.fieldData.hasChips && this.selectedChips.length) {
-				this.filteredSelectList = this.getFilteredSelectListWithoutSelectChips()
+				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()
 				return
 			}
 			if (this.fieldData.selectList.length > this.filteredSelectListMaxLength) {
