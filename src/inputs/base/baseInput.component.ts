@@ -19,7 +19,14 @@ export class BaseInputComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		const {errorMessages, onChangeHandler, onChangeValueCheckTimeout} = this.fieldData
+		const {
+			errorMessages,
+			label,
+			onChangeHandler,
+			onChangeValueCheckTimeout,
+			placeholder,
+			usePlaceholderAsLabel
+		} = this.fieldData
 		if (errorMessages) {
 			for (const key in errorMessages) {
 				this.errorMessages[key] = errorMessages[key]
@@ -37,6 +44,9 @@ export class BaseInputComponent implements OnInit {
 					timeout
 				)
 			})
+		}
+		if (usePlaceholderAsLabel && !label) {
+			this.fieldData.label = placeholder
 		}
 	}
 

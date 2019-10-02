@@ -12,8 +12,10 @@ export interface BaseInputFieldDataInterface {
 	hint?: string
 	hintAction?: Function
 	inputFormControl?: AbstractControl
+	label?: string
 	onChangeHandler?: Subject<BaseInputFieldDataOnChangeHandlerDataInterface>
 	onChangeValueCheckTimeout?: number
 	placeholder?: string
 	readOnly?: boolean
+	usePlaceholderAsLabel?: boolean
 }

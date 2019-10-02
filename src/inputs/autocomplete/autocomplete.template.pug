@@ -4,6 +4,7 @@ mat-form-field.rui-input-container(
 	[floatLabel]='fieldData.floatLabel',
 	[hideRequiredMarker]='fieldData.hideRequiredMarker'
 )
+	mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
 	input(
 		matInput,
 		type='text',
@@ -41,6 +42,7 @@ mat-form-field.rui-input-container(
 	[floatLabel]='fieldData.floatLabel',
 	[hideRequiredMarker]='fieldData.hideRequiredMarker'
 )
+	mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
 	input(
 		#autocompleteSearchBox,
 		matInput,

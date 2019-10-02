@@ -1,3 +1,6 @@
+# 0.3.3
+- Added 2 new options to BaseInputInterface and the relevant inputs - label and usePlaceholderAsLabel. If "label" is provided, it allows you to set a label separte from the placeholder. If no label is provided as usePlaceholderAsLabel is not false (the current behaviour so far), the provided placeholder will be used as the label.
+
 # 0.3.2
 - MaxChipCount actually works now.
 
