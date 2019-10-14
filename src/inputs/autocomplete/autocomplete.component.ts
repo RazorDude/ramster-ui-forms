@@ -40,7 +40,16 @@ export class AutocompleteComponent extends BaseInputComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		const {filteredSelectListMaxLength, hasChips, searchBoxAsyncValidators, searchBoxValidators, selectListRESTServiceMethodName} = this.fieldData
+		const {
+			filteredSelectListMaxLength,
+			hasChips,
+			searchBoxAsyncValidators,
+			searchBoxValidators,
+			selectListRESTServiceMethodName,
+			selectListReloadOnValueChange,
+			selectListReloadOnValueChangeCheckTimeout,
+			selectListReloadOnValueChangeFieldName
+		} = this.fieldData
 		if (hasChips) {
 			this.defaultEmptyInputValue = []
 			// if (!this.errorMessages.maxChipCountExceeded && this.fieldData.maxChipCount) {
@@ -88,6 +97,30 @@ export class AutocompleteComponent extends BaseInputComponent {
 			return
 		})
 		this.fieldData.inputFormControl.valueChanges.subscribe((value) => {
+			if (selectListReloadOnValueChange) {
+				const timeout = typeof selectListReloadOnValueChangeCheckTimeout === 'number' ? selectListReloadOnValueChangeCheckTimeout : 500
+				setTimeout(
+					() => {
+						if (value === this.fieldData.inputFormControl.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
+							let tmpArgs = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
+							tmpArgs['filters'] = {}
+							tmpArgs['filters'][selectListReloadOnValueChangeFieldName] = value
+							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
+								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](tmpArgs).then((res) => {
+										this.fieldData.selectList = res
+										this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
+										this.changeDetectorRef.detectChanges()
+										if (this.fieldData.selectListLoadedCallback instanceof Subject) {
+											this.fieldData.selectListLoadedCallback.next()
+										}
+									}, (err) => console.error(err)
+								)
+							}
+						}
+					},
+					timeout
+				)
+			}
 			if (this.fieldData.hasChips) {
 				if (!(value instanceof Array)) {
 					return

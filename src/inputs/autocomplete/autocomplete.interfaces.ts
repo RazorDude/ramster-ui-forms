@@ -14,8 +14,11 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	searchBoxAsyncValidators?: any[]
 	selectList: {text: string, value: any}[]
 	selectListLoadedCallback?: Subject<any>
-	selectListRESTService?: BaseRESTService,
+	selectListRESTService?: BaseRESTService
 	selectListRESTServiceArgs?: {[x: string]: any}
 	selectListRESTServiceFilterFieldName?: string
 	selectListRESTServiceMethodName?: string
+	selectListReloadOnValueChange?: boolean
+	selectListReloadOnValueChangeCheckTimeout?: number
+	selectListReloadOnValueChangeFieldName?: string
 }
