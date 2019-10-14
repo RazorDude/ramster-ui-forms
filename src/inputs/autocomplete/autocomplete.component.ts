@@ -62,6 +62,37 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 		// set up the autocomplete filtering
 		this.searchBox.valueChanges.subscribe((value) => {
+			if (selectListReloadOnValueChange) {
+				const timeout = typeof selectListReloadOnValueChangeCheckTimeout === 'number' ? selectListReloadOnValueChangeCheckTimeout : 500
+				setTimeout(
+					() => {
+						if (value && value === this.searchBox.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
+							let tmpArgs = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
+							tmpArgs['filters'] = {}
+							tmpArgs['filters'][selectListReloadOnValueChangeFieldName] = value
+							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
+								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](tmpArgs).then((res) => {
+										this.fieldData.selectList = res
+										this.filteredSelectList = this.fieldData.selectList.slice(
+											0,
+											this.filteredSelectListMaxLength
+										)
+										this.filteredSelectList.push({
+											text: this.filteredSelectList.length ? 'Type something in to filter the list...' : 'No more results exist.',
+											value: '_system_unselectable'
+										})
+										this.changeDetectorRef.detectChanges()
+										if (this.fieldData.selectListLoadedCallback instanceof Subject) {
+											this.fieldData.selectListLoadedCallback.next()
+										}
+									}, (err) => console.error(err)
+								)
+							}
+						}
+					},
+					timeout
+				)
+			}
 			if (this.chipSearchBox) {
 				this.chipSearchBox.nativeElement.value = value
 			}
@@ -97,30 +128,6 @@ export class AutocompleteComponent extends BaseInputComponent {
 			return
 		})
 		this.fieldData.inputFormControl.valueChanges.subscribe((value) => {
-			if (selectListReloadOnValueChange) {
-				const timeout = typeof selectListReloadOnValueChangeCheckTimeout === 'number' ? selectListReloadOnValueChangeCheckTimeout : 500
-				setTimeout(
-					() => {
-						if (value === this.fieldData.inputFormControl.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
-							let tmpArgs = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
-							tmpArgs['filters'] = {}
-							tmpArgs['filters'][selectListReloadOnValueChangeFieldName] = value
-							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
-								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](tmpArgs).then((res) => {
-										this.fieldData.selectList = res
-										this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
-										this.changeDetectorRef.detectChanges()
-										if (this.fieldData.selectListLoadedCallback instanceof Subject) {
-											this.fieldData.selectListLoadedCallback.next()
-										}
-									}, (err) => console.error(err)
-								)
-							}
-						}
-					},
-					timeout
-				)
-			}
 			if (this.fieldData.hasChips) {
 				if (!(value instanceof Array)) {
 					return
