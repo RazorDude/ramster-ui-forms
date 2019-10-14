@@ -1,3 +1,6 @@
+# 0.3.4
+- Added the ability to dynamically filter the select list in the autocomplete component by the current value.
+
 # 0.3.3
 - Added 2 new options to BaseInputInterface and the relevant inputs - label and usePlaceholderAsLabel. If "label" is provided, it allows you to set a label separte from the placeholder. If no label is provided as usePlaceholderAsLabel is not false (the current behaviour so far), the provided placeholder will be used as the label.
 
