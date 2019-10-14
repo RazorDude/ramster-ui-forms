@@ -45,6 +45,7 @@ export class HomePageComponent extends BasePageComponent {
 	generatedFormLayout: FormLayoutColumnDataInterface[][]
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
 	testAutocompleteSlaveFieldData: AutocompleteFieldDataInterface
+	testAutocompleteOnChangeFieldData: AutocompleteFieldDataInterface
 	testAutocompleteWithChipsFieldData: AutocompleteFieldDataInterface
 	testCheckboxFieldData: CheckboxFieldDataInterface
 	testDatepickerFieldData: DatepickerFieldDataInterface
@@ -89,6 +90,19 @@ export class HomePageComponent extends BasePageComponent {
 			selectListRESTService: this.testModelRESTService,
 			selectListRESTServiceFilterFieldName: 'id'
 		}
+		this.testAutocompleteOnChangeFieldData = {
+			inputFormControl: new FormControl('', [Validators.required]),
+			loadSelectListOnInit: true,
+			placeholder: 'Autocomplete Input with OnChange reload select list',
+			searchBoxValidators: [Validators.required],
+			selectList: [],
+			selectListRESTServiceArgs: {orderBy: 'name', titleField: 'name'},
+			selectListRESTService: this.testModelRESTService,
+			selectListRESTServiceMethodName: 'readOnChangeSelectTestList',
+			selectListReloadOnValueChange: true,
+			selectListReloadOnValueChangeCheckTimeout: 300,
+			selectListReloadOnValueChangeFieldName: 'testField'
+	}
 		this.testAutocompleteWithChipsFieldData = {
 			hasChips: true,
 			inputFormControl: new FormControl([], [validators.arrayNotEmpty]),
