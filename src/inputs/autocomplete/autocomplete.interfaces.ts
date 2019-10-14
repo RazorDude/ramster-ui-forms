@@ -20,4 +20,5 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	selectListRESTServiceMethodName?: string
 	selectListReloadOnValueChange?: boolean
 	selectListReloadOnValueChangeCheckTimeout?: number
+	selectListReloadOnValueChangeFieldName?: string
 }
