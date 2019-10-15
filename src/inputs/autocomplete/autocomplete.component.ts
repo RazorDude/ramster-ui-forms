@@ -68,7 +68,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 					() => {
 						if (value && value === this.searchBox.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
 							let tmpArgs = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
-							tmpArgs['filters'] = {}
+							if(typeof tmpArgs['filters'] === 'undefined') tmpArgs['filters'] = {}
 							tmpArgs['filters'][selectListReloadOnValueChangeFieldName] = value
 							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
 								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](tmpArgs).then((res) => {
