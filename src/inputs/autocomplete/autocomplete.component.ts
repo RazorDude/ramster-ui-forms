@@ -67,11 +67,13 @@ export class AutocompleteComponent extends BaseInputComponent {
 				setTimeout(
 					() => {
 						if (value && value === this.searchBox.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
-							let tmpArgs = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
-							if(typeof tmpArgs['filters'] === 'undefined') tmpArgs['filters'] = {}
-							tmpArgs['filters'][selectListReloadOnValueChangeFieldName] = value
+							let args = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
+							if (typeof args.filters === 'undefined') {
+								args.filters = {}
+							}
+							args.filters[selectListReloadOnValueChangeFieldName] = value
 							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
-								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](tmpArgs).then((res) => {
+								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](args).then((res) => {
 										this.fieldData.selectList = res
 										this.filteredSelectList = this.fieldData.selectList.slice(
 											0,

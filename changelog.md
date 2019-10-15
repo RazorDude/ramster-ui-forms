@@ -1,3 +1,6 @@
+# 0.3.5
+- Autocomplete dynamic API filtering - if "filters" is passed as arg, it shouldn't be overwritten.
+
 # 0.3.4
 - Added the ability to dynamically filter the select list in the autocomplete component by the current value.
 
