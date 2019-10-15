@@ -96,7 +96,7 @@ export class HomePageComponent extends BasePageComponent {
 			placeholder: 'Autocomplete Input with OnChange reload select list',
 			searchBoxValidators: [Validators.required],
 			selectList: [],
-			selectListRESTServiceArgs: {orderBy: 'name', titleField: 'name'},
+			selectListRESTServiceArgs: {orderBy: 'name', titleField: 'name', filters: {customFilter: true}},
 			selectListRESTService: this.testModelRESTService,
 			selectListRESTServiceMethodName: 'readOnChangeSelectTestList',
 			selectListReloadOnValueChange: true,
