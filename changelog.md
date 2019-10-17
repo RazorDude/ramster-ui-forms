@@ -1,3 +1,6 @@
+# 0.3.6
+- Hotfixed the autocomplete suggestions issue.
+
 # 0.3.5
 - Autocomplete dynamic API filtering - if "filters" is passed as arg, it shouldn't be overwritten.
 

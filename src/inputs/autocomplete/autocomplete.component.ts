@@ -28,7 +28,6 @@ export class AutocompleteComponent extends BaseInputComponent {
 	defaultSelectListRESTServiceArgs = {titleField: 'name', orderBy: 'name', orderDirection: 'asc'}
 	filteredSelectList: SelectListInterface[] = []
 	filteredSelectListMaxLength: number = 4
-	noAutofillAttr: number = (new Date()).getTime()
 	searchBox: FormControl
 	selectedChips: SelectListInterface[] = []
 
@@ -62,11 +61,15 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 		// set up the autocomplete filtering
 		this.searchBox.valueChanges.subscribe((value) => {
+			if (value === '') {
+				this.searchBox.patchValue(' ')
+				return
+			}
 			if (selectListReloadOnValueChange) {
 				const timeout = typeof selectListReloadOnValueChangeCheckTimeout === 'number' ? selectListReloadOnValueChangeCheckTimeout : 500
 				setTimeout(
 					() => {
-						if (value && value === this.searchBox.value && typeof selectListReloadOnValueChangeFieldName === 'string') {
+						if (value && (value === this.searchBox.value) && (typeof selectListReloadOnValueChangeFieldName === 'string')) {
 							let args = this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs
 							if (typeof args.filters === 'undefined') {
 								args.filters = {}
@@ -99,6 +102,10 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.chipSearchBox.nativeElement.value = value
 			}
 			if (value.length > 1) {
+				if (value[0] === ' ') {
+					this.searchBox.patchValue(value.replace(/^\s/, ''))
+					return
+				}
 				let lowerCaseValue = value.toLowerCase(),
 					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : []
 				this.filteredSelectList = this.fieldData.selectList.filter((item) => {
@@ -256,7 +263,6 @@ export class AutocompleteComponent extends BaseInputComponent {
 	}
 
 	onFocus(): void {
-		this.noAutofillAttr = (new Date()).getTime()
 		if (this.searchBox.value === '') {
 			if (this.fieldData.hasChips && this.selectedChips.length) {
 				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()

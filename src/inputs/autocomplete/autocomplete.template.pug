@@ -6,10 +6,10 @@ mat-form-field.rui-input-container(
 )
 	mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
 	input(
+		#chipSearchBox,
+		autocomplete='new-password',
 		matInput,
 		type='text',
-		#chipSearchBox,
-		[attr.autocomplete]='noAutofillAttr',
 		[formControl]='searchBox',
 		[matAutocomplete]='autocompleteElement',
 		[matChipInputFor]='chipList',
@@ -45,9 +45,9 @@ mat-form-field.rui-input-container(
 	mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
 	input(
 		#autocompleteSearchBox,
+		autocomplete='new-password',
 		matInput,
 		type='text',
-		[attr.autocomplete]='noAutofillAttr',
 		[formControl]='searchBox',
 		[matAutocomplete]='autocompleteElement',
 		[placeholder]='fieldData.placeholder',
