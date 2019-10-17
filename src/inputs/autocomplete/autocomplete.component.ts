@@ -61,10 +61,10 @@ export class AutocompleteComponent extends BaseInputComponent {
 		}
 		// set up the autocomplete filtering
 		this.searchBox.valueChanges.subscribe((value) => {
-			if (value === '') {
-				this.searchBox.patchValue(' ')
-				return
-			}
+			// if (value === '') {
+			// 	this.searchBox.patchValue(' ')
+			// 	return
+			// }
 			if (selectListReloadOnValueChange) {
 				const timeout = typeof selectListReloadOnValueChangeCheckTimeout === 'number' ? selectListReloadOnValueChangeCheckTimeout : 500
 				setTimeout(
@@ -102,10 +102,10 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.chipSearchBox.nativeElement.value = value
 			}
 			if (value.length > 1) {
-				if (value[0] === ' ') {
-					this.searchBox.patchValue(value.replace(/^\s/, ''))
-					return
-				}
+				// if (value[0] === ' ') {
+				// 	this.searchBox.patchValue(value.replace(/^\s/, ''))
+				// 	return
+				// }
 				let lowerCaseValue = value.toLowerCase(),
 					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : []
 				this.filteredSelectList = this.fieldData.selectList.filter((item) => {

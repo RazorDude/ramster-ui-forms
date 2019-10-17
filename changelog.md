@@ -1,3 +1,6 @@
+# 0.3.7
+- Reverted the last hotfix, as it breaks the floating labels.
+
 # 0.3.6
 - Hotfixed the autocomplete suggestions issue.
 
