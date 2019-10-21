@@ -132,6 +132,10 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()
 				return
 			}
+			if (this.fieldData.startTypingForSuggestions) {
+				this.filteredSelectList = [{text: 'Start typing to see suggestions...', value: '_system_unselectable'}]
+				return
+			}
 			this.filteredSelectList = this.fieldData.selectList.slice(
 				0,
 				this.filteredSelectListMaxLength
@@ -274,13 +278,24 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()
 				return
 			}
-			if (this.fieldData.selectList.length > this.filteredSelectListMaxLength) {
+			if (this.fieldData.startTypingForSuggestions) {
+				this.filteredSelectList = [{text: 'Start typing to see suggestions...', value: '_system_unselectable'}]
+				return
+			}
+			const selectListLength = this.fieldData.selectList.length 
+			if (selectListLength >= this.filteredSelectListMaxLength) {
 				this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([
 					{text: 'Type something in to filter the list...', value: '_system_unselectable'}
 				])
-			} else {
-				this.filteredSelectList = Object.assign([], this.fieldData.selectList)
+				return
 			}
+			if (selectListLength > 0) {
+				this.filteredSelectList = Object.assign([], this.fieldData.selectList).concat([
+					{text: 'Type something in to filter the list...', value: '_system_unselectable'}
+				])
+				return
+			}
+			this.filteredSelectList = [{text: 'No results exist.', value: '_system_unselectable'}]
 		}
 	}
 

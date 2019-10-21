@@ -21,4 +21,5 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	selectListReloadOnValueChange?: boolean
 	selectListReloadOnValueChangeCheckTimeout?: number
 	selectListReloadOnValueChangeFieldName?: string
+	startTypingForSuggestions?: boolean
 }

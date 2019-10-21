@@ -1,3 +1,6 @@
+# 0.3.9
+- Added a "startTypingForSuggestions" option to the Autocomplete input's fieldData interface. If set to true, it will display the according message and require at least 2 symbols typed in to start displaying data to the user.
+
 # 0.3.8
 - Added a timestamp-based "name" attribute to the autocomplete input in the hopes of fixing the suggestions issue. Also prepared a possible solution using ZWSP symbols, but commented it out for now as it's more complex and error-prone.
 
