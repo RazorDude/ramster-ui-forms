@@ -28,6 +28,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 	defaultSelectListRESTServiceArgs = {titleField: 'name', orderBy: 'name', orderDirection: 'asc'}
 	filteredSelectList: SelectListInterface[] = []
 	filteredSelectListMaxLength: number = 4
+	noAutofillName: string = `noAutofill_${(new Date()).valueOf()}`
 	searchBox: FormControl
 	selectedChips: SelectListInterface[] = []
 
@@ -49,6 +50,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 			selectListReloadOnValueChangeCheckTimeout,
 			selectListReloadOnValueChangeFieldName
 		} = this.fieldData
+		this.noAutofillName = `noAutofill_${(new Date()).valueOf()}`
 		if (hasChips) {
 			this.defaultEmptyInputValue = []
 			// if (!this.errorMessages.maxChipCountExceeded && this.fieldData.maxChipCount) {
@@ -62,7 +64,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 		// set up the autocomplete filtering
 		this.searchBox.valueChanges.subscribe((value) => {
 			// if (value === '') {
-			// 	this.searchBox.patchValue(' ')
+			// 	this.searchBox.patchValue('\u200b')
 			// 	return
 			// }
 			if (selectListReloadOnValueChange) {
@@ -102,11 +104,15 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.chipSearchBox.nativeElement.value = value
 			}
 			if (value.length > 1) {
-				// if (value[0] === ' ') {
-				// 	this.searchBox.patchValue(value.replace(/^\s/, ''))
+				// if (value[0] === '\u200b') {
+				// 	this.searchBox.patchValue(value.substr(1, value.length))
 				// 	return
 				// }
-				let lowerCaseValue = value.toLowerCase(),
+				// if (value[value.length - 1] !== '\u200b') {
+				// 	this.searchBox.patchValue(`${value}\u200b`)
+				// 	return
+				// }
+				let lowerCaseValue = value.toLowerCase().substr(0, value.length - 1),
 					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : []
 				this.filteredSelectList = this.fieldData.selectList.filter((item) => {
 					return (selectedOptionValues.indexOf(item.value) === -1) && (item.text.toLowerCase().indexOf(lowerCaseValue) !== -1)

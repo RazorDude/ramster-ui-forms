@@ -1,3 +1,6 @@
+# 0.3.8
+- Added a timestamp-based "name" attribute to the autocomplete input in the hopes of fixing the suggestions issue. Also prepared a possible solution using ZWSP symbols, but commented it out for now as it's more complex and error-prone.
+
 # 0.3.7
 - Reverted the last hotfix, as it breaks the floating labels.
 
