@@ -1,3 +1,10 @@
+# 0.4.0
+- Massive imrovements to the Autocomplete input:
+-> Upgraded the matching algorithm - it now takes exact matches first, then matches that start with the typed in string, then matches that contain it.
+-> Fixed the issue with the last letter not being matched.
+-> Added the option to provide a noMatchesOptionAction in the autocomplete config, which will be executed when clicked on when no matches are found. The logic requires both noMatchesOptionAction and noMatchesOptionText to be provided.
+-> Pressing the Enter key now selects the first option (if any) when no option is selected.
+
 # 0.3.9
 - Added a "startTypingForSuggestions" option to the Autocomplete input's fieldData interface. If set to true, it will display the according message and require at least 2 symbols typed in to start displaying data to the user.
 

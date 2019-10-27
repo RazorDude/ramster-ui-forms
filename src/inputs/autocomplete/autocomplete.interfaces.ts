@@ -10,6 +10,8 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	masterInputFormControl?: AbstractControl
 	masterInputFormControlValueChangesCallback?: Subject<any>
 	maxChipCount?: number
+	noMatchesOptionAction?: Subject<any>
+	noMatchesOptionText?: string
 	searchBoxValidators?: any[]
 	searchBoxAsyncValidators?: any[]
 	selectList: {text: string, value: any}[]

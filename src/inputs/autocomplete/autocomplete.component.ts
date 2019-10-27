@@ -84,10 +84,14 @@ export class AutocompleteComponent extends BaseInputComponent {
 											0,
 											this.filteredSelectListMaxLength
 										)
-										this.filteredSelectList.push({
-											text: this.filteredSelectList.length ? 'Type something in to filter the list...' : 'No more results exist.',
-											value: '_system_unselectable'
-										})
+										if (this.filteredSelectList.length) {
+											this.filteredSelectList.push({
+												text: 'Type something in to filter the list...',
+												value: '_system_unselectable'
+											})
+										} else {
+											this.filteredSelectList.push(this.getNoMatchesOptionData())
+										}
 										this.changeDetectorRef.detectChanges()
 										if (this.fieldData.selectListLoadedCallback instanceof Subject) {
 											this.fieldData.selectListLoadedCallback.next()
@@ -112,15 +116,39 @@ export class AutocompleteComponent extends BaseInputComponent {
 				// 	this.searchBox.patchValue(`${value}\u200b`)
 				// 	return
 				// }
-				let lowerCaseValue = value.toLowerCase().substr(0, value.length - 1),
-					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : []
-				this.filteredSelectList = this.fieldData.selectList.filter((item) => {
-					return (selectedOptionValues.indexOf(item.value) === -1) && (item.text.toLowerCase().indexOf(lowerCaseValue) !== -1)
+				// let lowerCaseValue = value.toLowerCase().substr(0, value.length - 1),
+				let lowerCaseValue = value.toLowerCase(),
+					selectedOptionValues = this.fieldData.hasChips ? this.fieldData.inputFormControl.value : [],
+					exactMatches = [],
+					startingWithMatches = [],
+					containingMatches = []
+				// this.filteredSelectList = this.fieldData.selectList.filter((item) => {
+				// 	return (selectedOptionValues.indexOf(item.value) === -1) && (item.text.toLowerCase().indexOf(lowerCaseValue) !== -1)
+				// })
+				this.fieldData.selectList.forEach((item) => {
+					if (selectedOptionValues.indexOf(item.value) !== -1) {
+						return
+					}
+					const itemText = item.text.toLowerCase()
+					if (itemText === lowerCaseValue) {
+						exactMatches.push(item)
+						return
+					}
+					let stringIndex = itemText.indexOf(lowerCaseValue)
+					if (stringIndex === 0) {
+						startingWithMatches.push(item)
+						return
+					}
+					if (stringIndex !== -1) {
+						containingMatches.push(item)
+						return
+					}
 				})
+				this.filteredSelectList = exactMatches.concat(startingWithMatches).concat(containingMatches)
 				if (this.filteredSelectList.length > this.filteredSelectListMaxLength) {
 					this.filteredSelectList = this.filteredSelectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: '_system_unselectable'}])
 				} else if (this.filteredSelectList.length === 0) {
-					this.filteredSelectList = [{text: 'No matches found. Type something in to filter the list...', value: '_system_unselectable'}]
+					this.filteredSelectList = [this.getNoMatchesOptionData()]
 				}
 				return
 			}
@@ -140,10 +168,14 @@ export class AutocompleteComponent extends BaseInputComponent {
 				0,
 				this.filteredSelectListMaxLength
 			)
-			this.filteredSelectList.push({
-				text: this.filteredSelectList.length ? 'Type something in to filter the list...' : 'No more results exist.',
-				value: '_system_unselectable'
-			})
+			if (this.filteredSelectList.length) {
+				this.filteredSelectList.push({
+					text: 'Type something in to filter the list...',
+					value: '_system_unselectable'
+				})
+			} else {
+				this.filteredSelectList.push(this.getNoMatchesOptionData())
+			}
 			return
 		})
 		this.fieldData.inputFormControl.valueChanges.subscribe((value) => {
@@ -244,7 +276,15 @@ export class AutocompleteComponent extends BaseInputComponent {
 			}
 			newList.push(option)
 		}
-		return newList.length ? newList : [{text: 'No more results exist.', value: '_system_unselectable'}]
+		return newList.length ? newList : [this.getNoMatchesOptionData()]
+	}
+
+	getNoMatchesOptionData(): {text: string, value: any} {
+		const { noMatchesOptionAction, noMatchesOptionText } = this.fieldData
+		if (noMatchesOptionAction && noMatchesOptionText) {
+			return {text: noMatchesOptionText, value: '_system_executeNoMatchesOptionAction'}
+		}
+		return {text: 'No matches found.', value: '_system_unselectable'}
 	}
 
 	loadSelectListOnMasterChange(value: any): void {
@@ -295,12 +335,13 @@ export class AutocompleteComponent extends BaseInputComponent {
 				])
 				return
 			}
-			this.filteredSelectList = [{text: 'No results exist.', value: '_system_unselectable'}]
+			this.filteredSelectList = [this.getNoMatchesOptionData()]
 		}
 	}
 
 	onBlur(): void {
-		const currentText = this.searchBox.value
+		const currentText = this.searchBox.value,
+			currentValue = this.fieldData.inputFormControl.value
 		setTimeout(() => {
 			const newText = this.searchBox.value
 			if (!newText.length || (currentText !== newText)) {
@@ -312,18 +353,35 @@ export class AutocompleteComponent extends BaseInputComponent {
 				return
 			}
 			const selectList = this.fieldData.selectList
-			let noMatch = true
+			let matchedItem = null
 			for (const i in selectList) {
 				const item = selectList[i]
 				if (item.text === currentText) {
-					noMatch = false
+					matchedItem = item
 					break
 				}
 			}
-			if (noMatch) {
+			if (!matchedItem || ((typeof matchedItem.value === 'string') && (matchedItem.value.indexOf('_system_') === 0))) {
 				this.fieldData.inputFormControl.patchValue(this.defaultEmptyInputValue)
+				return
+			}
+			if (currentValue !== matchedItem.value) {
+				this.fieldData.inputFormControl.patchValue(matchedItem.value)
 			}
 		}, 250)
+	}
+
+	onKeyPress(event: any): void {
+		const currentValue = this.fieldData.inputFormControl.value
+		if (event.key === 'Enter') {
+			setTimeout(() => {
+				if ((currentValue === this.fieldData.inputFormControl.value) && this.filteredSelectList.length) {
+					this.searchBox.patchValue(this.filteredSelectList[0].text)
+					this.onSelectionChange({source: {selected: true}}, this.filteredSelectList[0].value, 0)
+				}
+				this.autocompleteSearchBoxRef.nativeElement.blur()
+			}, 300)
+		}
 	}
 
 	onSelectionChange(event: any, value: any, index: number): void {
@@ -332,7 +390,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 			return
 		}
 		if (this.fieldData.hasChips) {
-			if (value !== '_system_unselectable') {
+			if (value === '_system_executeNoMatchesOptionAction') {
+				this.fieldData.noMatchesOptionAction.next()
+			} else if (value !== '_system_unselectable') {
 				inputFormControl.patchValue(inputFormControl.value.concat(value))
 				this.selectedChips.push(this.filteredSelectList[index])
 			}
@@ -341,6 +401,9 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.searchBox.patchValue('')
 			}, 100)
 			return
+		}
+		if (value === '_system_executeNoMatchesOptionAction') {
+			this.fieldData.noMatchesOptionAction.next()
 		}
 		if (inputFormControl.value !== value) {
 			this.currentSelectionIndex = index

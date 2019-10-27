@@ -17,6 +17,7 @@ import {
 import {BasePageComponent, GlobalEventsService} from 'ramster-ui-core'
 import {Component, ElementRef, ViewChild} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
+import {Subject} from 'rxjs'
 import {TestModelRESTService} from '../../models/test/test.restService'
 
 @Component({
@@ -43,6 +44,7 @@ export class HomePageComponent extends BasePageComponent {
 			WysiwygFieldDataInterface
 	}
 	generatedFormLayout: FormLayoutColumnDataInterface[][]
+	noAutocompleteMatchesSubject: Subject<any>
 	testAutocompleteFieldData: AutocompleteFieldDataInterface
 	testAutocompleteSlaveFieldData: AutocompleteFieldDataInterface
 	testAutocompleteOnChangeFieldData: AutocompleteFieldDataInterface
@@ -72,6 +74,9 @@ export class HomePageComponent extends BasePageComponent {
 
 	reset(): void {
 		super.reset()
+
+		this.noAutocompleteMatchesSubject = new Subject()
+		this.noAutocompleteMatchesSubject.subscribe(() => this.displayAlert())
 
 		this.testAutocompleteFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),
@@ -211,36 +216,49 @@ export class HomePageComponent extends BasePageComponent {
 				positioning: {colOffset: '10%', colSize: '15%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
+				autocompleteConfig: {
+					loadSelectListOnInit: true,
+					noMatchesOptionAction: this.noAutocompleteMatchesSubject,
+					noMatchesOptionText: 'No matches found. Click here to display an alert.',
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				label: 'Autocomplete Input With Custom No Matches Action',
+				name: 'autocompleteInputWithCustomNoMatchesAction',
+				positioning: {colOffset: '15%', colSize: '15%', rowIndex: 1},
+				type: 'autocomplete'
+			}, {
 				label: 'Checkbox Input',
 				name: 'checkboxInput',
-				positioning: {colSize: '20%', rowIndex: 1, rowSpan: 2},
+				positioning: {colSize: '20%', rowIndex: 2, rowSpan: 2},
 				type: 'checkbox'
 			}, {
 				checkboxConfig: {readOnly: true},
 				label: 'Read-Only Checkbox Input',
 				name: 'readOnlyheckboxInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'checkbox'
 			}, {
 				label: 'Datepicker Input',
 				name: 'datepickerInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'datepicker'
 			}, {
 				datepickerConfig: {readOnly: true},
 				label: 'Read-Only Datepicker Input',
 				name: 'readOnlyDatepickerInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
 				type: 'datepicker'
 			}, {
 				label: 'File Input 1',
 				name: 'fileInput1',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'file'
 			}, {
 				label: 'File Input 2',
 				name: 'fileInput2',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'file'
 			}, {
 				fileConfig: {
@@ -256,25 +274,25 @@ export class HomePageComponent extends BasePageComponent {
 				},
 				label: 'File Input 3',
 				name: 'fileInput3',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'file'
 			}, {
 				fileConfig: {readOnly: true},
 				label: 'Read-Only File Input',
 				name: 'readOnlyFileInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 2},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'file'
 			}, {
 				label: 'Regular Input',
 				name: 'regularInput',
-				positioning: {colSize: '20%', rowIndex: 3},
+				positioning: {colSize: '20%', rowIndex: 4},
 				type: 'text',
 				validations: [{type: 'required'}]
 			}, {
 				inputConfig: {readOnly: true, type: 'text'},
 				label: 'Read-Only Regular Input',
 				name: 'readOnlyRegularInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
 				type: 'text',
 				validations: [{type: 'required'}]
 			}, {
@@ -283,7 +301,7 @@ export class HomePageComponent extends BasePageComponent {
 				selectConfig: {
 					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
 				},
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
 				type: 'select'
 			}, {
 				label: 'Read-Only Select Input',
@@ -292,43 +310,43 @@ export class HomePageComponent extends BasePageComponent {
 					readOnly: true,
 					selectList: [{text: 'Option 1', value: 1}, {text: 'Option 2', value: 2}, {text: 'Option 3', value: 3}]
 				},
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
 				type: 'select'
 			}, {
 				label: 'Slide Toggle Input',
 				name: 'slideToggleInput',
-				positioning: {colSize: '20%', rowIndex: 4},
+				positioning: {colSize: '20%', rowIndex: 5},
 				type: 'slideToggle'
 			}, {
 				label: 'Read-Only Slide Toggle Input',
 				name: 'readOnlylideToggleInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 5},
 				slideToggleConfig: {readOnly: true},
 				type: 'slideToggle'
 			}, {
 				label: 'Text Area Input',
 				initialValue: 'testText',
 				name: 'textareaInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 5},
 				type: 'textarea'
 			}, {
 				label: 'Read-Only Text Area Input',
 				initialValue: 'testText',
 				name: 'readOnlyTextareaInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 4},
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 5},
 				textareaConfig: {readOnly: true},
 				type: 'textarea'
 			}, {
 				label: 'Wysiwyg Input',
 				initialValue: 'testText',
 				name: 'wysiwygInput',
-				positioning: {colSize: '99%', rowIndex: 5},
+				positioning: {colSize: '99%', rowIndex: 6},
 				type: 'wysiwyg'
 			}, {
 				label: 'Read Only Wysiwyg Input',
 				initialValue: 'testText 2',
 				name: 'wysiwygInput2',
-				positioning: {colSize: '99%', rowIndex: 6},
+				positioning: {colSize: '99%', rowIndex: 7},
 				type: 'wysiwyg',
 				wysiwygConfig: {
 					readOnly: true
@@ -348,6 +366,10 @@ export class HomePageComponent extends BasePageComponent {
 	onInitialDataLoaded(): void {
 		let fieldData = this.generatedFormFieldData.fileInput3 as FileInputFieldDataInterface
 		fieldData.previewDefaultImageUrl = '/static/food-image.jpg'
+	}
+
+	displayAlert(): void {
+		alert('Alert.')
 	}
 
 	populateChips(): void {

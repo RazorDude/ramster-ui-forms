@@ -18,7 +18,8 @@ mat-form-field.rui-input-container(
 		[placeholder]='fieldData.placeholder',
 		[readonly]='fieldData.readOnly',
 		(focus)='onFocus()',
-		(blur)='onBlur()'
+		(blur)='onBlur()',
+		(keypress)='onKeyPress($event)'
 	)
 	mat-chip-list(#chipList)
 		mat-chip(
@@ -55,7 +56,8 @@ mat-form-field.rui-input-container(
 		[placeholder]='fieldData.placeholder',
 		[readonly]='fieldData.readOnly',
 		(focus)='onFocus()',
-		(blur)='onBlur()'
+		(blur)='onBlur()',
+		(keypress)='onKeyPress($event)'
 	)
 	mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{fieldData.hint}}
 	mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
