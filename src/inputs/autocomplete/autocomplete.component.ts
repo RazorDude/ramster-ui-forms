@@ -253,7 +253,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 			selectedChips = this.selectedChips,
 			selectedChipsLength = selectedChips.length,
 			selectList = this.fieldData.selectList,
-			selectListLength = selectList.length
+			selectListLength = selectList ? selectList.length : 0
 		let newList = [],
 			selectedValues = []
 		for (let i = 0; i < selectListLength; i++) {
@@ -322,7 +322,7 @@ export class AutocompleteComponent extends BaseInputComponent {
 				this.filteredSelectList = [{text: 'Start typing to see suggestions...', value: '_system_unselectable'}]
 				return
 			}
-			const selectListLength = this.fieldData.selectList.length 
+			const selectListLength = this.fieldData.selectList ? this.fieldData.selectList.length : 0 
 			if (selectListLength >= this.filteredSelectListMaxLength) {
 				this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([
 					{text: 'Type something in to filter the list...', value: '_system_unselectable'}

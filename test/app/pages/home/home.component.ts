@@ -162,7 +162,8 @@ export class HomePageComponent extends BasePageComponent {
 			placeholder: 'Wysiwyg'
 		}
 
-		this.generatedFormConfig = [{
+		this.generatedFormConfig = [
+			{
 				autocompleteConfig: {
 					loadSelectListOnInit: true,
 					searchBoxValidators: [Validators.required],

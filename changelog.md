@@ -1,3 +1,6 @@
+# 0.4.1
+- Small fix for the Autocomplete input - under very rare circumstances, the selectList property of fieldData is undefined. Add checks for that.
+
 # 0.4.0
 - Massive imrovements to the Autocomplete input:
 -> Upgraded the matching algorithm - it now takes exact matches first, then matches that start with the typed in string, then matches that contain it.
