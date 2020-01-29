@@ -13,6 +13,7 @@ export interface BaseInputFieldDataInterface {
 	hintAction?: Function
 	inputFormControl?: AbstractControl
 	label?: string
+	isMobile?: boolean
 	onChangeHandler?: Subject<BaseInputFieldDataOnChangeHandlerDataInterface>
 	onChangeValueCheckTimeout?: number
 	placeholder?: string

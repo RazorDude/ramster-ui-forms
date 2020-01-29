@@ -22,11 +22,17 @@ co(function*() {
 				inputPath: path.join(__dirname, 'src/components/formInjector/formInjector.template.pug'),
 				outputPath: path.join(__dirname, 'src/components/formInjector/formInjector.template.html')
 			}, {
+				inputPath: path.join(__dirname, 'src/components/imageCropper/imageCropper.template.pug'),
+				outputPath: path.join(__dirname, 'src/components/imageCropper/imageCropper.template.html')
+			}, {
 				inputPath: path.join(__dirname, 'src/components/inputInjector/inputInjector.template.pug'),
 				outputPath: path.join(__dirname, 'src/components/inputInjector/inputInjector.template.html')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/autocomplete/autocomplete.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/autocomplete/autocomplete.template.html')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/autocomplete/components/mobileModal/mobileModal.template.pug'),
+				outputPath: path.join(__dirname, 'src/inputs/autocomplete/components/mobileModal/mobileModal.template.html')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/base/baseInput.commonElementsTemplate.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/base/baseInput.commonElementsTemplate.html')
@@ -39,6 +45,9 @@ co(function*() {
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/file/file.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/file/file.template.html')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/file/components/imageCropperModal/imageCropperModal.template.pug'),
+				outputPath: path.join(__dirname, 'src/inputs/file/components/imageCropperModal/imageCropperModal.template.html')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/input/input.template.pug'),
 				outputPath: path.join(__dirname, 'src/inputs/input/input.template.html')
@@ -60,11 +69,20 @@ co(function*() {
 				inputPath: path.join(__dirname, 'src/components/formInjector/formInjector.styles.scss'),
 				outputPath: path.join(__dirname, 'src/components/formInjector/formInjector.styles.css')
 			}, {
+				inputPath: path.join(__dirname, 'src/components/imageCropper/imageCropper.styles.scss'),
+				outputPath: path.join(__dirname, 'src/components/imageCropper/imageCropper.styles.css')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/autocomplete/components/mobileModal/mobileModal.styles.scss'),
+				outputPath: path.join(__dirname, 'src/inputs/autocomplete/components/mobileModal/mobileModal.styles.css')
+			}, {
 				inputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/base/baseInput.styles.css')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/file/file.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/file/file.styles.css')
+			}, {
+				inputPath: path.join(__dirname, 'src/inputs/file/components/imageCropperModal/imageCropperModal.styles.scss'),
+				outputPath: path.join(__dirname, 'src/inputs/file/components/imageCropperModal/imageCropperModal.styles.css')
 			}, {
 				inputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.styles.scss'),
 				outputPath: path.join(__dirname, 'src/inputs/wysiwyg/wysiwyg.styles.css')

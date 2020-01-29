@@ -1,0 +1,8 @@
+doctype html
+.image-cropper-container(*ngIf='options')
+	.image-container
+		canvas.image-canvas(
+			#imageCanvas,
+			(mousedown)='onMouseDown($event)'
+		)
+	button.crop-button(mat-raised-button, (click)='cropImage()') Crop

@@ -1,0 +1,64 @@
+doctype html
+div(*ngIf='fieldData', mat-dialog-content)
+	mat-form-field.rui-input-container(
+		*ngIf='fieldData.hasChips',
+		[floatLabel]='fieldData.floatLabel',
+		[hideRequiredMarker]='fieldData.hideRequiredMarker'
+	)
+		mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
+		input(
+			#chipSearchBox,
+			autocomplete='new-password',
+			matInput,
+			type='text',
+			[formControl]='searchBox',
+			[matChipInputFor]='chipList',
+			[matChipInputAddOnBlur]='onBlur',
+			[name]='noAutofillName',
+			[placeholder]='fieldData.placeholder',
+			[readonly]='fieldData.readOnly',
+			(focus)='onFocus($event)',
+			(blur)='onBlur()',
+			(keypress)='onKeyPress($event)'
+		)
+		mat-chip-list(#chipList)
+			mat-chip(
+				*ngFor='let chip of selectedChips; let i = index',
+				[selectable]='false',
+				[removable]='true',
+				(removed)='removeChip(i)'
+			)
+				| {{ chip.text }}
+				mat-icon(matChipRemove) cancel
+		mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{ fieldData.hint }}
+		mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
+			span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{ errorMessages[errorKey] }}
+	mat-form-field.rui-input-container(
+		*ngIf='!fieldData.hasChips',
+		[floatLabel]='fieldData.floatLabel',
+		[hideRequiredMarker]='fieldData.hideRequiredMarker'
+	)
+		mat-label(*ngIf='fieldData.label') {{ fieldData.label }}
+		input(
+			#autocompleteSearchBox,
+			autocomplete='new-password',
+			matInput,
+			type='text',
+			[formControl]='searchBox',
+			[name]='noAutofillName',
+			[placeholder]='fieldData.placeholder',
+			[readonly]='fieldData.readOnly',
+			(focus)='onFocus($event)',
+			(blur)='onBlur()',
+			(keypress)='onKeyPress($event)'
+		)
+		mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{ fieldData.hint }}
+		mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
+			span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{ errorMessages[errorKey] }}
+	.options-container
+		div
+			.mat-option(
+				*ngFor='let item of filteredSelectList; let i = index',
+				(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
+			) {{item.text}}
+	button(mat-raised-button, (click)='closeModal()') Close

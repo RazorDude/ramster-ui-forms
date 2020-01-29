@@ -17,7 +17,7 @@ mat-form-field.rui-input-container(
 		[name]='noAutofillName',
 		[placeholder]='fieldData.placeholder',
 		[readonly]='fieldData.readOnly',
-		(focus)='onFocus()',
+		(focus)='onFocus($event)',
 		(blur)='onBlur()',
 		(keypress)='onKeyPress($event)'
 	)
@@ -55,7 +55,7 @@ mat-form-field.rui-input-container(
 		[name]='noAutofillName',
 		[placeholder]='fieldData.placeholder',
 		[readonly]='fieldData.readOnly',
-		(focus)='onFocus()',
+		(focus)='onFocus($event)',
 		(blur)='onBlur()',
 		(keypress)='onKeyPress($event)'
 	)
@@ -63,8 +63,9 @@ mat-form-field.rui-input-container(
 	mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
 		span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{errorMessages[errorKey]}}
 	mat-autocomplete(#autocompleteElement='matAutocomplete')
-		mat-option(
-			*ngFor='let item of filteredSelectList; let i = index',
-			[value]='item.text',
-			(onSelectionChange)='onSelectionChange($event, item.value, i)'
-		) {{item.text}}
+		ng-container(*ngIf='!fieldData.isMobile')
+			mat-option(
+				*ngFor='let item of filteredSelectList; let i = index',
+				[value]='item.text',
+				(onSelectionChange)='onSelectionChange($event, item.value, i)'
+			) {{item.text}}

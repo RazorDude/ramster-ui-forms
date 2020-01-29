@@ -1,3 +1,10 @@
+# 0.5.0
+- Huge improvement to the Autocomplete input - it now has a dedicated, mat-dialog based mobile mode - just set isMobile: true in the autocomplete's config.
+- Fixed the Autocomplete With Chips's required flag - it no longer displays an error message when chips have been selected but the searchBox is empty.
+- Added image cropping functionality to the file input.
+- Added drag and drop functionality to the file input.
+- Updated some dependencies.
+
 # 0.4.1
 - Small fix for the Autocomplete input - under very rare circumstances, the selectList property of fieldData is undefined. Add checks for that.
 

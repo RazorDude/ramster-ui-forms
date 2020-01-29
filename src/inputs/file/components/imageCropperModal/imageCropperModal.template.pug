@@ -1,0 +1,8 @@
+doctype html
+div(mat-dialog-content)
+	rui-image-cropper(
+		*ngIf='data',
+		[options]='data.imageCropperOptions',
+		[src]='data.fileUrl',
+		(imageCropped)='closeModal($event)'
+	)

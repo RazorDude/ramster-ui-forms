@@ -14,10 +14,17 @@ doctype html
 		)
 	.file-preview.image-container(
 		*ngIf='fieldData.preview && (backgroundImageUrl !== "")',
-		[ngClass]='{"is-round": previewIsRound}',
+		[ngClass]='{"drop-zone-active": dropZoneActive, "is-round": previewIsRound}',
 		[ngStyle]='{"background-image": backgroundImageUrl, "width": previewWidth, "height": previewHeight}',
-		(click)='onLabelClick()'
+		(click)='onLabelClick()',
+		(dragleave)='onDragLeave()',
+		(dragover)='onDragOver($event)',
+		(drop)='onDrop($event)'
 	)
+		.drop-zone-active-text(*ngIf='dropZoneActive')
+			p Drop
+			p files
+			p here
 	div.button-wrapper([ngStyle]='{"width": fieldData.hideFileName ? previewWidth : "auto"}')
 		label.mat-raised-button(
 			*ngIf='showChooseFileButton',

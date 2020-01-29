@@ -1,0 +1,14 @@
+.image-cropper-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column; }
+  .image-cropper-container .image-container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1; }
+    .image-cropper-container .image-container .image-canvas {
+      width: 100%;
+      height: 100%; }
+  .image-cropper-container .crop-button {
+    margin-top: 15px; }

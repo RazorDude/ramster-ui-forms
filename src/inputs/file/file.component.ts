@@ -1,8 +1,22 @@
+import {AbstractControl} from '@angular/forms'
 import {BaseInputComponent} from '../base/baseInput.component'
-import {Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core'
+import {
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	Input,
+	OnChanges,
+	OnDestroy,
+	SimpleChanges,
+	ViewChild
+} from '@angular/core'
 import {FileInputFieldDataInterface} from './file.interfaces'
+import {FileInputImageCropperModalComponent} from './components/imageCropperModal/imageCropperModal.component'
 import {GlobalEventsService, FilesRESTService} from 'ramster-ui-core'
-import * as moment from 'moment'
+import {MatDialog} from '@angular/material'
+import {Subscription} from 'rxjs'
+import * as momentNamespace from 'moment'
+const moment = momentNamespace
 
 
 @Component({
@@ -12,9 +26,10 @@ import * as moment from 'moment'
 	],
 	templateUrl: './file.template.html'
 })
-export class FileInputComponent extends BaseInputComponent implements OnChanges {
+export class FileInputComponent extends BaseInputComponent implements OnChanges, OnDestroy {
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: 10 // in megabytes
+	dropZoneActive: boolean = false
 	fileName: string = ''
 	forceShowPreviewCancelButton: boolean = false
 	previewCancelButtonIconUrl: string = ''
@@ -22,6 +37,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	previewIsRound: boolean = true
 	previewWidth: string = '50px'
 	showChooseFileButton: boolean = true
+	subscriptions: Subscription[]
 
 	@ViewChild('inputElement') inputElementRef: ElementRef<HTMLInputElement>
 
@@ -29,8 +45,10 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	fieldData: FileInputFieldDataInterface
 
 	constructor(
+		public changeDetectorRef: ChangeDetectorRef,
+		public filesRESTService: FilesRESTService,
 		public globalEventsService: GlobalEventsService,
-		public filesRESTService: FilesRESTService
+		public matDialogRef: MatDialog
 	) {
 		super()
 	}
@@ -47,6 +65,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 			previewWidth,
 			showChooseFileButton
 		} = this.fieldData
+		this.subscriptions = []
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
@@ -67,6 +86,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 				this.backgroundImageUrl = this.fieldData.previewDefaultImageUrl ? `url('${this.fieldData.previewDefaultImageUrl}')` : ''
 				this.fileName = ''
 				inputFormControl.markAsDirty()
+				return
 			}
 		})
 	}
@@ -81,6 +101,12 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 			) {
 				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
 			}
+		}
+	}
+
+	ngOnDestroy(): void {
+		if ((this.subscriptions instanceof Array) && this.subscriptions.length) {
+			this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())
 		}
 	}
 
@@ -102,7 +128,17 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 	 * 3. the formControl value is patched to the whole file object
 	*/
 	onFileChange(event: any): void {
-		const {allowedFileTypes, maxFileSizeMB, directUpload, inputFormControl} = this.fieldData,
+		const {
+				allowedFileTypes,
+				maxFileSizeMB,
+				directUpload,
+				imageCropper,
+				imageCropperCroppedAreaDimensionsAreEqual,
+				imageCropperCroppedAreaIsRound,
+				imageCropperHeight,
+				imageCropperWidth,
+				inputFormControl
+			} = this.fieldData,
 			file = event.target.files[0] as File
 		// if the user has deselected the currently selected file
 		if (!file) {
@@ -116,7 +152,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 			fileSize = file.size / 1000000,
 			maxFileSize = maxFileSizeMB || this.defaultMaxFileSizeMB,
 			extName = this.getExtName(fileName),
-			outputFileName = `${moment.utc().valueOf()}${extName}`
+			outputFileName = `${moment().valueOf()}${extName}`
 		// check whether the file type is allowed by extension
 		if ((allowedFileTypes instanceof Array) && (allowedFileTypes.indexOf(extName) === -1)) {
 			this.globalEventsService.notify('error', 'The provided file\'s type is not allowed for this field.')
@@ -131,18 +167,48 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 		}
 		if (directUpload) {
 			// upload the file
-			this.filesRESTService.upload(file, {outputFileName}, {handleError: true}).then(
-				(res) => {
-					this.backgroundImageUrl = `url('/storage/tmp/${outputFileName}')`
-					this.fileName = fileName
-					inputFormControl.patchValue(outputFileName)
-					inputFormControl.markAsDirty()
+			this.uploadFile(file, {inputFileName: fileName, outputFileName}, inputFormControl).then(
+				() => {
+					if (imageCropper) {
+						let dialogRef = this.matDialogRef.open(
+							FileInputImageCropperModalComponent, {
+								disableClose: true,
+								height: imageCropperHeight || '300px',
+								maxHeight: imageCropperHeight || '300px',
+								maxWidth: imageCropperWidth || '300px',
+								width: imageCropperWidth || '300px'
+							}
+						)
+						dialogRef.componentInstance.data = {
+							fileUrl: `/storage/tmp/${outputFileName}`,
+							imageCropperOptions: {
+								croppedAreaDimensionsAreEqual: imageCropperCroppedAreaDimensionsAreEqual,
+								croppedAreaHeight: '50%',
+								croppedAreaIsRound: imageCropperCroppedAreaIsRound,
+								croppedAreaWidth: '50%'
+							}
+						}
+						let sub = dialogRef.afterClosed().subscribe((event) => {
+							sub.unsubscribe()
+							if (event) {
+								this.uploadFile(
+									file,
+									{inputFileName: fileName, outputFileName, imageCroppingOptions: event},
+									inputFormControl
+								).then(
+									() => {
+										this.changeDetectorRef.detectChanges()
+									},
+									(err) => console.error(err)
+								)
+								return
+							}
+							this.changeDetectorRef.detectChanges()
+						})
+						this.subscriptions.push(sub)
+					}
 				},
-				(err) => {
-					console.error(err)
-					// this.globalEventsService.notify('error', `Error uploading the file: ${err.message || 'Internal server error.'}`)
-					inputFormControl.patchValue('')
-				}
+				(err) => console.error(err)
 			)
 			return
 		}
@@ -156,5 +222,47 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges 
 			return
 		}
 		this.inputElementRef.nativeElement.click()
+	}
+
+	onDragLeave(): void {
+		this.dropZoneActive = false
+	}
+
+	onDragOver(event: Event): void {
+		event.stopPropagation()
+		event.preventDefault()
+		if (!this.dropZoneActive) {
+			this.dropZoneActive = true
+		}
+	}
+
+	onDrop(event: DragEvent): void {
+		event.preventDefault()
+		this.dropZoneActive = false
+		this.onFileChange({target: {files: event.dataTransfer.files}})
+	}
+
+	async uploadFile(
+		file: File,
+		fileOptions: {imageCroppingOptions?: {[x: string]: any}, inputFileName: string, outputFileName: string},
+		inputFormControl: AbstractControl
+	) {
+		try {
+			await this.filesRESTService.upload(
+				file, {
+					outputFileName: fileOptions.outputFileName,
+					...(fileOptions.imageCroppingOptions || {})
+				},
+				{handleError: true}
+			)
+			this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
+			this.fileName = fileOptions.inputFileName
+			inputFormControl.patchValue(fileOptions.outputFileName)
+			inputFormControl.markAsDirty()
+		} catch(err) {
+			console.error(err)
+			// this.globalEventsService.notify('error', `Error uploading the file: ${err.message || 'Internal server error.'}`)
+			inputFormControl.patchValue('')
+		}
 	}
 }

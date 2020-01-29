@@ -1,0 +1,9 @@
+[mat-dialog-content] {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	.options-container {
+		flex-grow: 1;
+	}
+}

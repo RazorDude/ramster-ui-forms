@@ -36,6 +36,22 @@
 	&.is-round {
 		border-radius: 50%;
 	}
+	&.drop-zone-active {
+		border: 1px dashed #ababab;
+	}
+	.drop-zone-active-text {
+		// position: absolute;
+		display: inline-block;
+		width: 50%;
+		height: 50%;
+		margin-left: 25%;
+		margin-top: 25%;
+		text-align: center;
+		p {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
 .button-wrapper {

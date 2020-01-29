@@ -213,7 +213,7 @@ export class HomePageComponent extends BasePageComponent {
 				},
 				// initialValue: 1,
 				label: 'Chips Input',
-				name: 'chipsInputs',
+				name: 'chipsInput',
 				positioning: {colOffset: '10%', colSize: '15%', rowIndex: 0},
 				type: 'autocomplete'
 			}, {
@@ -228,6 +228,34 @@ export class HomePageComponent extends BasePageComponent {
 				label: 'Autocomplete Input With Custom No Matches Action',
 				name: 'autocompleteInputWithCustomNoMatchesAction',
 				positioning: {colOffset: '15%', colSize: '15%', rowIndex: 1},
+				type: 'autocomplete'
+			}, {
+				autocompleteConfig: {
+					isMobile: true,
+					loadSelectListOnInit: true,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				initialValue: 1,
+				label: 'Autocomplete With Mobile Modal',
+				name: 'autocompleteInputWithMobileModal',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
+				type: 'autocomplete'
+			}, {
+				autocompleteConfig: {
+					hasChips: true,
+					isMobile: true,
+					loadSelectListOnInit: true,
+					maxChipCount: 2,
+					searchBoxValidators: [Validators.required],
+					selectList: [],
+					selectListRESTService: this.testModelRESTService
+				},
+				// initialValue: 1,
+				label: 'Autocomplete With Chips And Mobile Modal',
+				name: 'autocompleteInputWithChipsAndMobileModal',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 1},
 				type: 'autocomplete'
 			}, {
 				label: 'Checkbox Input',
@@ -281,6 +309,25 @@ export class HomePageComponent extends BasePageComponent {
 				fileConfig: {readOnly: true},
 				label: 'Read-Only File Input',
 				name: 'readOnlyFileInput',
+				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				type: 'file'
+			}, {
+				fileConfig: {
+					directUpload: true,
+					imageCropper: true,
+					imageCropperCroppedAreaDimensionsAreEqual: true,
+					imageCropperCroppedAreaIsRound: true,
+					preview: true,
+					previewCancelButton: true,
+					previewCancelButtonIconUrl: '/static/remove-circle.svg',
+					previewDefaultImageUrl: '/static/defaultImage.jpg',
+					previewHeight: '100px',
+					previewIsRound: true,
+					previewWidth: '100px',
+					showChooseFileButton: false
+				},
+				label: 'File Input With Image Cropper',
+				name: 'fileInputWithImageScropper',
 				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
 				type: 'file'
 			}, {
@@ -358,8 +405,6 @@ export class HomePageComponent extends BasePageComponent {
 		this.generatedForm = result.form
 		this.generatedFormFieldData = result.fieldData
 		this.generatedFormLayout = result.layout
-
-		console.log(this.autocompleMasterInputRef, this.regularInputRef)
 
 		this.globalEventsService.pageLoaded({hasHeader: true})
 	}

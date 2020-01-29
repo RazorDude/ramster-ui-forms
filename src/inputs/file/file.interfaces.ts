@@ -4,6 +4,11 @@ export interface FileInputFieldDataInterface extends BaseInputFieldDataInterface
 	allowedFileTypes?: string[]
 	directUpload?: boolean
 	hideFileName?: boolean
+	imageCropper?: boolean
+	imageCropperCroppedAreaDimensionsAreEqual?: boolean
+	imageCropperCroppedAreaIsRound?: boolean
+	imageCropperHeight?: string
+	imageCropperWidth?: string
 	maxFileSizeMB?: number
 	preview?: boolean
 	previewCancelButton?: boolean
