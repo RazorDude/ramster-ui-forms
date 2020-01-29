@@ -1,9 +1,18 @@
 doctype html
 .rui-file-input-container(
-	[ngClass]='[fieldData.inputFormControl.invalid ? "invalid" : "", (fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched) ? "non-pristine" : "", fieldData.inputFormControl.value !== "" ? "has-value" : ""]'
+	#masterContainer,
+	[ngClass]='{"drop-zone-active": dropZoneActive, "invalid": fieldData.inputFormControl.invalid, "non-pristine": fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched, "has-value": fieldData.inputFormControl.value !== ""}',
+	(dragleave)='onDragLeave($event)',
+	(dragover)='onDragOver($event)',
+	(drop)='onDrop($event)'
 )
-	div
-		label.placeholder {{fieldData.placeholder}}
+	div(#placeholder)
+		label.placeholder {{ fieldData.placeholder }}
+	.drop-zone-active-area(
+		*ngIf='dropZoneActive',
+		[ngStyle]='{"height": dropZoneActiveAreaHeight, "width": dropZoneActiveAreaWidth}'
+	)
+		.drop-zone-text Drop files here
 	div(
 		*ngIf='fieldData.preview && fieldData.previewCancelButton && ((fieldData.inputFormControl.value && (fieldData.inputFormControl.value !== "")) || forceShowPreviewCancelButton)',
 		[ngStyle]='{"width": previewWidth}'
@@ -14,26 +23,21 @@ doctype html
 		)
 	.file-preview.image-container(
 		*ngIf='fieldData.preview && (backgroundImageUrl !== "")',
-		[ngClass]='{"drop-zone-active": dropZoneActive, "is-round": previewIsRound}',
+		[ngClass]='{"is-round": previewIsRound}',
 		[ngStyle]='{"background-image": backgroundImageUrl, "width": previewWidth, "height": previewHeight}',
-		(click)='onLabelClick()',
-		(dragleave)='onDragLeave()',
-		(dragover)='onDragOver($event)',
-		(drop)='onDrop($event)'
+		(click)='onLabelClick()'
 	)
-		.drop-zone-active-text(*ngIf='dropZoneActive')
-			p Drop
-			p files
-			p here
 	div.button-wrapper([ngStyle]='{"width": fieldData.hideFileName ? previewWidth : "auto"}')
 		label.mat-raised-button(
 			*ngIf='showChooseFileButton',
 			[ngStyle]='{"width": fieldData.hideFileName ? "100%" : "auto"}',
 			(click)='onLabelClick()'
-		) Choose File
+		)
+			| Choose File
 		span.file-name(
 			*ngIf='!fieldData.hideFileName && showChooseFileButton'
-		) {{!fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName}}
+		)
+			| {{ !fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName }}
 		input.actual-file-input(#inputElement, type='file', (change)='onFileChange($event)')
 	div.errors-container
 		include ../base/baseInput.commonElementsTemplate.pug

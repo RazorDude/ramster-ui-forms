@@ -1,6 +1,25 @@
+.rui-file-input-container * {
+  z-index: 1; }
+
 .actual-file-input {
   display: none;
   visibility: hidden; }
+
+.drop-zone-active-area {
+  z-index: 2 !important;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ababab;
+  background-color: white; }
+  .drop-zone-active-area .drop-zone-text {
+    max-width: 50%;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis; }
 
 .placeholder {
   left: 0;
@@ -32,24 +51,15 @@
   background-position: center; }
   .file-preview.is-round {
     border-radius: 50%; }
-  .file-preview.drop-zone-active {
-    border: 1px dashed #ababab; }
-  .file-preview .drop-zone-active-text {
-    display: inline-block;
-    width: 50%;
-    height: 50%;
-    margin-left: 25%;
-    margin-top: 25%;
-    text-align: center; }
-    .file-preview .drop-zone-active-text p {
-      margin: 0;
-      padding: 0; }
 
 .button-wrapper {
   margin-top: 7px; }
 
 .file-name {
-  margin-left: 10px; }
+  margin-left: 10px;
+  overflow: hidden;
+  max-width: 85%;
+  text-overflow: ellipsis; }
 
 .errors-container {
   margin-top: 7px;

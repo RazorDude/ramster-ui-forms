@@ -1,6 +1,28 @@
+.rui-file-input-container * {
+	z-index: 1;
+}
+
 .actual-file-input {
 	display: none;
 	visibility: hidden;
+}
+
+.drop-zone-active-area {
+	z-index: 2 !important;
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	border: 1px dashed #ababab;
+	background-color: white;
+	.drop-zone-text {
+		max-width: 50%;
+		text-align: center;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		text-overflow: ellipsis;
+	}
 }
 
 .placeholder {
@@ -36,22 +58,6 @@
 	&.is-round {
 		border-radius: 50%;
 	}
-	&.drop-zone-active {
-		border: 1px dashed #ababab;
-	}
-	.drop-zone-active-text {
-		// position: absolute;
-		display: inline-block;
-		width: 50%;
-		height: 50%;
-		margin-left: 25%;
-		margin-top: 25%;
-		text-align: center;
-		p {
-			margin: 0;
-			padding: 0;
-		}
-	}
 }
 
 .button-wrapper {
@@ -60,6 +66,9 @@
 
 .file-name {
 	margin-left: 10px;
+	overflow: hidden;
+	max-width: 85%;
+	text-overflow: ellipsis;
 }
 
 .errors-container {

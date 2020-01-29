@@ -1,3 +1,6 @@
+# 0.5.1
+- Fixes for the Autocomplete drag'n'drop functionality - rewrote the events logic and moved it to the whole rui-input-container, rather than the file input preview.
+
 # 0.5.0
 - Huge improvement to the Autocomplete input - it now has a dedicated, mat-dialog based mobile mode - just set isMobile: true in the autocomplete's config.
 - Fixed the Autocomplete With Chips's required flag - it no longer displays an error message when chips have been selected but the searchBox is empty.

@@ -4,6 +4,7 @@ import {
 	ChangeDetectorRef,
 	Component,
 	ElementRef,
+	// HostListener,
 	Input,
 	OnChanges,
 	OnDestroy,
@@ -28,8 +29,13 @@ const moment = momentNamespace
 })
 export class FileInputComponent extends BaseInputComponent implements OnChanges, OnDestroy {
 	backgroundImageUrl: string = ''
-	defaultMaxFileSizeMB: 10 // in megabytes
+	defaultMaxFileSizeMB: number = 10 // in megabytes
+	dragLastMouseX: number
+	dragLastMouseY: number
+	dragLeaveTimeout: NodeJS.Timeout
 	dropZoneActive: boolean = false
+	dropZoneActiveAreaHeight: string
+	dropZoneActiveAreaWidth: string
 	fileName: string = ''
 	forceShowPreviewCancelButton: boolean = false
 	previewCancelButtonIconUrl: string = ''
@@ -40,6 +46,8 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 	subscriptions: Subscription[]
 
 	@ViewChild('inputElement') inputElementRef: ElementRef<HTMLInputElement>
+	@ViewChild('masterContainer') masterContainerRef: ElementRef<HTMLElement>
+	@ViewChild('placeholder') placeholderRef: ElementRef<HTMLElement>
 
 	@Input()
 	fieldData: FileInputFieldDataInterface
@@ -89,6 +97,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 				return
 			}
 		})
+		this.setDropZoneActiveAreaDimensions()
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -102,6 +111,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 				this.backgroundImageUrl = `url('${currentValue.previewDefaultImageUrl}')`
 			}
 		}
+		this.setDropZoneActiveAreaDimensions()
 	}
 
 	ngOnDestroy(): void {
@@ -217,18 +227,35 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 		inputFormControl.markAsDirty()
 	}
 
-	onLabelClick(): void {
-		if (this.fieldData.readOnly) {
+	onDragLeave(event: MouseEvent): void {
+		// console.log('onDragLeave')
+		if (!this.dropZoneActive) {
 			return
 		}
-		this.inputElementRef.nativeElement.click()
-	}
-
-	onDragLeave(): void {
-		this.dropZoneActive = false
+		if (this.dragLeaveTimeout) {
+			clearTimeout(this.dragLeaveTimeout)
+		}
+		this.dragLastMouseX = event.clientX
+		this.dragLastMouseY = event.clientY
+		this.dragLeaveTimeout = setTimeout(
+			() => {
+				// console.log('onDragLeaveTimeout')
+				// if (
+				// 	this.dropZoneActive && (
+				// 		(this.dragLastMouseX !== event.clientX) ||
+				// 		(this.dragLastMouseY !== event.clientY)
+				// 	)
+				// ) {
+					// console.log('onDragLeaveTimeout dropZoneActive=false', this.dragLastMouseX, this.dragLastMouseY, event.clientX, event.clientY)
+					this.dropZoneActive = false
+				// }
+			},
+			1000
+		)
 	}
 
 	onDragOver(event: Event): void {
+		// console.log('onDragOver')
 		event.stopPropagation()
 		event.preventDefault()
 		if (!this.dropZoneActive) {
@@ -240,6 +267,38 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 		event.preventDefault()
 		this.dropZoneActive = false
 		this.onFileChange({target: {files: event.dataTransfer.files}})
+	}
+
+	onLabelClick(): void {
+		if (this.fieldData.readOnly) {
+			return
+		}
+		this.inputElementRef.nativeElement.click()
+	}
+
+	// @HostListener('window:dragexit', ['$event'])
+	// onWindowMouseMove(event: MouseEvent): void {
+	// 	console.log('dragexit', event.clientX, event.clientY)
+	// 	if (this.dropZoneActive) {
+	// 		// console.log('dragover')
+	// 		// this.dragLastMouseX = event.clientX
+	// 		// this.dragLastMouseY = event.clientY
+	// 		// console.log('mouseMove', this.dragLastMouseX, this.dragLastMouseY)
+	// 		console.log('dragexit dropZoneActive', event.clientX, event.clientY)
+	// 	}
+	// }
+
+	setDropZoneActiveAreaDimensions(): void {
+		if (!this.masterContainerRef || !this.masterContainerRef.nativeElement) {
+			return
+		}
+		setTimeout(
+			() => {
+				this.dropZoneActiveAreaHeight = `${this.masterContainerRef.nativeElement.clientHeight - this.placeholderRef.nativeElement.clientHeight}px`
+				this.dropZoneActiveAreaWidth = `${this.masterContainerRef.nativeElement.clientWidth - 2}px`
+				this.changeDetectorRef.detectChanges()
+			}
+		)
 	}
 
 	async uploadFile(
