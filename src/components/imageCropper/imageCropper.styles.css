@@ -9,6 +9,14 @@
     flex-grow: 1; }
     .image-cropper-container .image-container .image-canvas {
       width: 100%;
+      height: 100%;
+      cursor: move; }
+  .image-cropper-container .slider-container {
+    display: flex;
+    flex-direction: row;
+    height: 45px; }
+    .image-cropper-container .slider-container mat-slider {
+      width: 100%;
       height: 100%; }
   .image-cropper-container .crop-button {
     margin-top: 15px; }

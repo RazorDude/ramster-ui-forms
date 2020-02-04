@@ -1,14 +1,16 @@
 import {CommonModule} from '@angular/common'
 import {ImageCropperComponent} from './imageCropper.component'
 import {
-	MatButtonModule
+	MatButtonModule,
+	MatSliderModule
 } from '@angular/material'
 import {ModuleWithProviders, NgModule} from '@angular/core'
 
 @NgModule({
 	imports: [
 		CommonModule,
-		MatButtonModule
+		MatButtonModule,
+		MatSliderModule
 	],
 	declarations: [
 		ImageCropperComponent

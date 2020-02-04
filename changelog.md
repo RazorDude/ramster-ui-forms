@@ -1,5 +1,8 @@
+# 0.5.2
+- Complete rewrite of the Image Cropper. Zooming and max constrainsts are still WIP.
+
 # 0.5.1
-- Fixes for the Autocomplete drag'n'drop functionality - rewrote the events logic and moved it to the whole rui-input-container, rather than the file input preview.
+- Fixes for the File Input drag'n'drop functionality - rewrote the events logic and moved it to the whole rui-input-container, rather than the file input preview.
 
 # 0.5.0
 - Huge improvement to the Autocomplete input - it now has a dedicated, mat-dialog based mobile mode - just set isMobile: true in the autocomplete's config.

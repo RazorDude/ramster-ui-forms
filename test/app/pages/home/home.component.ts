@@ -282,12 +282,12 @@ export class HomePageComponent extends BasePageComponent {
 			}, {
 				label: 'File Input 1',
 				name: 'fileInput1',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
 				type: 'file'
 			}, {
 				label: 'File Input 2',
 				name: 'fileInput2',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
 				type: 'file'
 			}, {
 				fileConfig: {
@@ -303,13 +303,34 @@ export class HomePageComponent extends BasePageComponent {
 				},
 				label: 'File Input 3',
 				name: 'fileInput3',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
 				type: 'file'
 			}, {
 				fileConfig: {readOnly: true},
 				label: 'Read-Only File Input',
 				name: 'readOnlyFileInput',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
+				type: 'file'
+			}, {
+				fileConfig: {
+					directUpload: true,
+					imageCropper: true,
+					imageCropperCroppedAreaDimensionsAreEqual: true,
+					imageCropperCroppedAreaIsRound: false,
+					imageCropperWidth: '400px',
+					imageCropperHeight: '350px',
+					preview: true,
+					previewCancelButton: true,
+					previewCancelButtonIconUrl: '/static/remove-circle.svg',
+					previewDefaultImageUrl: '/static/defaultImage.jpg',
+					previewHeight: '100px',
+					previewIsRound: false,
+					previewWidth: '100px',
+					showChooseFileButton: false
+				},
+				label: 'File Input With Square Image Cropper',
+				name: 'fileInputWithSquareImageCropper',
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
 				type: 'file'
 			}, {
 				fileConfig: {
@@ -326,9 +347,9 @@ export class HomePageComponent extends BasePageComponent {
 					previewWidth: '100px',
 					showChooseFileButton: false
 				},
-				label: 'File Input With Image Cropper',
-				name: 'fileInputWithImageScropper',
-				positioning: {colOffset: '5%', colSize: '20%', rowIndex: 3},
+				label: 'File Input With Round Image Cropper',
+				name: 'fileInputWithRoundImageCropper',
+				positioning: {colOffset: '2.5%', colSize: '15%', rowIndex: 3},
 				type: 'file'
 			}, {
 				label: 'Regular Input',

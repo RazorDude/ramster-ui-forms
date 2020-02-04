@@ -3,6 +3,9 @@ doctype html
 	.image-container
 		canvas.image-canvas(
 			#imageCanvas,
-			(mousedown)='onMouseDown($event)'
+			(mousedown)='onMouseDown($event)',
+			(mousemove)='onMouseMove($event)'
 		)
+	//- .slider-container
+		mat-slider(max='1.5', min='0.5', step='0.1', [(value)]='currentZoomLevel')
 	button.crop-button(mat-raised-button, (click)='cropImage()') Crop
