@@ -1,3 +1,6 @@
+# 0.5.3
+- The file input's uploadFile method now sends the imageCroppingOptions object as a whole, rather than its properties spread in the request body.
+
 # 0.5.2
 - Complete rewrite of the Image Cropper. Zooming and max constrainsts are still WIP.
 

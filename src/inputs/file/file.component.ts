@@ -310,7 +310,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 			await this.filesRESTService.upload(
 				file, {
 					outputFileName: fileOptions.outputFileName,
-					...(fileOptions.imageCroppingOptions || {})
+					imageCroppingOptions: fileOptions.imageCroppingOptions
 				},
 				{handleError: true}
 			)
