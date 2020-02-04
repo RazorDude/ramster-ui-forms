@@ -307,13 +307,14 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 		inputFormControl: AbstractControl
 	) {
 		try {
-			await this.filesRESTService.upload(
-				file, {
-					outputFileName: fileOptions.outputFileName,
-					imageCroppingOptions: fileOptions.imageCroppingOptions
-				},
-				{handleError: true}
-			)
+			const {imageCroppingOptions, outputFileName} = fileOptions
+			let params = {outputFileName}
+			if (imageCroppingOptions) {
+				for (const key in imageCroppingOptions) {
+					params[`imageCroppingOptions[${key}]`] = imageCroppingOptions[key]
+				}
+			}
+			await this.filesRESTService.upload(file, params, {handleError: true})
 			this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
 			this.fileName = fileOptions.inputFileName
 			inputFormControl.patchValue(fileOptions.outputFileName)
