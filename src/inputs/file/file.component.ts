@@ -314,6 +314,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 					params[`imageCroppingOptions[${key}]`] = imageCroppingOptions[key]
 				}
 			}
+			console.log(params)
 			await this.filesRESTService.upload(file, params, {handleError: true})
 			this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
 			this.fileName = fileOptions.inputFileName

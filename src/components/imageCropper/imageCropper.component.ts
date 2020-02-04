@@ -96,11 +96,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 
 	cropImage(): void {
 		this.imageCropped.next({
-			height: this.lastPointY - this.downPointY,
+			height: this.croppedAreaHeight,
 			isRound: this.options.croppedAreaIsRound,
-			startX: this.downPointX,
-			startY: this.downPointY,
-			width: this.lastPointX - this.downPointX
+			startX: this.croppedAreaX,
+			startY: this.croppedAreaY,
+			width: this.croppedAreaWidth
 		})
 	}
 

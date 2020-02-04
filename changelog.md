@@ -1,5 +1,8 @@
+# 0.5.5
+- The image cropper now correctly sends the cropped area dimensions.
+
 # 0.5.4
-- THe file input's uploadFile method now correctly sends the imageCroppingOptions objects, instead of "[object Object]".
+- The file input's uploadFile method now correctly sends the imageCroppingOptions objects, instead of "[object Object]".
 
 # 0.5.3
 - The file input's uploadFile method now sends the imageCroppingOptions object as a whole, rather than its properties spread in the request body.
