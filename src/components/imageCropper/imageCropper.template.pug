@@ -6,6 +6,6 @@ doctype html
 			(mousedown)='onMouseDown($event)',
 			(mousemove)='onMouseMove($event)'
 		)
-	//- .slider-container
-		mat-slider(max='1.5', min='0.5', step='0.1', [(value)]='currentZoomLevel')
+	.slider-container
+		mat-slider([max]='zoomMax', [min]='zoomMin', [step]='zoomStep', [value]='currentZoomLevel', (change)='changeZoomLevel($event)')
 	button.crop-button(mat-raised-button, (click)='cropImage()') Crop

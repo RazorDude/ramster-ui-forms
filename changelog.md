@@ -1,3 +1,9 @@
+# 0.5.7
+- Image cropper bounding & cropping logic fixes. Added a zoom slider.
+
+# 0.5.6
+- File input with image cropper - cropped image refresh.
+
 # 0.5.5
 - The image cropper now correctly sends the cropped area dimensions.
 

@@ -21,7 +21,10 @@ app.get('/testModel/selectList', (req, res) => res.json([
 	{text: 'Different Name 5', value: 5},
 	{text: 'Different Name 6', value: 6}
 ]))
-app.post('/files', (req, res) => res.status(200).end())
+app.post('/files', (req, res) => {
+	console.log(req.files)
+	res.status(200).end()
+})
 // app.post('/files', (req, res) => res.pipe(path.join(__dirname, '/static', decodeURIComponent(req.params.fileName))))
 let server = http.createServer(app)
 server.listen(config.serverPort, () => {

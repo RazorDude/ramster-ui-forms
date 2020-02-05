@@ -199,6 +199,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 							}
 						}
 						let sub = dialogRef.afterClosed().subscribe((event) => {
+							console.log(event)
 							sub.unsubscribe()
 							if (event) {
 								this.uploadFile(
@@ -314,12 +315,17 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 					params[`imageCroppingOptions[${key}]`] = imageCroppingOptions[key]
 				}
 			}
-			console.log(params)
 			await this.filesRESTService.upload(file, params, {handleError: true})
-			this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
+			this.backgroundImageUrl = null
 			this.fileName = fileOptions.inputFileName
 			inputFormControl.patchValue(fileOptions.outputFileName)
 			inputFormControl.markAsDirty()
+			setTimeout(
+				() => {
+					this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
+					this.changeDetectorRef.detectChanges()
+				}
+			)
 		} catch(err) {
 			console.error(err)
 			// this.globalEventsService.notify('error', `Error uploading the file: ${err.message || 'Internal server error.'}`)

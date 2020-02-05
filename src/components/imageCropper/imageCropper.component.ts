@@ -3,6 +3,7 @@ import {
 	ImageCropperComponentOptionsInterface,
 	ImageCropperComponentOutputInterface
 } from './imageCropper.interfaces'
+import {MatSliderChange} from '@angular/material'
 
 @Component({
 	selector: 'rui-image-cropper',
@@ -18,7 +19,9 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	canvasContext: CanvasRenderingContext2D = null
 	click: boolean = false
 	croppedAreaHeight: number = 0
+	croppedAreaHeightOnSource: number = 0
 	croppedAreaWidth: number = 0
+	croppedAreaWidthOnSource: number = 0
 	croppedAreaX: number = 0
 	croppedAreaY: number = 0
 	currentZoomLevel: number = 1
@@ -29,11 +32,18 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	lastPointX: number = 0
 	lastPointY: number = 0
 	mouseIsDown: boolean = false
+	movementMaxSourceX: number = 0
+	movementMaxSourceY: number = 0
+	movementMinSourceX: number = 0
+	movementMinSourceY: number = 0
 	resize: boolean = false
 	sourceHeight: number = 0
 	sourceWidth: number = 0
 	sourceX: number = 0
 	sourceY: number = 0
+	zoomMax: number = 1.9
+	zoomMin: number = 0.1
+	zoomStep: number = 0.1
 
 	@ViewChild('imageCanvas') imageCanvasRef: ElementRef<HTMLCanvasElement>
 
@@ -84,6 +94,17 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		}
 	}
 
+	changeZoomLevel(event: MatSliderChange): void {
+		console.log(event)
+		this.sourceWidth /= this.currentZoomLevel
+		this.sourceHeight /= this.currentZoomLevel
+		this.currentZoomLevel = event.value
+		this.sourceWidth *= this.currentZoomLevel
+		this.sourceHeight *= this.currentZoomLevel
+		this.drawSelRect(true)
+		this.reDrawCanvas()
+	}
+
 	clearCanvas(): void {
 		const {canvasBackgroundColor, canvasContext} = this,
 			{canvas} = canvasContext
@@ -96,11 +117,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 
 	cropImage(): void {
 		this.imageCropped.next({
-			height: this.croppedAreaHeight,
+			height: this.croppedAreaHeightOnSource,
 			isRound: this.options.croppedAreaIsRound,
-			startX: this.croppedAreaX,
-			startY: this.croppedAreaY,
-			width: this.croppedAreaWidth
+			startX: this.sourceX + ((this.sourceWidth - this.croppedAreaWidthOnSource) / 2),
+			startY: this.sourceY + ((this.sourceHeight - this.croppedAreaHeightOnSource) / 2),
+			width: this.croppedAreaWidthOnSource
 		})
 	}
 
@@ -108,7 +129,8 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		const {
 				canvasBackgroundColor,
 				canvasContext,
-				imageObject
+				imageObject,
+				mouseIsDown
 			} = this,
 			{height, width} = imageObject,
 			{clientHeight, clientWidth} = canvasContext.canvas
@@ -117,8 +139,6 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		if (reset) {
 			this.sourceHeight = clientHeight
 			this.sourceWidth = clientWidth
-			this.sourceX = 0
-			this.sourceY = 0
 			// handle smaller images - zoom in the center of the image
 			if ((width < clientWidth) || (height < clientHeight)) {
 				this.currentZoomLevel = Math.min(width, height) / Math.min(clientWidth, clientHeight)
@@ -131,34 +151,31 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			}
 			this.sourceX = (width - this.sourceWidth) / 2
 			this.sourceY = (height - this.sourceHeight) / 2
-			// console.log(width, this.sourceWidth, this.currentZoomLevel)
-			// this.sourceX = -this.sourceWidth / 2
-			// this.sourceY = (this.sourceHeight / 2)
 		}
 		// move the image by the amount of pixels the mouse has moved
-		if (this.mouseIsDown) {
-			let 
-				croppedAreaWidthOnSource = this.croppedAreaWidth * this.currentZoomLevel,
-				croppedAreaHeightOnSource = this.croppedAreaHeight * this.currentZoomLevel,
-				maxX = (this.sourceWidth - croppedAreaWidthOnSource) / 2,
-				// maxX = ((width - this.sourceWidth) / 2) + croppedAreaWidthOnSource,
-				maxY = (this.sourceHeight - croppedAreaHeightOnSource) / 2,
-				minX = (croppedAreaWidthOnSource - this.sourceWidth) / 2 + (1 * this.currentZoomLevel),
-				minY = (croppedAreaHeightOnSource - this.sourceHeight) / 2 + (1 * this.currentZoomLevel)
-			this.sourceX -= ((this.lastPointX - this.downPointX) / 2)
-			if (this.sourceX > maxX) {
-				this.sourceX = maxX
-			} else if (this.sourceX < minX) {
-				this.sourceX = minX
+		if (mouseIsDown) {
+			const {
+				downPointX,
+				downPointY,
+				lastPointX,
+				lastPointY,
+				movementMaxSourceX,
+				movementMaxSourceY,
+				movementMinSourceX,
+				movementMinSourceY
+			} = this
+			this.sourceX -= ((lastPointX - downPointX) / 2)
+			if (this.sourceX > movementMaxSourceX) {
+				this.sourceX = movementMaxSourceX
+			} else if (this.sourceX < movementMinSourceX) {
+				this.sourceX = movementMinSourceX
 			}
-			this.sourceY -= ((this.lastPointY - this.downPointY) / 2)
-			if (this.sourceY > maxY) {
-				this.sourceY = maxY
-			} else if (this.sourceY < minY) {
-				this.sourceY = minY
+			this.sourceY -= ((lastPointY - downPointY) / 2)
+			if (this.sourceY > movementMaxSourceY) {
+				this.sourceY = movementMaxSourceY
+			} else if (this.sourceY < movementMinSourceY) {
+				this.sourceY = movementMinSourceY
 			}
-			// console.log(`canvas width: ${clientWidth}, croppedAreaWidth: ${this.croppedAreaWidth}, minX: ${minX}`)
-			// console.log(`movement by ${(this.lastPointX - this.downPointX) / 2}x${(this.lastPointY - this.downPointY) / 2}px to (${this.sourceX}, ${this.sourceY}) on source size ${this.sourceWidth}x${this.sourceHeight}, width maxX of ${maxX}`)
 		}
 		// draw the faded background and image
 		this.canvasContext.globalAlpha = 0.6
@@ -174,7 +191,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	}
 
 	drawSelRect(reset?: boolean): void {
-		let canvas = this.canvasContext.canvas
+		const {
+			canvasContext,
+			imageObject
+		} = this
+		let canvas = canvasContext.canvas
 		if (reset && this.options) {
 			const {croppedAreaHeight, croppedAreaWidth} = this.options
 			if (croppedAreaWidth.match(/%$/)) {
@@ -201,11 +222,35 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			}
 			this.croppedAreaX = (canvas.width - this.croppedAreaWidth) / 2
 			this.croppedAreaY = (canvas.height - this.croppedAreaHeight) / 2
-			// console.log(this.croppedAreaWidth, this.croppedAreaHeight)
+			// if ((this.currentZoomLevel < 1) && ((this.sourceWidth < canvas.width) || (this.sourceHeight < canvas.height))) {
+			if ((this.currentZoomLevel < 1) && ((imageObject.width < canvas.width) || (imageObject.height < canvas.height))) {
+				this.croppedAreaWidthOnSource = this.croppedAreaWidth * this.currentZoomLevel
+				this.croppedAreaHeightOnSource = this.croppedAreaHeight * this.currentZoomLevel
+			} else {
+				this.croppedAreaWidthOnSource = this.croppedAreaWidth
+				this.croppedAreaHeightOnSource = this.croppedAreaHeight
+			}
+			console.log({
+				currentZoomLevel: this.currentZoomLevel,
+				'imageObject.width': imageObject.width,
+				'imageObject.height': imageObject.height,
+				'canvas.width': canvas.width,
+				'canvas.height': canvas.height,
+				sourceWidth: this.sourceWidth,
+				sourceHeight: this.sourceHeight,
+				croppedAreaWidth: this.croppedAreaWidth,
+				croppedAreaHeight: this.croppedAreaHeight,
+				croppedAreaWidthOnSource: this.croppedAreaWidthOnSource,
+				croppedAreaHeightOnSource: this.croppedAreaHeightOnSource
+			})
+			this.movementMaxSourceX = ((this.sourceWidth * (imageObject.width / this.sourceWidth)) - (this.sourceWidth / 2)) - (this.croppedAreaWidthOnSource / 2),
+			this.movementMaxSourceY = (this.sourceHeight * (imageObject.height / this.sourceHeight)) - (this.sourceHeight / 2) - (this.croppedAreaHeightOnSource / 2),
+			this.movementMinSourceX = ((-this.sourceWidth + this.croppedAreaWidthOnSource) / 2) + 1,
+			this.movementMinSourceY = ((-this.sourceHeight + this.croppedAreaHeightOnSource) / 2) + 1
 		}
-		this.canvasContext.strokeStyle = '#000000'
-		this.canvasContext.lineWidth = 1
-		this.canvasContext.globalAlpha = 1
+		canvasContext.strokeStyle = '#000000'
+		canvasContext.lineWidth = 1
+		canvasContext.globalAlpha = 1
 		let imageArgs = [
 			this.imageObject,
 			this.sourceX, this.sourceY, // source start position
@@ -225,43 +270,42 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 					0,
 					2 * Math.PI
 				]
-			this.canvasContext.save()
+			canvasContext.save()
 			// initial clipping pattern
-			this.canvasContext.beginPath()
-			this.canvasContext.ellipse.apply(this.canvasContext, ellipseArgs)
-			this.canvasContext.closePath()
-			this.canvasContext.clip()
+			canvasContext.beginPath()
+			canvasContext.ellipse.apply(canvasContext, ellipseArgs)
+			canvasContext.closePath()
+			canvasContext.clip()
 			// draw the image
-			this.canvasContext.drawImage.apply(this.canvasContext, imageArgs)
-			this.canvasContext.beginPath()
-			this.canvasContext.clip()
-			this.canvasContext.closePath()
-			this.canvasContext.restore()
-			this.canvasContext.beginPath()
-			this.canvasContext.ellipse.apply(this.canvasContext, ellipseArgs)
-			this.canvasContext.closePath()
-			this.canvasContext.stroke()
+			canvasContext.drawImage.apply(canvasContext, imageArgs)
+			canvasContext.beginPath()
+			canvasContext.clip()
+			canvasContext.closePath()
+			canvasContext.restore()
+			canvasContext.beginPath()
+			canvasContext.ellipse.apply(canvasContext, ellipseArgs)
+			canvasContext.closePath()
+			canvasContext.stroke()
 		}
 		else {
 			let rectArgs = [this.croppedAreaX, this.croppedAreaY, this.croppedAreaWidth, this.croppedAreaHeight]
-			this.canvasContext.save()
-			this.canvasContext.beginPath()
-			this.canvasContext.rect.apply(this.canvasContext, rectArgs)
-			this.canvasContext.closePath()
-			this.canvasContext.clip()
-			this.canvasContext.drawImage.apply(this.canvasContext, imageArgs)
-			this.canvasContext.beginPath()
-			this.canvasContext.rect.apply(this.canvasContext, rectArgs)
-			this.canvasContext.clip()
-			this.canvasContext.closePath()
-			this.canvasContext.restore()
-			this.canvasContext.strokeRect.apply(this.canvasContext, rectArgs)
+			canvasContext.save()
+			canvasContext.beginPath()
+			canvasContext.rect.apply(canvasContext, rectArgs)
+			canvasContext.closePath()
+			canvasContext.clip()
+			canvasContext.drawImage.apply(canvasContext, imageArgs)
+			canvasContext.beginPath()
+			canvasContext.rect.apply(canvasContext, rectArgs)
+			canvasContext.clip()
+			canvasContext.closePath()
+			canvasContext.restore()
+			canvasContext.strokeRect.apply(canvasContext, rectArgs)
 		}
 	}
 
 	loadImage(): Promise<any> {
-		let instance = this
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			if (!this.src) {
 				resolve(false)
 				return
@@ -272,8 +316,6 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			}
 			this.imageObject = new Image()
 			this.imageObject.onload = function() {
-				// instance.canvasContext.canvas.width = instance.imageObject.width
-				// instance.canvasContext.canvas.height = instance.imageObject.height
 				resolve(true)
 			}
 			this.imageObject.src = this.src
