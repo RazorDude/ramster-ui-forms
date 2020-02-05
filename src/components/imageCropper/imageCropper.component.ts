@@ -95,12 +95,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	}
 
 	changeZoomLevel(event: MatSliderChange): void {
-		console.log(event)
 		this.sourceWidth /= this.currentZoomLevel
 		this.sourceHeight /= this.currentZoomLevel
 		this.currentZoomLevel = event.value
-		this.sourceWidth *= this.currentZoomLevel
-		this.sourceHeight *= this.currentZoomLevel
+		this.sourceWidth = this.canvasContext.canvas.clientWidth * this.currentZoomLevel
+		this.sourceHeight = this.canvasContext.canvas.clientHeight * this.currentZoomLevel
 		this.drawSelRect(true)
 		this.reDrawCanvas()
 	}
@@ -222,7 +221,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			}
 			this.croppedAreaX = (canvas.width - this.croppedAreaWidth) / 2
 			this.croppedAreaY = (canvas.height - this.croppedAreaHeight) / 2
-			// if ((this.currentZoomLevel < 1) && ((this.sourceWidth < canvas.width) || (this.sourceHeight < canvas.height))) {
+			// if ((this.sourceWidth < canvas.width) || (this.sourceHeight < canvas.height)) {
 			if ((this.currentZoomLevel < 1) && ((imageObject.width < canvas.width) || (imageObject.height < canvas.height))) {
 				this.croppedAreaWidthOnSource = this.croppedAreaWidth * this.currentZoomLevel
 				this.croppedAreaHeightOnSource = this.croppedAreaHeight * this.currentZoomLevel
@@ -230,20 +229,8 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 				this.croppedAreaWidthOnSource = this.croppedAreaWidth
 				this.croppedAreaHeightOnSource = this.croppedAreaHeight
 			}
-			console.log({
-				currentZoomLevel: this.currentZoomLevel,
-				'imageObject.width': imageObject.width,
-				'imageObject.height': imageObject.height,
-				'canvas.width': canvas.width,
-				'canvas.height': canvas.height,
-				sourceWidth: this.sourceWidth,
-				sourceHeight: this.sourceHeight,
-				croppedAreaWidth: this.croppedAreaWidth,
-				croppedAreaHeight: this.croppedAreaHeight,
-				croppedAreaWidthOnSource: this.croppedAreaWidthOnSource,
-				croppedAreaHeightOnSource: this.croppedAreaHeightOnSource
-			})
-			this.movementMaxSourceX = ((this.sourceWidth * (imageObject.width / this.sourceWidth)) - (this.sourceWidth / 2)) - (this.croppedAreaWidthOnSource / 2),
+			// console.log(`source: ${this.sourceWidth}x${this.sourceHeight}, canvas: ${canvas.width}x${canvas.height}, zoom: ${this.currentZoomLevel}, cropped area width: ${this.croppedAreaWidth} original - ${this.croppedAreaWidthOnSource} on source`)
+			this.movementMaxSourceX = (this.sourceWidth * (imageObject.width / this.sourceWidth)) - (this.sourceWidth / 2) - (this.croppedAreaWidthOnSource / 2),
 			this.movementMaxSourceY = (this.sourceHeight * (imageObject.height / this.sourceHeight)) - (this.sourceHeight / 2) - (this.croppedAreaHeightOnSource / 2),
 			this.movementMinSourceX = ((-this.sourceWidth + this.croppedAreaWidthOnSource) / 2) + 1,
 			this.movementMinSourceY = ((-this.sourceHeight + this.croppedAreaHeightOnSource) / 2) + 1

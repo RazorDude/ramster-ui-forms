@@ -1,5 +1,6 @@
 # 0.5.7
-- Image cropper bounding & cropping logic fixes. Added a zoom slider.
+- Image cropper bounding & cropping logic fixes.
+- Image cropper zoom slider WIP.
 
 # 0.5.6
 - File input with image cropper - cropped image refresh.

@@ -199,7 +199,6 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 							}
 						}
 						let sub = dialogRef.afterClosed().subscribe((event) => {
-							console.log(event)
 							sub.unsubscribe()
 							if (event) {
 								this.uploadFile(
