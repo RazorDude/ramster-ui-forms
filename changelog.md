@@ -1,3 +1,9 @@
+# 0.6.0
+- File input with image cropper - added a refresh after cropped file upload.
+- File input with image cropper - added the ability to specify the croppedArea dimensions and increased the default from 50% to 80%.
+- Image cropper - added zoom and fixed the cropped area bounding logic.
+- Updated the testApp to allow for the uploading files and cropping of images - much better testing.
+
 # 0.5.7
 - Image cropper bounding & cropping logic fixes.
 - Image cropper zoom slider WIP.

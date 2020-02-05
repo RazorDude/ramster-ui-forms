@@ -1,18 +1,23 @@
-
 const
+	bodyParser = require('body-parser'),
 	config = require('./config'),
 	express = require('express'),
-	fs = require('fs'),
+	fs = require('fs-extra'),
 	http = require('http'),
+	multipart = require('connect-multiparty'),
 	path = require('path'),
-	pug = require('pug')
+	pug = require('pug'),
+	sharp = require('sharp')
 
 let app = express(),
 	getTemplate = pug.compileFile(path.join(__dirname, './index.pug')),
 	template = getTemplate({bundleLink: `http://127.0.0.1:${config.devserverPort}/dist/main.js`})
+app.use(bodyParser.json()) // for 'application/json' request bodies
+app.use(bodyParser.urlencoded({extended: false})) // 'x-www-form-urlencoded' request bodies
+app.use(multipart({limit: '10mb', uploadDir: path.join(__dirname, 'uploads')})) // for multipart bodies - file uploads etc.
 app.get('/', (req, res) => res.send(template))
 app.get('/static/:fileName', (req, res) => res.sendFile(path.join(__dirname, '/static', decodeURIComponent(req.params.fileName))))
-app.get('/storage/tmp/:fileName', (req, res) => res.sendFile(path.join(__dirname, '/static/randomImage.jpeg')))
+app.get('/storage/tmp/:fileName', (req, res) => res.sendFile(path.join(__dirname, '/uploads', decodeURIComponent(req.params.fileName))))
 app.get('/testModel/selectList', (req, res) => res.json([
 	{text: 'Option 1', value: 1},
 	{text: 'Option 2', value: 2},
@@ -22,10 +27,24 @@ app.get('/testModel/selectList', (req, res) => res.json([
 	{text: 'Different Name 6', value: 6}
 ]))
 app.post('/files', (req, res) => {
-	console.log(req.files)
-	res.status(200).end()
+	(async function() {
+		const {imageCroppingOptions, outputFileName} = req.body
+		let outputFilePath = path.join(__dirname, '/uploads', outputFileName)
+		await fs.rename(req.files.file.path, outputFilePath)
+		if (imageCroppingOptions) {
+			await sharp(await fs.readFile(outputFilePath)).extract({
+				left: parseInt(imageCroppingOptions.startX, 10),
+				top: parseInt(imageCroppingOptions.startY, 10),
+				width: parseInt(imageCroppingOptions.width, 10),
+				height: parseInt(imageCroppingOptions.height, 10)
+			}).toFile(outputFilePath)
+		}
+		res.json({success: true})
+	})().then(
+		() => true,
+		(err) => res.json({error: err})
+	)
 })
-// app.post('/files', (req, res) => res.pipe(path.join(__dirname, '/static', decodeURIComponent(req.params.fileName))))
 let server = http.createServer(app)
 server.listen(config.serverPort, () => {
 	console.log(`[RUI testApp] Server started.`)

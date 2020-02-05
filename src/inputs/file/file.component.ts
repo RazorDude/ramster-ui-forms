@@ -144,7 +144,9 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 				directUpload,
 				imageCropper,
 				imageCropperCroppedAreaDimensionsAreEqual,
+				imageCropperCroppedAreaHeight,
 				imageCropperCroppedAreaIsRound,
+				imageCropperCroppedAreaWidth,
 				imageCropperHeight,
 				imageCropperWidth,
 				inputFormControl
@@ -193,9 +195,9 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 							fileUrl: `/storage/tmp/${outputFileName}`,
 							imageCropperOptions: {
 								croppedAreaDimensionsAreEqual: imageCropperCroppedAreaDimensionsAreEqual,
-								croppedAreaHeight: '50%',
+								croppedAreaHeight: imageCropperCroppedAreaHeight || '80%',
 								croppedAreaIsRound: imageCropperCroppedAreaIsRound,
-								croppedAreaWidth: '50%'
+								croppedAreaWidth: imageCropperCroppedAreaWidth || '80%'
 							}
 						}
 						let sub = dialogRef.afterClosed().subscribe((event) => {
@@ -321,7 +323,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 			inputFormControl.markAsDirty()
 			setTimeout(
 				() => {
-					this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}')`
+					this.backgroundImageUrl = `url('/storage/tmp/${fileOptions.outputFileName}?_=${moment().valueOf()}')`
 					this.changeDetectorRef.detectChanges()
 				}
 			)

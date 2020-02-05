@@ -6,7 +6,9 @@ export interface FileInputFieldDataInterface extends BaseInputFieldDataInterface
 	hideFileName?: boolean
 	imageCropper?: boolean
 	imageCropperCroppedAreaDimensionsAreEqual?: boolean
+	imageCropperCroppedAreaHeight?: string
 	imageCropperCroppedAreaIsRound?: boolean
+	imageCropperCroppedAreaWidth?: string
 	imageCropperHeight?: string
 	imageCropperWidth?: string
 	maxFileSizeMB?: number

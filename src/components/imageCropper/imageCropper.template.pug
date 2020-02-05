@@ -4,8 +4,17 @@ doctype html
 		canvas.image-canvas(
 			#imageCanvas,
 			(mousedown)='onMouseDown($event)',
-			(mousemove)='onMouseMove($event)'
+			(mousemove)='onMouseMove($event)',
+			(mousewheel)='onMouseWheel($event)'
 		)
-	//- .slider-container
-	//- 	mat-slider([max]='zoomMax', [min]='zoomMin', [step]='zoomStep', [value]='currentZoomLevel', (change)='changeZoomLevel($event)')
+	.slider-container
+		mat-slider(
+			#matSliderElement,
+			[max]='zoomMax - zoomStep',
+			[min]='zoomMin',
+			[step]='zoomStep',
+			[value]='zoomSliderValue',
+			(change)='changeZoomLevel($event)',
+			(mousewheel)='onMouseWheel($event)'
+		)
 	button.crop-button(mat-raised-button, (click)='cropImage()') Crop
