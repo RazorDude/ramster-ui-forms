@@ -35,12 +35,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	lastDiffX: number = 0
 	lastDiffY: number = 0
 	mouseIsDown: boolean = false
-	movementTimeouts: NodeJS.Timeout[] = []
 	movementMaxSourceX: number = 0
 	movementMaxSourceY: number = 0
 	movementMinSourceX: number = 0
 	movementMinSourceY: number = 0
-	movementPixels: number = 5
+	movementPixels: number = 3
 	resize: boolean = false
 	sourceHeight: number = 0
 	sourceWidth: number = 0
@@ -65,6 +64,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		setTimeout(
 			() => {
 				this.canvasContext = this.imageCanvasRef.nativeElement.getContext('2d')
+				this.movementPixels = this.options && this.options.backgroundMovementSpeed || 3
 				this.loadImage().then((result) => {
 					if (result) {
 						this.reDrawCanvas(true)
@@ -78,6 +78,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.options) {
 			const {currentValue, previousValue} = changes.options
+			this.movementPixels = currentValue && currentValue.backgroundMovementSpeed || 3
 			if (
 				this.canvasContext && (
 					!previousValue ||
@@ -384,19 +385,10 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		if (!this.mouseIsDown) {
 			return
 		}
-		// if (this.movementTimeouts.length >= 10) {
-		// 	clearTimeout(this.movementTimeouts.pop())
-		// }
-		// // this.movementTimeouts
-		// this.movementTimeouts.push(setTimeout(
-		// 	() => {
-				let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
-				this.lastPointX = mouseCoordinates.x
-				this.lastPointY = mouseCoordinates.y
-				this.reDrawCanvas()
-		// 	},
-		// 	10
-		// ))
+		let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
+		this.lastPointX = mouseCoordinates.x
+		this.lastPointY = mouseCoordinates.y
+		this.reDrawCanvas()
 	}
 
 	onTouchStart(event: TouchEvent): void {

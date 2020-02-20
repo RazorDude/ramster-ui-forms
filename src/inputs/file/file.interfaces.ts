@@ -5,6 +5,7 @@ export interface FileInputFieldDataInterface extends BaseInputFieldDataInterface
 	directUpload?: boolean
 	hideFileName?: boolean
 	imageCropper?: boolean
+	imageCropperBackgroundMovementSpeed?: number
 	imageCropperCroppedAreaDimensionsAreEqual?: boolean
 	imageCropperCroppedAreaHeight?: string
 	imageCropperCroppedAreaIsRound?: boolean

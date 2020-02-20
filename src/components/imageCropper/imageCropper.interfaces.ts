@@ -1,4 +1,5 @@
 export interface ImageCropperComponentOptionsInterface {
+	backgroundMovementSpeed?: number
 	croppedAreaDimensionsAreEqual?: boolean
 	croppedAreaHeight?: string
 	croppedAreaIsRound?: boolean

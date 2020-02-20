@@ -1,3 +1,6 @@
+# 0.6.2
+- File input with image cropper - imageCropperBackgroundMovementSpeed added to the background image.
+
 # 0.6.1
 - File input with image cropper - add touch events and updated the movement algorithm.
 
