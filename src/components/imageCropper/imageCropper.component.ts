@@ -29,13 +29,18 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	downPointY: number = 0
 	hoverBoxSize: number = 5
 	imageObject: HTMLImageElement
+	lastMovementTimestamp: number = 0
 	lastPointX: number = 0
 	lastPointY: number = 0
+	lastDiffX: number = 0
+	lastDiffY: number = 0
 	mouseIsDown: boolean = false
+	movementTimeouts: NodeJS.Timeout[] = []
 	movementMaxSourceX: number = 0
 	movementMaxSourceY: number = 0
 	movementMinSourceX: number = 0
 	movementMinSourceY: number = 0
+	movementPixels: number = 5
 	resize: boolean = false
 	sourceHeight: number = 0
 	sourceWidth: number = 0
@@ -99,7 +104,9 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	changeZoomLevel(event: MatSliderChange | {[value: string]: number}): void {
 		if ((event.value >= this.zoomMax) || (event.value < this.zoomMin)) {
 			this.zoomSliderValue = this.zoomSliderValue
-			this.matSliderElementRef.nativeElement.blur()
+			if (this.matSliderElementRef.nativeElement) {
+				this.matSliderElementRef.nativeElement.blur()
+			}
 			return
 		}
 		this.currentZoomLevel = this.currentZoomLevel - (event.value - this.zoomSliderValue)
@@ -159,30 +166,43 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			this.sourceX = (width - this.sourceWidth) / 2
 			this.sourceY = (height - this.sourceHeight) / 2
 		}
-		// move the image by the amount of pixels the mouse has moved
+		// old: move the image by the amount of pixels the mouse has moved
+		// new: move the image by a fixed amount if pixels in the direction the mouse have moved
 		if (mouseIsDown) {
 			const {
 				downPointX,
 				downPointY,
+				lastDiffX,
+				lastDiffY,
 				lastPointX,
 				lastPointY,
 				movementMaxSourceX,
 				movementMaxSourceY,
 				movementMinSourceX,
-				movementMinSourceY
+				movementMinSourceY,
+				movementPixels
 			} = this
-			this.sourceX -= ((lastPointX - downPointX) / 2)
+			// old
+			// this.sourceX -= ((lastPointX - downPointX) / 2)
+			let xDiff = lastPointX - downPointX
+			this.sourceX += xDiff < lastDiffX ? movementPixels : -movementPixels
+			this.lastDiffX = xDiff
 			if (this.sourceX > movementMaxSourceX) {
 				this.sourceX = movementMaxSourceX
 			} else if (this.sourceX < movementMinSourceX) {
 				this.sourceX = movementMinSourceX
 			}
-			this.sourceY -= ((lastPointY - downPointY) / 2)
+			// old:
+			// this.sourceY -= ((lastPointY - downPointY) / 2)
+			let yDiff = lastPointY - downPointY
+			this.sourceY += yDiff < lastDiffY ? movementPixels : -movementPixels
+			this.lastDiffY = yDiff
 			if (this.sourceY > movementMaxSourceY) {
 				this.sourceY = movementMaxSourceY
 			} else if (this.sourceY < movementMinSourceY) {
 				this.sourceY = movementMinSourceY
 			}
+			// console.log(this.sourceX, this.sourceY)
 		}
 		// draw the faded background and image
 		this.canvasContext.globalAlpha = 0.6
@@ -326,12 +346,13 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 
 	onMouseMove(event: MouseEvent): void {
 		event.preventDefault()
-		if (this.mouseIsDown) {
-			let mouseCoordinates = this.windowToCanvas(event.clientX, event.clientY)
-			this.lastPointX = mouseCoordinates.x
-			this.lastPointY = mouseCoordinates.y
-			this.reDrawCanvas()
+		if (!this.mouseIsDown) {
+			return
 		}
+		let mouseCoordinates = this.windowToCanvas(event.clientX, event.clientY)
+		this.lastPointX = mouseCoordinates.x
+		this.lastPointY = mouseCoordinates.y
+		this.reDrawCanvas()
 	}
 
 	@HostListener('window:mouseup', ['$event'])
@@ -347,6 +368,45 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		event.preventDefault()
 		let newZoomSliderValue = event.deltaY < 0 ? this.zoomSliderValue + this.zoomStep : this.zoomSliderValue - this.zoomStep
 		this.changeZoomLevel({value: newZoomSliderValue})
+	}
+
+	@HostListener('window:touchend', ['$event'])
+	onTouchEnd(event: MouseEvent): void {
+		if (!this.mouseIsDown) {
+			return
+		}
+		event.preventDefault()
+		this.mouseIsDown = false
+	}
+
+	onTouchMove(event: TouchEvent): void {
+		event.preventDefault()
+		if (!this.mouseIsDown) {
+			return
+		}
+		// if (this.movementTimeouts.length >= 10) {
+		// 	clearTimeout(this.movementTimeouts.pop())
+		// }
+		// // this.movementTimeouts
+		// this.movementTimeouts.push(setTimeout(
+		// 	() => {
+				let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
+				this.lastPointX = mouseCoordinates.x
+				this.lastPointY = mouseCoordinates.y
+				this.reDrawCanvas()
+		// 	},
+		// 	10
+		// ))
+	}
+
+	onTouchStart(event: TouchEvent): void {
+		event.preventDefault()
+		let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
+		this.mouseIsDown = true
+		this.downPointX = mouseCoordinates.x
+		this.downPointY = mouseCoordinates.y
+		this.lastPointX = mouseCoordinates.x
+		this.lastPointY = mouseCoordinates.y
 	}
 
 	reDrawCanvas(reset?: boolean): void {

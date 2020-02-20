@@ -1,3 +1,6 @@
+# 0.6.1
+- File input with image cropper - add touch events and updated the movement algorithm.
+
 # 0.6.0
 - File input with image cropper - added a refresh after cropped file upload.
 - File input with image cropper - added the ability to specify the croppedArea dimensions and increased the default from 50% to 80%.

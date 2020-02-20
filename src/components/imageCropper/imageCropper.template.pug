@@ -5,7 +5,9 @@ doctype html
 			#imageCanvas,
 			(mousedown)='onMouseDown($event)',
 			(mousemove)='onMouseMove($event)',
-			(mousewheel)='onMouseWheel($event)'
+			(mousewheel)='onMouseWheel($event)',
+			(touchmove)='onTouchMove($event)',
+			(touchstart)='onTouchStart($event)'
 		)
 	.slider-container
 		mat-slider(
