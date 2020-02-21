@@ -29,6 +29,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	downPointY: number = 0
 	hoverBoxSize: number = 5
 	imageObject: HTMLImageElement
+	multiTouchActive: boolean = false
 	lastMovementTimestamp: number = 0
 	lastPointX: number = 0
 	lastPointY: number = 0
@@ -39,7 +40,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	movementMaxSourceY: number = 0
 	movementMinSourceX: number = 0
 	movementMinSourceY: number = 0
-	movementPixels: number = 3
+	movementPixels: number = 5
 	resize: boolean = false
 	sourceHeight: number = 0
 	sourceWidth: number = 0
@@ -64,7 +65,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		setTimeout(
 			() => {
 				this.canvasContext = this.imageCanvasRef.nativeElement.getContext('2d')
-				this.movementPixels = this.options && this.options.backgroundMovementSpeed || 3
+				this.movementPixels = this.options && this.options.backgroundMovementSpeed || 5
 				this.loadImage().then((result) => {
 					if (result) {
 						this.reDrawCanvas(true)
@@ -78,7 +79,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes.options) {
 			const {currentValue, previousValue} = changes.options
-			this.movementPixels = currentValue && currentValue.backgroundMovementSpeed || 3
+			this.movementPixels = currentValue && currentValue.backgroundMovementSpeed || 5
 			if (
 				this.canvasContext && (
 					!previousValue ||
@@ -118,6 +119,7 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		this.reDrawCanvas()
 		this.zoomSliderValue = event.value
 		this.mouseIsDown = false
+		this.multiTouchActive = false
 	}
 
 	clearCanvas(): void {
@@ -339,17 +341,19 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		event.preventDefault()
 		let mouseCoordinates = this.windowToCanvas(event.clientX, event.clientY)
 		this.mouseIsDown = true
+		this.multiTouchActive = false
 		this.downPointX = mouseCoordinates.x
 		this.downPointY = mouseCoordinates.y
 		this.lastPointX = mouseCoordinates.x
 		this.lastPointY = mouseCoordinates.y
 	}
 
+	@HostListener('window:mousemove', ['$event'])
 	onMouseMove(event: MouseEvent): void {
-		event.preventDefault()
 		if (!this.mouseIsDown) {
 			return
 		}
+		event.preventDefault()
 		let mouseCoordinates = this.windowToCanvas(event.clientX, event.clientY)
 		this.lastPointX = mouseCoordinates.x
 		this.lastPointY = mouseCoordinates.y
@@ -363,10 +367,11 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		}
 		event.preventDefault()
 		this.mouseIsDown = false
+		this.multiTouchActive = false
 	}
 
+	@HostListener('window:mousewheel', ['$event'])
 	onMouseWheel(event: MouseWheelEvent): void {
-		event.preventDefault()
 		let newZoomSliderValue = event.deltaY < 0 ? this.zoomSliderValue + this.zoomStep : this.zoomSliderValue - this.zoomStep
 		this.changeZoomLevel({value: newZoomSliderValue})
 	}
@@ -377,22 +382,36 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 			return
 		}
 		event.preventDefault()
+		if (this.multiTouchActive) {
+			this.multiTouchActive = false
+			return
+		}
 		this.mouseIsDown = false
 	}
 
+	@HostListener('window:touchmove', ['$event'])
 	onTouchMove(event: TouchEvent): void {
-		event.preventDefault()
 		if (!this.mouseIsDown) {
 			return
 		}
-		let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
-		this.lastPointX = mouseCoordinates.x
-		this.lastPointY = mouseCoordinates.y
+		event.preventDefault()
+		let {x, y} = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
+		// pinch to zoom
+		if (this.multiTouchActive) {
+			let xDiff = x - this.downPointX,
+				yDiff = y - this.downPointY
+			this.changeZoomLevel({value: ((xDiff < this.lastDiffX) || (yDiff < this.lastDiffY)) ? this.zoomStep : -this.zoomStep})
+			return
+		}
+		this.lastPointX = x
+		this.lastPointY = y
 		this.reDrawCanvas()
 	}
 
 	onTouchStart(event: TouchEvent): void {
 		event.preventDefault()
+		// pinch to zoom
+		this.multiTouchActive = this.mouseIsDown ? true : false
 		let mouseCoordinates = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
 		this.mouseIsDown = true
 		this.downPointX = mouseCoordinates.x
