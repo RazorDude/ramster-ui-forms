@@ -1,3 +1,6 @@
+# 0.6.4
+- File input with image cropper - pinch-to-zoom fix.
+
 # 0.6.3
 - File input with image cropper - updated the background move events to support moving the mouse otside of the box. Added pinch-to-zoom for mobile. Upped the default speed to 5.
 

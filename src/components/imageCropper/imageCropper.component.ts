@@ -396,15 +396,17 @@ export class ImageCropperComponent implements OnInit, OnChanges {
 		}
 		event.preventDefault()
 		let {x, y} = this.windowToCanvas(event.touches[0].clientX, event.touches[0].clientY)
+		this.lastPointX = x
+		this.lastPointY = y
 		// pinch to zoom
 		if (this.multiTouchActive) {
 			let xDiff = x - this.downPointX,
 				yDiff = y - this.downPointY
-			this.changeZoomLevel({value: ((xDiff < this.lastDiffX) || (yDiff < this.lastDiffY)) ? this.zoomStep : -this.zoomStep})
+			this.changeZoomLevel({value: ((xDiff < this.lastDiffX) || (yDiff < this.lastDiffY)) ? this.zoomSliderValue + this.zoomStep : this.zoomSliderValue - this.zoomStep})
+			this.lastDiffX = xDiff
+			this.lastDiffY = yDiff
 			return
 		}
-		this.lastPointX = x
-		this.lastPointY = y
 		this.reDrawCanvas()
 	}
 
