@@ -1,3 +1,6 @@
+# 0.6.5
+- The Autocomplete input now supports a searchBoxEventsTrigger argument, which can be used to trigger events on the searchBox formControl.
+
 # 0.6.4
 - File input with image cropper - pinch-to-zoom fix.
 

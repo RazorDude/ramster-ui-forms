@@ -12,8 +12,9 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	maxChipCount?: number
 	noMatchesOptionAction?: Subject<any>
 	noMatchesOptionText?: string
-	searchBoxValidators?: any[]
 	searchBoxAsyncValidators?: any[]
+	searchBoxEventsTrigger?: Subject<{methodData?: any, methodName: string}>
+	searchBoxValidators?: any[]
 	selectList: {text: string, value: any}[]
 	selectListLoadedCallback?: Subject<any>
 	selectListRESTService?: BaseRESTService

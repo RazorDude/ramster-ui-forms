@@ -37,6 +37,7 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 			filteredSelectListMaxLength,
 			hasChips,
 			searchBoxAsyncValidators,
+			searchBoxEventsTrigger,
 			searchBoxValidators,
 			selectListRESTServiceMethodName,
 			selectListReloadOnValueChange,
@@ -189,6 +190,15 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 				this.setCurrentSelectionToValue(selectList, value)
 			}
 		}))
+
+
+		if (searchBoxEventsTrigger) {
+			searchBoxEventsTrigger.subscribe((data) => {
+				if (data && data.methodName && (typeof this.searchBox[data.methodName] === 'function')) {
+					this.searchBox[data.methodName](data.methodData)
+				}
+			})
+		}
 
 		// set up the listener for the master input (if any)
 		if (
