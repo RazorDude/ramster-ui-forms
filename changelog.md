@@ -1,3 +1,6 @@
+# 0.6.6
+- Fixed the select input's master input functionality - it no longer resets the value and the select list at all times - only when the new master form control value is undefined/empty/null.
+
 # 0.6.5
 - The Autocomplete input now supports a searchBoxEventsTrigger argument, which can be used to trigger events on the searchBox formControl.
 

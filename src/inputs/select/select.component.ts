@@ -33,9 +33,9 @@ export class SelectComponent extends BaseInputComponent {
 			this.fieldData.selectListRESTServiceFilterFieldName
 		) {
 			this.fieldData.masterInputFormControl.valueChanges.subscribe((value) => {
-				this.fieldData.selectList = []
-				this.fieldData.inputFormControl.patchValue(null)
-				if ((value === null) || (value === '')) {
+				if ((typeof value === 'undefined') || (value === null) || (value === '')) {
+					this.fieldData.selectList = []
+					this.fieldData.inputFormControl.patchValue(null)
 					if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 						this.fieldData.masterInputFormControlValueChangesCallback.next(value)
 					}
@@ -55,7 +55,7 @@ export class SelectComponent extends BaseInputComponent {
 						if (this.fieldData.selectListLoadedCallback instanceof Subject) {
 							this.fieldData.selectListLoadedCallback.next()
 						}
-					}, (err) => false
+					}, (err) => console.error(err)
 				)
 			})
 		}
@@ -64,7 +64,7 @@ export class SelectComponent extends BaseInputComponent {
 		if (this.fieldData.loadSelectListOnInit && (this.fieldData.selectListRESTService instanceof BaseRESTService)) {
 			this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](this.fieldData.selectListRESTServiceArgs || this.defaultSelectListRESTServiceArgs).then((res) => {
 					this.fieldData.selectList = res
-				}, (err) => false
+				}, (err) => console.error(err)
 			)
 		}
 
