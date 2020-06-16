@@ -56,8 +56,9 @@ div(*ngIf='fieldData', mat-dialog-content)
 		mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
 			span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{ errorMessages[errorKey] }}
 	.options-container
-		.mat-option(
-			*ngFor='let item of filteredSelectList; let i = index',
-			(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
-		) {{item.text}}
+		div
+			.mat-option(
+				*ngFor='let item of filteredSelectList; let i = index',
+				(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
+			) {{item.text}}
 	button(mat-raised-button, (click)='closeModal()') Close
