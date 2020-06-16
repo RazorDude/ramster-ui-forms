@@ -1,3 +1,6 @@
+# 0.6.14
+- Autocomplete mobile modal - reverted the last change.
+
 # 0.6.13
 - Autocomplete mobile modal - its content now in reverse.
 
