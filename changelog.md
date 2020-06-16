@@ -1,3 +1,6 @@
+# 0.6.13
+- Autocomplete mobile modal - its content now in reverse.
+
 # 0.6.12
 - Autocomplete mobile modal hotfix WIP.
 

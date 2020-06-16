@@ -18,7 +18,7 @@ import {NgxWigModule} from 'ngx-wig'
 import {ReactiveFormsModule} from '@angular/forms'
 
 import {AutocompleteComponent} from './autocomplete/autocomplete.component'
-import {AutocompleteMobileModalComponent} from './autocomplete/components/mobileModal/mobileModal.component'
+import {AutocompleteMobileModalComponent, ReversePipe} from './autocomplete/components/mobileModal/mobileModal.component'
 import {CheckboxComponent} from './checkbox/checkbox.component'
 import {DatepickerComponent} from './datepicker/datepicker.component'
 import {FileInputComponent} from './file/file.component'
@@ -55,6 +55,7 @@ import {WysiwygComponent} from './wysiwyg/wysiwyg.component'
 		FileInputComponent,
 		FileInputImageCropperModalComponent,
 		InputComponent,
+		ReversePipe,
 		SelectComponent,
 		SlideToggleComponent,
 		TextareaComponent,

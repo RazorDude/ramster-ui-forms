@@ -1,5 +1,11 @@
 doctype html
 div(*ngIf='fieldData', mat-dialog-content)
+	.options-outer-container
+		.options-inner-container
+			.mat-option(
+				*ngFor='let item of filteredSelectList | reverse; let i = index',
+				(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
+			) {{item.text}}
 	mat-form-field.rui-input-container(
 		*ngIf='fieldData.hasChips',
 		[floatLabel]='fieldData.floatLabel',
@@ -55,9 +61,4 @@ div(*ngIf='fieldData', mat-dialog-content)
 		mat-hint(*ngIf=`fieldData.hint && (fieldData.hint !== '')`) {{ fieldData.hint }}
 		mat-error(*ngIf='searchBox.invalid && (searchBox.dirty || searchBox.touched) && searchBox.errors')
 			span(*ngFor='let errorKey of JSObject.keys(searchBox.errors)') {{ errorMessages[errorKey] }}
-	.options-container
-		.mat-option(
-			*ngFor='let item of filteredSelectList; let i = index',
-			(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
-		) {{item.text}}
 	button(mat-raised-button, (click)='closeModal()') Close
