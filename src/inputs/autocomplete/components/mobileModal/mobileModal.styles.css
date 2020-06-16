@@ -4,7 +4,3 @@
   height: 100%; }
   [mat-dialog-content] .options-container {
     flex-grow: 1; }
-    [mat-dialog-content] .options-container .mat-option {
-      height: 48px;
-      line-height: 48px;
-      width: 100%; }
