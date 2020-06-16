@@ -43,13 +43,18 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 			)
 			dialogRef.componentInstance.data = {fieldData: this.fieldData}
 			this.subscriptions.push(dialogRef.afterClosed().subscribe((data) => {
-				this.focusLocked = false
 				if (this.autocompleteSearchBoxRef) {
 					this.autocompleteSearchBoxRef.nativeElement.blur()
 				}
 				if (this.chipSearchBox) {
 					this.chipSearchBox.nativeElement.blur()
 				}
+				setTimeout(
+					() => {
+						this.focusLocked = false
+					},
+					250
+				)
 			}))
 			return
 		}
