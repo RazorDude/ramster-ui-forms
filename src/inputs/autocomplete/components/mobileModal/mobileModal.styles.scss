@@ -5,5 +5,11 @@
 
 	.options-container {
 		flex-grow: 1;
+
+		.mat-option {
+			height: 48px;
+			line-height: 48px;
+			width: 100%;
+		}
 	}
 }

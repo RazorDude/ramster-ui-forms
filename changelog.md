@@ -1,3 +1,6 @@
+# 0.6.8
+- Autocomplete mobile modal hotfix.
+
 # 0.6.7
 - Autocomplete mobile modal hotfix.
 
