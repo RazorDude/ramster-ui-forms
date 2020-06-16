@@ -31,6 +31,8 @@ export class AutocompleteMobileModalComponent extends BaseAutocompleteComponent 
 
 	onFocus(event: Event): void {
 		super.onFocus(event)
+		window.scrollTo(0, 0)
+		document.body.scrollTop = 0
 	}
 
 	onSelectionChange(event: any, value: any, index: number): boolean {
