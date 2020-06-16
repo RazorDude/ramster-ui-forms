@@ -1,3 +1,6 @@
+# 0.6.12
+- Autocomplete mobile modal hotfix WIP.
+
 # 0.6.11
 - Autocomplete mobile modal hotfix WIP.
 
