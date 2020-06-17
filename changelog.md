@@ -1,3 +1,6 @@
+# 0.6.15
+- Autocomplete mobile modal - the input focus is now unlocked based on a reliable mechanism, rathar than with the use of timeouts.
+
 # 0.6.14
 - Autocomplete mobile modal - reverted the last change.
 

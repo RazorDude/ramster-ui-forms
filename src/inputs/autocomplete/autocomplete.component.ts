@@ -12,6 +12,7 @@ import {MatDialog} from '@angular/material'
 })
 export class AutocompleteComponent extends BaseAutocompleteComponent {
 	focusLocked: boolean
+	removeFocusLockOnNextTick: boolean
 
 	constructor(
 		changeDetectorRef: ChangeDetectorRef,
@@ -28,10 +29,15 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 	onFocus(event: Event): void {
 		if (this.focusLocked) {
 			event.preventDefault()
+			if (this.removeFocusLockOnNextTick) {
+				this.focusLocked = false
+				this.removeFocusLockOnNextTick = false
+			}
 			return
 		}
 		if (this.fieldData.isMobile) {
 			this.focusLocked = true
+			this.removeFocusLockOnNextTick = false
 			event.preventDefault()
 			let dialogRef = this.dialogRef.open(
 				AutocompleteMobileModalComponent, {
@@ -49,12 +55,13 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 				if (this.chipSearchBox) {
 					this.chipSearchBox.nativeElement.blur()
 				}
-				setTimeout(
-					() => {
-						this.focusLocked = false
-					},
-					250
-				)
+				this.removeFocusLockOnNextTick = true
+				// setTimeout(
+				// 	() => {
+				// 		this.focusLocked = false
+				// 	},
+				// 	250
+				// )
 			}))
 			return
 		}
