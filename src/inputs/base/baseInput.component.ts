@@ -9,6 +9,8 @@ export class BaseInputComponent implements OnInit {
 
 	errorMessages: {[x: string]: string} = {
 		emailIsInUse: 'This email is already in use.',
+		max: 'The provided value exceeds the maximum allowed value for this field.',
+		min: 'The provided value is below the minimum allowed value for this field.',
 		notAValidEmail: 'Please enter a valid email.',
 		required: 'This field is required.'
 	}

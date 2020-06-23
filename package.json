@@ -1,6 +1,6 @@
 {
   "name": "ramster-ui-forms",
-  "version": "0.6.16",
+  "version": "0.6.17",
   "description": "A forms and inputs package that goes together with the other ramster-ui packages.",
   "main": "dist/bundles/ramster-ui-forms.umd.js",
   "scripts": {

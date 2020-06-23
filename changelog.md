@@ -1,3 +1,6 @@
+# 0.6.17
+- Inputs - better error messages for min and max.
+
 # 0.6.16
 - Validators.checkEmail - error handling.
 
