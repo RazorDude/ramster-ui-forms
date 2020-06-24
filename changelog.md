@@ -1,3 +1,6 @@
+# 0.6.18
+- Autocomplete - added blurLock instead of focusLock. Updated how the mobile modal works - it now locks the blur, blurs the master input element and unlocks the focus on modal close.
+
 # 0.6.17
 - Inputs - better error messages for min and max.
 

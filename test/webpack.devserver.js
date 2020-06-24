@@ -1,4 +1,3 @@
-'use strict'
 console.log('[webpackDevserver info]: Starting script...')
 const
 	webpack = require('webpack'),

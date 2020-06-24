@@ -14,6 +14,7 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 	@ViewChild('chipSearchBox') chipSearchBox: ElementRef<HTMLInputElement>
 	@ViewChild('autocompleteElement') inputElementRef: ElementRef
 
+	blurLocked: boolean = false
 	chipJustDeselected: boolean = false
 	currentSelectionIndex: number = -1
 	defaultEmptyInputValue: null | [] = null
@@ -348,6 +349,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 	}
 
 	onBlur(): void {
+		if (this.blurLocked) {
+			return
+		}
 		const currentText = this.searchBox.value,
 			currentValue = this.fieldData.inputFormControl.value
 		setTimeout(

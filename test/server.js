@@ -2,6 +2,7 @@ const
 	bodyParser = require('body-parser'),
 	config = require('./config'),
 	express = require('express'),
+	fetch = require('node-fetch'),
 	fs = require('fs-extra'),
 	http = require('http'),
 	multipart = require('connect-multiparty'),
@@ -10,12 +11,39 @@ const
 	sharp = require('sharp')
 
 let app = express(),
-	getTemplate = pug.compileFile(path.join(__dirname, './index.pug')),
-	template = getTemplate({bundleLink: `http://127.0.0.1:${config.devserverPort}/dist/main.js`})
+	getTemplate = pug.compileFile(path.join(__dirname, './index.pug'))
+	// template = getTemplate({bundleLink: `http://127.0.0.1:${config.serverPort}/dist/main.js`})
 app.use(bodyParser.json()) // for 'application/json' request bodies
 app.use(bodyParser.urlencoded({extended: false})) // 'x-www-form-urlencoded' request bodies
 app.use(multipart({limit: '10mb', uploadDir: path.join(__dirname, 'uploads')})) // for multipart bodies - file uploads etc.
-app.get('/', (req, res) => res.send(template))
+app.get(
+	'/',
+	(req, res) => {
+		res.send(getTemplate({bundleLink: `http://${req.headers.host.split(':')[0]}:${config.serverPort}/dist/main.js`}))
+	}
+)
+app.get(
+	'/dist/main.js',
+	(req, res) => {
+		fetch(`http://127.0.0.1:${config.devserverPort}/dist/main.js`)
+			.then(
+				(data) => data.text(),
+				(err) => {
+					console.error(err)
+					res.status(500).end()
+				}
+			)
+			.then(
+				(data) => {
+					res.send(data)
+				},
+				(err) => {
+					console.error(err)
+					res.status(500).end()
+				}
+			)
+	}
+)
 app.get('/static/:fileName', (req, res) => res.sendFile(path.join(__dirname, '/static', decodeURIComponent(req.params.fileName))))
 app.get('/storage/tmp/:fileName', (req, res) => res.sendFile(path.join(__dirname, '/uploads', decodeURIComponent(req.params.fileName))))
 app.get('/testModel/selectList', (req, res) => res.json([

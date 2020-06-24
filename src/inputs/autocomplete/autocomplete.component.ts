@@ -27,6 +27,7 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 	}
 
 	onFocus(event: Event): void {
+		// console.log(this.focusLocked)
 		if (this.focusLocked) {
 			event.preventDefault()
 			if (this.removeFocusLockOnNextTick) {
@@ -36,9 +37,16 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 			return
 		}
 		if (this.fieldData.isMobile) {
-			this.focusLocked = true
-			this.removeFocusLockOnNextTick = false
 			event.preventDefault()
+			this.blurLocked = true
+			// this.focusLocked = true
+			this.removeFocusLockOnNextTick = false
+			if (this.fieldData.hasChips) {
+				this.chipSearchBox.nativeElement.blur()
+			}
+			else {
+				this.autocompleteSearchBoxRef.nativeElement.blur()
+			}
 			let dialogRef = this.dialogRef.open(
 				AutocompleteMobileModalComponent, {
 					height: '100vh',
@@ -56,6 +64,7 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 					this.chipSearchBox.nativeElement.blur()
 				}
 				this.removeFocusLockOnNextTick = true
+				this.blurLocked = false
 				// setTimeout(
 				// 	() => {
 				// 		this.focusLocked = false

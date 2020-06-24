@@ -1,5 +1,3 @@
-'use strict'
-
 const
 	AngularCompilerPlugin = require( '@ngtools/webpack' ).AngularCompilerPlugin,
 	BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin'),
