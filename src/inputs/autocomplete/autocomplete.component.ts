@@ -11,9 +11,6 @@ import {MatDialog} from '@angular/material'
 	]
 })
 export class AutocompleteComponent extends BaseAutocompleteComponent {
-	focusLocked: boolean
-	removeFocusLockOnNextTick: boolean
-
 	constructor(
 		changeDetectorRef: ChangeDetectorRef,
 		public dialogRef: MatDialog
@@ -23,24 +20,12 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 
 	ngOnInit(): void {
 		super.ngOnInit()
-		this.focusLocked = false
 	}
 
 	onFocus(event: Event): void {
-		// console.log(this.focusLocked)
-		if (this.focusLocked) {
-			event.preventDefault()
-			if (this.removeFocusLockOnNextTick) {
-				this.focusLocked = false
-				this.removeFocusLockOnNextTick = false
-			}
-			return
-		}
 		if (this.fieldData.isMobile) {
 			event.preventDefault()
 			this.blurLocked = true
-			// this.focusLocked = true
-			this.removeFocusLockOnNextTick = false
 			if (this.fieldData.hasChips) {
 				this.chipSearchBox.nativeElement.blur()
 			}
@@ -56,21 +41,8 @@ export class AutocompleteComponent extends BaseAutocompleteComponent {
 				}
 			)
 			dialogRef.componentInstance.data = {fieldData: this.fieldData}
-			this.subscriptions.push(dialogRef.afterClosed().subscribe((data) => {
-				if (this.autocompleteSearchBoxRef) {
-					this.autocompleteSearchBoxRef.nativeElement.blur()
-				}
-				if (this.chipSearchBox) {
-					this.chipSearchBox.nativeElement.blur()
-				}
-				this.removeFocusLockOnNextTick = true
+			this.subscriptions.push(dialogRef.afterClosed().subscribe(() => {
 				this.blurLocked = false
-				// setTimeout(
-				// 	() => {
-				// 		this.focusLocked = false
-				// 	},
-				// 	250
-				// )
 			}))
 			return
 		}

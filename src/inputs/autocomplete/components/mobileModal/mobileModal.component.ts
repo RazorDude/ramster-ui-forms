@@ -43,15 +43,11 @@ export class AutocompleteMobileModalComponent extends BaseAutocompleteComponent 
 	}
 
 	onSelectionChange(event: any, value: any, index: number): boolean {
-		setTimeout(
-			() => {
-				let result = super.onSelectionChange(event, value, index)
-				if (result) {
-					this.closeModal()
-				}
-			},
-			500
-		)
+		this.blurLocked = true
+		let result = super.onSelectionChange(event, value, index)
+		if (result) {
+			this.closeModal()
+		}
 		return true
 	}
 }

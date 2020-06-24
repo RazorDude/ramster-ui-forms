@@ -311,13 +311,15 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 		}
 		filters[this.fieldData.selectListRESTServiceFilterFieldName] = value
 		otherArgs.filters = filters
-		this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then((res) => {
+		this.fieldData.selectListRESTService[this.fieldData.selectListRESTServiceMethodName || 'readSelectList'](otherArgs).then(
+			(res) => {
 				this.fieldData.selectList = res
 				this.setCurrentSelectionToValue(res, this.fieldData.inputFormControl.value)
 				if (this.fieldData.masterInputFormControlValueChangesCallback instanceof Subject) {
 					this.fieldData.masterInputFormControlValueChangesCallback.next(value)
 				}
-			}, (err) => console.error(err)
+			},
+			(err) => console.error(err)
 		)
 	}
 
@@ -349,13 +351,14 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 	}
 
 	onBlur(): void {
+		console.log(this.blurLocked)
 		if (this.blurLocked) {
 			return
 		}
 		const currentText = this.searchBox.value,
 			currentValue = this.fieldData.inputFormControl.value
-		setTimeout(
-			() => {
+		// setTimeout(
+		// 	() => {
 				const newText = this.searchBox.value
 				if (this.fieldData.hasChips) {
 					if (this.selectedChips.length) {
@@ -391,24 +394,24 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 				if (currentValue !== matchedItem.value) {
 					this.fieldData.inputFormControl.patchValue(matchedItem.value)
 				}
-			},
-			250
-		)
+		// 	},
+		// 	250
+		// )
 	}
 
 	onKeyPress(event: any): void {
 		const currentValue = this.fieldData.inputFormControl.value
 		if (event.key === 'Enter') {
-			setTimeout(
-				() => {
+			// setTimeout(
+			// 	() => {
 					if ((currentValue === this.fieldData.inputFormControl.value) && this.filteredSelectList.length) {
 						this.searchBox.patchValue(this.filteredSelectList[0].text)
 						this.onSelectionChange({source: {selected: true}}, this.filteredSelectList[0].value, 0)
 					}
-					this.autocompleteSearchBoxRef.nativeElement.blur()
-				},
-				300)
-			
+					// this.autocompleteSearchBoxRef.nativeElement.blur()
+			// 	},
+			// 	300
+			// )
 		}
 	}
 
@@ -425,13 +428,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 				this.selectedChips.push(this.filteredSelectList[index])
 			}
 			this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()
-			setTimeout(
-				() => {
-					this.chipJustDeselected = true
-					this.searchBox.patchValue('')
-				},
-				100
-			)
+			this.chipJustDeselected = true
+			this.searchBox.patchValue('')
+			this.chipSearchBox.nativeElement.blur()
 			return false
 		}
 		if (value === '_system_executeNoMatchesOptionAction') {
@@ -441,6 +440,7 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 			this.currentSelectionIndex = index
 			inputFormControl.patchValue(value)
 		}
+		this.autocompleteSearchBoxRef.nativeElement.blur()
 		return true
 	}
 
