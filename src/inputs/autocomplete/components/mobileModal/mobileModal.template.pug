@@ -59,6 +59,7 @@ div(*ngIf='fieldData', mat-dialog-content)
 		.options-inner-container
 			.mat-option(
 				*ngFor='let item of filteredSelectList; let i = index',
+				(touchend)='onSelectionChange({source: {selected: true}}, item.value, i)',
 				(click)='onSelectionChange({source: {selected: true}}, item.value, i)'
 			) {{item.text}}
 	button(mat-raised-button, (click)='closeModal()') Close

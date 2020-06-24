@@ -351,7 +351,6 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 	}
 
 	onBlur(): void {
-		console.log(this.blurLocked)
 		if (this.blurLocked) {
 			return
 		}

@@ -1,3 +1,6 @@
+# 0.6.20
+- Further improvements to the selection and blurring logic of the autocomplete.
+
 # 0.6.19
 - Further improvements to the selection and blurring logic of the autocomplete.
 
