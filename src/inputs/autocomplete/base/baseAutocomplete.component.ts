@@ -356,8 +356,8 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 		}
 		const currentText = this.searchBox.value,
 			currentValue = this.fieldData.inputFormControl.value
-		// setTimeout(
-		// 	() => {
+		setTimeout(
+			() => {
 				const newText = this.searchBox.value
 				if (this.fieldData.hasChips) {
 					if (this.selectedChips.length) {
@@ -393,9 +393,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 				if (currentValue !== matchedItem.value) {
 					this.fieldData.inputFormControl.patchValue(matchedItem.value)
 				}
-		// 	},
-		// 	250
-		// )
+			},
+			250
+		)
 	}
 
 	onKeyPress(event: any): void {
