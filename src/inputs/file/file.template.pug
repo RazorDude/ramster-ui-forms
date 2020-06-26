@@ -27,12 +27,14 @@ doctype html
 		[ngStyle]='{"background-image": backgroundImageUrl, "width": previewWidth, "height": previewHeight}',
 		(click)='onLabelClick()'
 	)
+		mat-spinner(*ngIf='fileIsLoading && !showChooseFileButton')
 	div.button-wrapper([ngStyle]='{"width": fieldData.hideFileName ? previewWidth : "auto"}')
 		label.mat-raised-button(
 			*ngIf='showChooseFileButton',
 			[ngStyle]='{"width": fieldData.hideFileName ? "100%" : "auto"}',
 			(click)='onLabelClick()'
 		)
+			mat-spinner(*ngIf='fileIsLoading')
 			| Choose File
 		span.file-name(
 			*ngIf='!fieldData.hideFileName && showChooseFileButton'

@@ -11,6 +11,7 @@ import {
 	MatIconModule,
 	MatInputModule,
 	MatNativeDateModule,
+	MatProgressSpinnerModule,
 	MatSelectModule,
 	MatSlideToggleModule
 } from '@angular/material'
@@ -42,6 +43,7 @@ import {WysiwygComponent} from './wysiwyg/wysiwyg.component'
 		MatIconModule,
 		MatInputModule,
 		MatNativeDateModule,
+		MatProgressSpinnerModule,
 		MatSelectModule,
 		MatSlideToggleModule,
 		NgxWigModule,

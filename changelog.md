@@ -1,3 +1,8 @@
+# 0.7.0
+- Added maxLength and minLength validations for inputs.
+- The input type and validation type are now typed string literals, instead of plain string literals. This removes the need for typing things such as type: 'number' as 'number'
+- Added a loader to the file input preview and choose file button for file inputs with directUpload.
+
 # 0.6.21
 - Autocomplete fix.
 

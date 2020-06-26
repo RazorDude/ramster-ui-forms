@@ -38,8 +38,10 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 	dropZoneActiveAreaWidth: string
 	fileName: string = ''
 	forceShowPreviewCancelButton: boolean = false
+	hasLoader: boolean = false
 	previewCancelButtonIconUrl: string = ''
 	previewHeight: string = '50px'
+	fileIsLoading: boolean = false
 	previewIsRound: boolean = true
 	previewWidth: string = '50px'
 	showChooseFileButton: boolean = true
@@ -64,6 +66,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 	ngOnInit(): void {
 		super.ngOnInit()
 		const {
+			hasLoader,
 			inputFormControl,
 			previewCancelButtonForceShowInitially,
 			previewCancelButtonIconUrl,
@@ -74,6 +77,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 			showChooseFileButton
 		} = this.fieldData
 		this.subscriptions = []
+		this.hasLoader = typeof hasLoader === 'undefined' ? true : hasLoader
 		if (previewHeight) {
 			this.previewHeight = previewHeight
 		}
@@ -138,7 +142,9 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 	 * 3. the formControl value is patched to the whole file object
 	*/
 	onFileChange(event: any): void {
-		const {
+		const
+			{ hasLoader } = this,
+			{
 				allowedFileTypes,
 				maxFileSizeMB,
 				directUpload,
@@ -180,8 +186,14 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 		}
 		if (directUpload) {
 			// upload the file
+			if (hasLoader) {
+				this.fileIsLoading = true
+			}
 			this.uploadFile(file, {inputFileName: fileName, outputFileName}, inputFormControl).then(
 				() => {
+					if (hasLoader) {
+						this.fileIsLoading = false
+					}
 					if (imageCropper) {
 						let dialogRef = this.matDialogRef.open(
 							FileInputImageCropperModalComponent, {
@@ -222,7 +234,12 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 						this.subscriptions.push(sub)
 					}
 				},
-				(err) => console.error(err)
+				(err) => {
+					console.error(err)
+					if (hasLoader) {
+						this.fileIsLoading = false
+					}
+				}
 			)
 			return
 		}

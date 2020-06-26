@@ -42,21 +42,29 @@ export class FormBuilderService {
 			// set up the input config based on its type
 			if (item.type === 'autocomplete') {
 				itemFieldData = Object.assign(itemFieldData, item.autocompleteConfig || {})
-			} else if (item.type === 'checkbox') {
+			}
+			else if (item.type === 'checkbox') {
 				itemFieldData = Object.assign(itemFieldData, item.checkboxConfig || {})
-			} else if (item.type === 'datepicker') {
+			}
+			else if (item.type === 'datepicker') {
 				itemFieldData = Object.assign(itemFieldData, item.datepickerConfig || {})
-			} else if (item.type === 'file') {
+			}
+			else if (item.type === 'file') {
 				itemFieldData = Object.assign(itemFieldData, item.fileConfig || {})
-			} else if (this.regularInputTypes.indexOf(item.type) !== -1) {
+			}
+			else if (this.regularInputTypes.indexOf(item.type) !== -1) {
 				itemFieldData = Object.assign(itemFieldData, item.inputConfig || {})
-			} else if (item.type === 'select') {
+			}
+			else if (item.type === 'select') {
 				itemFieldData = Object.assign(itemFieldData, item.selectConfig || {})
-			} else if (item.type === 'slideToggle') {
+			}
+			else if (item.type === 'slideToggle') {
 				itemFieldData = Object.assign(itemFieldData, item.slideToggleConfig || {})
-			} else if (item.type === 'textarea') {
+			}
+			else if (item.type === 'textarea') {
 				itemFieldData = Object.assign(itemFieldData, item.textareaConfig || {})
-			} else if (item.type === 'wysiwyg') {
+			}
+			else if (item.type === 'wysiwyg') {
 				itemFieldData = Object.assign(itemFieldData, item.wysiwygConfig || {})
 			}
 			if (item.masterFieldName) {
@@ -80,8 +88,16 @@ export class FormBuilderService {
 						formControlValidators.push(Validators.max(options.value))
 						return
 					}
+					if (options.type === 'maxLength') {
+						formControlValidators.push(Validators.maxLength(options.value))
+						return
+					}
 					if (options.type === 'min') {
 						formControlValidators.push(Validators.min(options.value))
+						return
+					}
+					if (options.type === 'minLength') {
+						formControlValidators.push(Validators.minLength(options.value))
 						return
 					}
 					if (options.type === 'required') {

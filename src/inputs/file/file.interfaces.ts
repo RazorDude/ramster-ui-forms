@@ -3,6 +3,7 @@ import {BaseInputFieldDataInterface} from '../base/baseInput.interfaces'
 export interface FileInputFieldDataInterface extends BaseInputFieldDataInterface {
 	allowedFileTypes?: string[]
 	directUpload?: boolean
+	hasLoader?: boolean
 	hideFileName?: boolean
 	imageCropper?: boolean
 	imageCropperBackgroundMovementSpeed?: number

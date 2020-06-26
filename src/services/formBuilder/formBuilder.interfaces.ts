@@ -46,44 +46,51 @@ export interface FormFieldsInterface {
 	selectConfig?: SelectFieldDataInterface
 	slideToggleConfig?: SlideToggleFieldDataInterface
 	textareaConfig?: TextareaFieldDataInterface
-	type:
-		'autocomplete' |
-		'checkbox' |
-		'datepicker' |
-		'file' |
-		// text inputs
-		'color' |
-		'email' |
-		'month' |
-		'number' |
-		'password' |
-		'search' |
-		'tel' |
-		'text' |
-		'time' |
-		'url' |
-		'week' |
-		// end of text inputs
-		'select' |
-		'slideToggle' |
-		'textarea' |
-		'wysiwyg'
+	type: FormFieldType
+		
 	validations?: FormFieldValidationsInterface[],
 	wysiwygConfig?: WysiwygFieldDataInterface
 }
 
+export type FormFieldType =
+	'autocomplete' |
+	'checkbox' |
+	'datepicker' |
+	'file' |
+	// text inputs
+	'color' |
+	'email' |
+	'month' |
+	'number' |
+	'password' |
+	'search' |
+	'tel' |
+	'text' |
+	'time' |
+	'url' |
+	'week' |
+	// end of text inputs
+	'select' |
+	'slideToggle' |
+	'textarea' |
+	'wysiwyg'
+
 export interface FormFieldValidationsInterface {
-	type:
-		'arrayNotEmpty' |
-		'checkEmailInUse' |
-		'matchSibling' |
-		'max' |
-		'min' |
-		'objectNotEmpty' |
-		'required' |
-		'validateEmail'
+	type: FormFieldValuedationType
 	value?: any
 }
+
+export type FormFieldValuedationType = 
+	'arrayNotEmpty' |
+	'checkEmailInUse' |
+	'matchSibling' |
+	'max' |
+	'maxLength' |
+	'min' |
+	'minLength' |
+	'objectNotEmpty' |
+	'required' |
+	'validateEmail'
 
 export interface FormLayoutColumnDataInterface {
 	colOffset?: string
