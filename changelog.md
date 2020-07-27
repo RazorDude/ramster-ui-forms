@@ -1,3 +1,6 @@
+# 0.7.2
+- Added a requiredTrue validator to the formBuilder servce's validation options.
+
 # 0.7.1
 - Added readOnly to the checkbox, file, select and slideToggle inputs.
 

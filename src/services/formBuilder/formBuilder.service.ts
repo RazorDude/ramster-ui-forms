@@ -104,6 +104,10 @@ export class FormBuilderService {
 						formControlValidators.push(Validators.required)
 						return
 					}
+					if (options.type === 'requiredTrue') {
+						formControlValidators.push(Validators.requiredTrue)
+						return
+					}
 				})
 			}
 			// create the actual formControl and populate the form and fieldData

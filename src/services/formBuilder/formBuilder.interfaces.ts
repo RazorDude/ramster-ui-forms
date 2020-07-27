@@ -90,6 +90,7 @@ export type FormFieldValuedationType =
 	'minLength' |
 	'objectNotEmpty' |
 	'required' |
+	'requiredTrue' |
 	'validateEmail'
 
 export interface FormLayoutColumnDataInterface {
