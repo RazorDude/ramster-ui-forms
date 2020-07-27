@@ -1,7 +1,7 @@
 doctype html
 .rui-file-input-container(
 	#masterContainer,
-	[ngClass]='{"drop-zone-active": dropZoneActive, "invalid": fieldData.inputFormControl.invalid, "non-pristine": fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched, "has-value": fieldData.inputFormControl.value !== ""}',
+	[ngClass]='{"drop-zone-active": dropZoneActive && !fieldData.readOnly, "invalid": fieldData.inputFormControl.invalid, "non-pristine": fieldData.inputFormControl.dirty || fieldData.inputFormControl.touched, "has-value": fieldData.inputFormControl.value !== ""}',
 	(dragleave)='onDragLeave($event)',
 	(dragover)='onDragOver($event)',
 	(drop)='onDrop($event)'
@@ -9,7 +9,7 @@ doctype html
 	div(#placeholder)
 		label.placeholder {{ fieldData.placeholder }}
 	.drop-zone-active-area(
-		*ngIf='dropZoneActive',
+		*ngIf='dropZoneActive && !fieldData.readOnly',
 		[ngStyle]='{"height": dropZoneActiveAreaHeight, "width": dropZoneActiveAreaWidth}'
 	)
 		.drop-zone-text Drop files here
@@ -30,7 +30,7 @@ doctype html
 		mat-spinner(*ngIf='fileIsLoading && !showChooseFileButton')
 	div.button-wrapper([ngStyle]='{"width": fieldData.hideFileName ? previewWidth : "auto"}')
 		label.mat-raised-button(
-			*ngIf='showChooseFileButton',
+			*ngIf='showChooseFileButton && !fieldData.readOnly',
 			[ngStyle]='{"width": fieldData.hideFileName ? "100%" : "auto"}',
 			(click)='onLabelClick()'
 		)
@@ -40,6 +40,6 @@ doctype html
 			*ngIf='!fieldData.hideFileName && showChooseFileButton'
 		)
 			| {{ !fieldData.inputFormControl.value || (fieldData.inputFormControl.value === '') ? 'No file chosen...' : fileName }}
-		input.actual-file-input(#inputElement, type='file', (change)='onFileChange($event)')
+		input.actual-file-input(#inputElement, type='file', [readonly]='fieldData.readOnly', (change)='onFileChange($event)')
 	div.errors-container
 		include ../base/baseInput.commonElementsTemplate.pug

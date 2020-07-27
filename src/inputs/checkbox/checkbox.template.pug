@@ -1,6 +1,6 @@
 doctype html
 div.rui-input-container
-	mat-checkbox(#inputElement, [formControl]='fieldData.inputFormControl')
+	mat-checkbox(#inputElement, [formControl]='fieldData.inputFormControl', [disabled]='fieldData.readOnly')
 		a([href]="fieldData.linkHref", target='_blank', *ngIf="fieldData.linkInFront") {{fieldData.linkText}}
 		span {{fieldData.placeholder}}
 		a([href]="fieldData.linkHref", target='_blank', *ngIf="!fieldData.linkInFront") {{fieldData.linkText}}

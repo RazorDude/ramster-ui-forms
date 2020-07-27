@@ -1,4 +1,4 @@
 doctype html
 div.rui-input-container
-	mat-slide-toggle(#inputElement, [formControl]='fieldData.inputFormControl') {{fieldData.placeholder}}
+	mat-slide-toggle(#inputElement, [disabled]='fieldData.readOnly', [formControl]='fieldData.inputFormControl') {{fieldData.placeholder}}
 	include ../base/baseInput.commonElementsTemplate.pug
