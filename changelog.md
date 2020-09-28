@@ -1,3 +1,6 @@
+# 0.8.0
+- FormBuilder.buildForm now returns the provided fields config under the "fieldConfig" key as well.
+
 # 0.7.2
 - Added a requiredTrue validator to the formBuilder servce's validation options.
 

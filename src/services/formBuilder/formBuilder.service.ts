@@ -175,6 +175,7 @@ export class FormBuilderService {
 			fieldData[item.name].masterInputFormControl = fieldData[item.masterFieldName].inputFormControl
 		})
 		return {
+			fieldConfig: fields,
 			form: new FormGroup(formControls),
 			fieldData,
 			layout

@@ -10,6 +10,7 @@ import {TextareaFieldDataInterface} from '../../inputs/textarea/textarea.interfa
 import {WysiwygFieldDataInterface} from '../../inputs/wysiwyg/wysiwyg.interfaces'
 
 export interface BuildFormReturnDataInterface {
+	fieldConfig: FormFieldsInterface[]
 	form: FormGroup
 	fieldData: {
 		[fieldName: string]:
