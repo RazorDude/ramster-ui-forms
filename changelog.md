@@ -1,3 +1,6 @@
+# 0.9.1
+- Disabled the autocomplete's markedAs new event loop, as it causes stack overflow.
+
 # 0.9.0
 - The FormBuilder.buildForm method now automatically adds searchBoxEventsTrigger to autocomplete inputs if it's missing.
 - The autocomplete input now automatically relays "markedAs" events to its searchbox.

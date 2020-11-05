@@ -192,9 +192,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 				this.setCurrentSelectionToValue(selectList, value)
 			}
 		}))
-		this.subscriptions.push(this.formControlStateChangeSubject.subscribe((data) => {
-			this.fieldData.inputFormControl[data.methodName]()
-		}))
+		// this.subscriptions.push(this.formControlStateChangeSubject.subscribe((data) => {
+		// 	this.fieldData.inputFormControl[data.methodName]()
+		// }))
 
 
 		if (searchBoxEventsTrigger) {

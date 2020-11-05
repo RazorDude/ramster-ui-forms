@@ -14,8 +14,8 @@ export class BaseInputComponent implements OnInit, OnDestroy {
 		required: 'This field is required.'
 	}
 	destroyed: boolean = false
-	formControlStateChangeMethodNames = ['markAsDirty', 'markAsPending', 'markAsPristine', 'markAsTouched', 'markAsUntouched']
-	formControlStateChangeSubject = new Subject<BaseInputFormControlStateChangeSubjectDataInterface>()
+	// formControlStateChangeMethodNames = ['markAsDirty', 'markAsPending', 'markAsPristine', 'markAsTouched', 'markAsUntouched']
+	// formControlStateChangeSubject = new Subject<BaseInputFormControlStateChangeSubjectDataInterface>()
 	JSObject: any = Object
 
 	@Input()
@@ -41,25 +41,25 @@ export class BaseInputComponent implements OnInit, OnDestroy {
 				this.errorMessages[key] = errorMessages[key]
 			}
 		}
-		this.formControlStateChangeMethodNames.forEach((methodName) => {
-			const originalMethod = inputFormControl[methodName].bind(inputFormControl)
-			inputFormControl[methodName] = function() {
-				let data: BaseInputFormControlStateChangeSubjectDataInterface = {methodName},
-					fieldName = null
-				if (methodName.match(/^markAs/)) {
-					fieldName = methodName.replace(/^markAs/, '')
-					data.previousValue = inputFormControl[fieldName]
-				}
-				originalMethod()
-				if (fieldName) {
-					data.newValue = inputFormControl[fieldName]
-				}
-				instance.formControlStateChangeSubject.next(data)
-				if (formControlStateChangeSubject) {
-					formControlStateChangeSubject.next(data)
-				}
-			}
-		})
+		// this.formControlStateChangeMethodNames.forEach((methodName) => {
+		// 	const originalMethod = inputFormControl[methodName].bind(inputFormControl)
+		// 	inputFormControl[methodName] = function() {
+		// 		let data: BaseInputFormControlStateChangeSubjectDataInterface = {methodName},
+		// 			fieldName = null
+		// 		if (methodName.match(/^markAs/)) {
+		// 			fieldName = methodName.replace(/^markAs/, '')
+		// 			data.previousValue = inputFormControl[fieldName]
+		// 		}
+		// 		originalMethod()
+		// 		if (fieldName) {
+		// 			data.newValue = inputFormControl[fieldName]
+		// 		}
+		// 		instance.formControlStateChangeSubject.next(data)
+		// 		if (formControlStateChangeSubject) {
+		// 			formControlStateChangeSubject.next(data)
+		// 		}
+		// 	}
+		// })
 		if (onChangeHandler) {
 			const timeout = typeof onChangeValueCheckTimeout === 'number' ? onChangeValueCheckTimeout : 500
 			inputFormControl.valueChanges.subscribe((value) => {
