@@ -7,7 +7,6 @@ import {
 	// HostListener,
 	Input,
 	OnChanges,
-	OnDestroy,
 	SimpleChanges,
 	ViewChild
 } from '@angular/core'
@@ -27,7 +26,7 @@ const moment = momentNamespace
 	],
 	templateUrl: './file.template.html'
 })
-export class FileInputComponent extends BaseInputComponent implements OnChanges, OnDestroy {
+export class FileInputComponent extends BaseInputComponent implements OnChanges {
 	backgroundImageUrl: string = ''
 	defaultMaxFileSizeMB: number = 10 // in megabytes
 	dragLastMouseX: number
@@ -119,6 +118,7 @@ export class FileInputComponent extends BaseInputComponent implements OnChanges,
 	}
 
 	ngOnDestroy(): void {
+		super.ngOnDestroy()
 		if ((this.subscriptions instanceof Array) && this.subscriptions.length) {
 			this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())
 		}

@@ -1,6 +1,7 @@
 import {BuildFormReturnDataInterface, FormFieldsInterface} from './formBuilder.interfaces'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {Injectable} from '@angular/core'
+import {Subject} from 'rxjs'
 import validators from '../../validators'
 
 @Injectable()
@@ -42,6 +43,9 @@ export class FormBuilderService {
 			// set up the input config based on its type
 			if (item.type === 'autocomplete') {
 				itemFieldData = Object.assign(itemFieldData, item.autocompleteConfig || {})
+				if (!itemFieldData.searchBoxEventsTrigger) {
+					itemFieldData.searchBoxEventsTrigger = new Subject<{fieldData?: any, fieldName: string}>()
+				}
 			}
 			else if (item.type === 'checkbox') {
 				itemFieldData = Object.assign(itemFieldData, item.checkboxConfig || {})

@@ -1,11 +1,12 @@
 import {AutocompleteFieldDataInterface} from '../autocomplete.interfaces'
 import {BaseInputComponent} from '../../base/baseInput.component'
 import {BaseRESTService, SelectListInterface} from 'ramster-ui-core'
-import {ChangeDetectorRef, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core'
+import {ChangeDetectorRef, ElementRef, Input, ViewChild} from '@angular/core'
 import {FormControl} from '@angular/forms'
 import {Subject, Subscription} from 'rxjs'
 
-export class BaseAutocompleteComponent extends BaseInputComponent implements OnDestroy {
+
+export class BaseAutocompleteComponent extends BaseInputComponent {
 	@Input()
 	fieldData: AutocompleteFieldDataInterface = {} as AutocompleteFieldDataInterface
 
@@ -191,6 +192,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 				this.setCurrentSelectionToValue(selectList, value)
 			}
 		}))
+		this.subscriptions.push(this.formControlStateChangeSubject.subscribe((data) => {
+			this.fieldData.inputFormControl[data.methodName]()
+		}))
 
 
 		if (searchBoxEventsTrigger) {
@@ -252,6 +256,7 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 	}
 
 	ngOnDestroy(): void {
+		super.ngOnDestroy()
 		if (this.subscriptions && this.subscriptions.length) {
 			this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())
 		}
@@ -323,7 +328,7 @@ export class BaseAutocompleteComponent extends BaseInputComponent implements OnD
 		)
 	}
 
-	onFocus(event: Event): void {
+	onFocus(_event: Event): void {
 		if (this.searchBox.value === '') {
 			if (this.fieldData.hasChips && this.selectedChips.length) {
 				this.filteredSelectList = this.getFilteredSelectListWithoutSelectedChips()

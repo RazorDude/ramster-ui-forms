@@ -1,5 +1,9 @@
+# 0.9.0
+- The FormBuilder.buildForm method now automatically adds searchBoxEventsTrigger to autocomplete inputs if it's missing.
+- The autocomplete input now automatically relays "markedAs" events to its searchbox.
+
 # 0.8.0
-- FormBuilder.buildForm now returns the provided fields config under the "fieldConfig" key as well.
+- FormBuilder.buildForm method now returns the provided fields config under the "fieldConfig" key as well.
 
 # 0.7.2
 - Added a requiredTrue validator to the formBuilder servce's validation options.
