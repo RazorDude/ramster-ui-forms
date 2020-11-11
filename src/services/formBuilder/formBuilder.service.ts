@@ -33,13 +33,15 @@ export class FormBuilderService {
 			fieldData = {},
 			innerRowTerminationIndex = null,
 			layout = [],
-			slaveInputFields = []
+			slaveInputFields = [],
+			fieldConfigByName = {}
 		fields.forEach((item, index) => {
 			let itemFieldData = {
 					placeholder: item.label,
 					type: item.type
 				} as any,
 				formControlValidators = []
+			fieldConfigByName[item.name] = Object.assign(fields[index])
 			// set up the input config based on its type
 			if (item.type === 'autocomplete') {
 				itemFieldData = Object.assign(itemFieldData, item.autocompleteConfig || {})
@@ -180,6 +182,7 @@ export class FormBuilderService {
 		})
 		return {
 			fieldConfig: fields,
+			fieldConfigByName,
 			form: new FormGroup(formControls),
 			fieldData,
 			layout

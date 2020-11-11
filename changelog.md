@@ -1,3 +1,6 @@
+# 0.10.0
+- The formBuilderServe.buildForm method now returns an additonal item in the object - fieldConfigByName. It's a map of the provided fieldConfig, but an object whose keys are the field names and the object values are the field config items themselves.
+
 # 0.9.1
 - Disabled the autocomplete's markedAs new event loop, as it causes stack overflow.
 

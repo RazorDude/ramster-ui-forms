@@ -11,6 +11,7 @@ import {WysiwygFieldDataInterface} from '../../inputs/wysiwyg/wysiwyg.interfaces
 
 export interface BuildFormReturnDataInterface {
 	fieldConfig: FormFieldsInterface[]
+	fieldConfigByName: {[fieldName: string]: FormFieldsInterface}
 	form: FormGroup
 	fieldData: {
 		[fieldName: string]:
