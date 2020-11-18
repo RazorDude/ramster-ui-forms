@@ -2,7 +2,9 @@ import {BaseInputFieldDataInterface} from '../base/baseInput.interfaces'
 
 export interface InputFieldDataInterface extends BaseInputFieldDataInterface {
 	max?: number
+	maxLength?: number
 	min?: number
+	minLength?: number
 	type:
 		'color' |
 		'email' |

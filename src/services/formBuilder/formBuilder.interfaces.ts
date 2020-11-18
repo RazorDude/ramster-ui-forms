@@ -49,7 +49,6 @@ export interface FormFieldsInterface {
 	slideToggleConfig?: SlideToggleFieldDataInterface
 	textareaConfig?: TextareaFieldDataInterface
 	type: FormFieldType
-		
 	validations?: FormFieldValidationsInterface[],
 	wysiwygConfig?: WysiwygFieldDataInterface
 }

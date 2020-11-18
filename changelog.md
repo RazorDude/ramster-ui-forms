@@ -1,3 +1,6 @@
+# 0.11.0
+- Added maxLength and minLength support to the input component.
+
 # 0.10.0
 - The formBuilderServe.buildForm method now returns an additonal item in the object - fieldConfigByName. It's a map of the provided fieldConfig, but an object whose keys are the field names and the object values are the field config items themselves.
 
