@@ -1,3 +1,6 @@
+# 0.11.1
+- Made the Autocomplete's _system_unselectable option actually unselectable.
+
 # 0.11.0
 - Added maxLength and minLength support to the input component.
 

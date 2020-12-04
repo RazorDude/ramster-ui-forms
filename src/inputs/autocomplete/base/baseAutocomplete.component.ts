@@ -427,7 +427,8 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 		if (this.fieldData.hasChips) {
 			if (value === '_system_executeNoMatchesOptionAction') {
 				this.fieldData.noMatchesOptionAction.next()
-			} else if (value !== '_system_unselectable') {
+			}
+			else if (value !== '_system_unselectable') {
 				inputFormControl.patchValue(inputFormControl.value.concat(value))
 				this.selectedChips.push(this.filteredSelectList[index])
 			}
@@ -441,6 +442,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			this.fieldData.noMatchesOptionAction.next()
 		}
 		if (inputFormControl.value !== value) {
+			if (value === '_system_unselectable') {
+				return false
+			}
 			this.currentSelectionIndex = index
 			inputFormControl.patchValue(value)
 		}
