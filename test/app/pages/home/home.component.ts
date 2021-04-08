@@ -109,10 +109,13 @@ export class HomePageComponent extends BasePageComponent {
 			selectListReloadOnValueChangeFieldName: 'testField'
 	}
 		this.testAutocompleteWithChipsFieldData = {
+			addNewOptionAction: new Subject<any>(),
+			hasAddNewOption: true,
 			hasChips: true,
 			inputFormControl: new FormControl([], [validators.arrayNotEmpty]),
 			placeholder: 'Autocomplete Input With Chips',
-			selectList: [{text: 'Value 1', value: 1}, {text: 'Value 2', value: 2}]
+			selectList: [{text: 'Value 1', value: 1}, {text: 'Value 2', value: 2}, {text: 'Value 3', value: 3}, {text: 'Value 4', value: 4}, {text: 'Value 5', value: 5}, {text: 'Value 6', value: 6}],
+			showAllOptionsWithScroll: true
 		}
 		this.testCheckboxFieldData = {
 			inputFormControl: new FormControl('', [Validators.required]),

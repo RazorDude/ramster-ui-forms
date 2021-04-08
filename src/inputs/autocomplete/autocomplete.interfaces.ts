@@ -4,7 +4,11 @@ import {BaseRESTService} from 'ramster-ui-core'
 import {Subject} from 'rxjs'
 
 export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterface {
+	addNewOptionAction?: Subject<any>
+	addNewOptionText?: string
+	customSelectListOptionActions?: { [actionName: string]: Subject<any> }
 	filteredSelectListMaxLength?: number
+	hasAddNewOption?: boolean
 	hasChips?: boolean
 	loadSelectListOnInit?: boolean
 	masterInputFormControl?: AbstractControl
@@ -24,5 +28,6 @@ export interface AutocompleteFieldDataInterface extends BaseInputFieldDataInterf
 	selectListReloadOnValueChange?: boolean
 	selectListReloadOnValueChangeCheckTimeout?: number
 	selectListReloadOnValueChangeFieldName?: string
+	showAllOptionsWithScroll?: boolean
 	startTypingForSuggestions?: boolean
 }

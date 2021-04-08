@@ -70,10 +70,12 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 							if (this.fieldData.selectListRESTService instanceof BaseRESTService) {
 								this.fieldData.selectListRESTService[selectListRESTServiceMethodName || 'readSelectList'](args).then((res) => {
 										this.fieldData.selectList = res
-										this.filteredSelectList = this.fieldData.selectList.slice(
-											0,
-											this.filteredSelectListMaxLength
-										)
+										if (!this.fieldData.showAllOptionsWithScroll) {
+											this.filteredSelectList = this.fieldData.selectList.slice(
+												0,
+												this.filteredSelectListMaxLength
+											)
+										}
 										if (this.filteredSelectList.length) {
 											this.filteredSelectList.push({
 												text: 'Type something in to filter the list...',
@@ -81,6 +83,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 											})
 										} else {
 											this.filteredSelectList.push(this.getNoMatchesOptionData())
+										}
+										if (this.fieldData.hasAddNewOption) {
+											this.filteredSelectList.push(this.getAddNewItemOption())
 										}
 										this.changeDetectorRef.detectChanges()
 										if (this.fieldData.selectListLoadedCallback instanceof Subject) {
@@ -123,10 +128,14 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 					}
 				})
 				this.filteredSelectList = exactMatches.concat(startingWithMatches).concat(containingMatches)
-				if (this.filteredSelectList.length > this.filteredSelectListMaxLength) {
+				if ((this.filteredSelectList.length > this.filteredSelectListMaxLength) && !this.fieldData.showAllOptionsWithScroll) {
 					this.filteredSelectList = this.filteredSelectList.slice(0, this.filteredSelectListMaxLength).concat([{text: 'Type something in to filter the list...', value: '_system_unselectable'}])
-				} else if (this.filteredSelectList.length === 0) {
+				}
+				else if (this.filteredSelectList.length === 0) {
 					this.filteredSelectList = [this.getNoMatchesOptionData()]
+				}
+				if (this.fieldData.hasAddNewOption) {
+					this.filteredSelectList.push(this.getAddNewItemOption())
 				}
 				return
 			}
@@ -148,12 +157,17 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			}
 			if (this.fieldData.startTypingForSuggestions) {
 				this.filteredSelectList = [{text: 'Start typing to see suggestions...', value: '_system_unselectable'}]
+				if (this.fieldData.hasAddNewOption) {
+					this.filteredSelectList.push(this.getAddNewItemOption())
+				}
 				return
 			}
-			this.filteredSelectList = this.fieldData.selectList.slice(
-				0,
-				this.filteredSelectListMaxLength
-			)
+			if (!this.fieldData.showAllOptionsWithScroll) {
+				this.filteredSelectList = this.fieldData.selectList.slice(
+					0,
+					this.filteredSelectListMaxLength
+				)
+			}
 			if (this.filteredSelectList.length) {
 				this.filteredSelectList.push({
 					text: 'Type something in to filter the list...',
@@ -161,6 +175,9 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 				})
 			} else {
 				this.filteredSelectList.push(this.getNoMatchesOptionData())
+			}
+			if (this.fieldData.hasAddNewOption) {
+				this.filteredSelectList.push(this.getAddNewItemOption())
 			}
 			return
 		}))
@@ -267,11 +284,12 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			selectedChips = this.selectedChips,
 			selectedChipsLength = selectedChips.length,
 			selectList = this.fieldData.selectList,
-			selectListLength = selectList ? selectList.length : 0
+			selectListLength = selectList ? selectList.length : 0,
+			showAllOptionsWithScroll = this.fieldData.showAllOptionsWithScroll
 		let newList = [],
 			selectedValues = []
 		for (let i = 0; i < selectListLength; i++) {
-			if (newList.length === this.filteredSelectListMaxLength) {
+			if (!showAllOptionsWithScroll && (newList.length === this.filteredSelectListMaxLength)) {
 				break
 			}
 			const option = selectList[i]
@@ -290,7 +308,19 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			}
 			newList.push(option)
 		}
-		return newList.length ? newList : [this.getNoMatchesOptionData()]
+		newList = newList.length ? newList : [this.getNoMatchesOptionData()]
+		if (this.fieldData.hasAddNewOption) {
+			newList.push(this.getAddNewItemOption())
+		}
+		return newList
+	}
+
+	getAddNewItemOption(): {text: string, value: any} {
+		const { addNewOptionText } = this.fieldData
+		return {
+			text: addNewOptionText || '+ Add new item',
+			value: '_system_executeAddNewOptionAction'
+		}
 	}
 
 	getNoMatchesOptionData(): {text: string, value: any} {
@@ -336,22 +366,34 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			}
 			if (this.fieldData.startTypingForSuggestions) {
 				this.filteredSelectList = [{text: 'Start typing to see suggestions...', value: '_system_unselectable'}]
+				if (this.fieldData.hasAddNewOption) {
+					this.filteredSelectList.push(this.getAddNewItemOption())
+				}
 				return
 			}
 			const selectListLength = this.fieldData.selectList ? this.fieldData.selectList.length : 0 
-			if (selectListLength >= this.filteredSelectListMaxLength) {
+			if (!this.fieldData.showAllOptionsWithScroll && (selectListLength >= this.filteredSelectListMaxLength)) {
 				this.filteredSelectList = this.fieldData.selectList.slice(0, this.filteredSelectListMaxLength).concat([
 					{text: 'Type something in to filter the list...', value: '_system_unselectable'}
 				])
+				if (this.fieldData.hasAddNewOption) {
+					this.filteredSelectList.push(this.getAddNewItemOption())
+				}
 				return
 			}
 			if (selectListLength > 0) {
 				this.filteredSelectList = Object.assign([], this.fieldData.selectList).concat([
 					{text: 'Type something in to filter the list...', value: '_system_unselectable'}
 				])
+				if (this.fieldData.hasAddNewOption) {
+					this.filteredSelectList.push(this.getAddNewItemOption())
+				}
 				return
 			}
 			this.filteredSelectList = [this.getNoMatchesOptionData()]
+			if (this.fieldData.hasAddNewOption) {
+				this.filteredSelectList.push(this.getAddNewItemOption())
+			}
 		}
 	}
 
@@ -424,8 +466,22 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 		if (!event.source.selected) {
 			return false
 		}
+		if (typeof value === 'string') {
+			const match = value.match(/^_system_executeCustomAction_(.+)/)
+			if (match && match[1]) {
+				const obs: Subject<void> = this.fieldData.customSelectListOptionActions[match[1]]
+				if (obs && (typeof obs.next === 'function')) {
+					obs.next()
+					this.autocompleteSearchBoxRef.nativeElement.blur()
+					return false
+				}
+			}
+		}
 		if (this.fieldData.hasChips) {
-			if (value === '_system_executeNoMatchesOptionAction') {
+			if (value === '_system_executeAddNewOptionAction') {
+				this.fieldData.addNewOptionAction.next()
+			}
+			else if (value === '_system_executeNoMatchesOptionAction') {
 				this.fieldData.noMatchesOptionAction.next()
 			}
 			else if (value !== '_system_unselectable') {
@@ -438,10 +494,13 @@ export class BaseAutocompleteComponent extends BaseInputComponent {
 			this.chipSearchBox.nativeElement.blur()
 			return false
 		}
-		if (value === '_system_executeNoMatchesOptionAction') {
+		if (value === '_system_executeAddNewOptionAction') {
+			this.fieldData.addNewOptionAction.next()
+		}
+		else if (value === '_system_executeNoMatchesOptionAction') {
 			this.fieldData.noMatchesOptionAction.next()
 		}
-		if (inputFormControl.value !== value) {
+		else if (inputFormControl.value !== value) {
 			if (value === '_system_unselectable') {
 				return false
 			}

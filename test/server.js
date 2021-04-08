@@ -74,7 +74,7 @@ app.post('/files', (req, res) => {
 	)
 })
 let server = http.createServer(app)
-server.listen(config.serverPort, () => {
+server.listen(config.serverPort, '127.0.0.1', () => {
 	console.log(`[RUI testApp] Server started.`)
 	console.log(`[RUI testApp] Port:`, config.serverPort)
 })

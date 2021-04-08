@@ -1,3 +1,6 @@
+# 0.12.0
+- Added support for addNewOptionAction,  customSelectListOptionActions and showAllOptionsWithScroll in autocomplete and chips input.
+
 # 0.11.1
 - Made the Autocomplete's _system_unselectable option actually unselectable.
 
